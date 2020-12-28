@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Millionaire.Views.MainMenuUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Millionaire.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="White"
+             FontSize="18">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Chcete být milionářem?"
+                   FontSize="40"
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                   HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                   Margin="10"/>
+
+        <Button Content="Nová hra" Grid.Row="1" Grid.Column="1" Width="200" Height="50" Margin="0,10,0,0"/>
+
+        <Button Content="Náhodné otázky" Grid.Row="2" Grid.Column="1" Width="200" Height="50"  Margin="0,10,0,0"/>
+
+        <Button Content="Správa otázek" Grid.Row="3" Grid.Column="1" Width="200" Height="50"  Margin="0,10,0,0"/>
+    </Grid>
+</UserControl>
