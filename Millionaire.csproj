@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\GameUC.xaml.cs">
+      <DependentUpon>GameUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainMenuUC.xaml.cs">
       <DependentUpon>MainMenuUC.xaml</DependentUpon>
     </Compile>
@@ -70,6 +73,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\GameUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainMenuUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
