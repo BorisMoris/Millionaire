@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Chcete být milionářem?"
         Height="450" Width="800"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Icon="Media/icon1.1.png">
     <Grid>
         <uc:MainMenuUC x:Name="MainMenuUC"/>
         <uc:GameUC x:Name="GameUC"/>
