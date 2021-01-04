@@ -204,15 +204,22 @@ namespace Millionaire.Models
                 //{
                 //    return null;
                 //}
-
             }
 
             foreach(Question question in qSet.MediumQuestions)
             {
                 Debug.WriteLine(question.question);
             }
-            
-            return qSet;
+
+
+            if (qSet.EasyQuestions.Count() >= 5 && qSet.MediumQuestions.Count() >= 5 && qSet.HardQuestions.Count() >= 5)
+            {
+                return qSet;
+            }
+            else
+            {
+                return null;
+            }            
         }
 
     }
