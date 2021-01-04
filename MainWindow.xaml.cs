@@ -36,12 +36,12 @@ namespace Millionaire
                 MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            List<Exception> exceptions;
-            fileManager.LoadQuestionSets(out exceptions);
-            foreach(Exception ex in exceptions)
-            {
-                MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //List<Exception> exceptions;
+            //fileManager.LoadQuestionSets(out exceptions);
+            //foreach(Exception ex in exceptions)
+            //{
+            //    MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
         }
     }
 }
