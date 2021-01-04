@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
-    class Question
+    public class Question
     {
         public string question { get; set; }
         public string rightAnswer { get; set; }

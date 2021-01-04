@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
-    class QSet
+    public class QSet
     {
         public string Name { get; set; }
 
@@ -34,6 +34,8 @@ namespace Millionaire.Models
                     break;
             }
         }
+
+        
     }
 
     public enum Difficulty
