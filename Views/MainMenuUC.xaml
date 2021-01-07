@@ -28,7 +28,7 @@
                    HorizontalAlignment="Center" VerticalAlignment="Bottom"
                    Margin="10"/>
 
-        <Button Content="Nová hra" Grid.Row="1" Grid.Column="1" Width="200" Height="50" Margin="0,10,0,0"/>
+        <Button Content="Nová hra" x:Name="NewGameButton" Grid.Row="1" Grid.Column="1" Width="200" Height="50" Margin="0,10,0,0" Click="NewGameButton_Click"/>
 
         <Button Content="Náhodné otázky" Grid.Row="2" Grid.Column="1" Width="200" Height="50"  Margin="0,10,0,0"/>
 

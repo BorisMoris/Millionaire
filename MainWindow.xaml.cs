@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Millionaire.Models;
+using Millionaire.Views;
 
 namespace Millionaire
 {
@@ -22,7 +23,10 @@ namespace Millionaire
     public partial class MainWindow : Window
     {
         FileManager fileManager;
-        
+
+        NavigationManager navManager;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,12 +40,9 @@ namespace Millionaire
                 MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            //List<Exception> exceptions;
-            //fileManager.LoadQuestionSets(out exceptions);
-            //foreach(Exception ex in exceptions)
-            //{
-            //    MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
+            navManager = new NavigationManager();
+            DataContext = navManager;
+            navManager.ShowMainMenu();
         }
     }
 }

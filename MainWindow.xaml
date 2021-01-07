@@ -7,12 +7,14 @@
         xmlns:uc="clr-namespace:Millionaire.Views"
         mc:Ignorable="d"
         Title="Chcete být milionářem?"
-        Height="450" Width="800"
+        Height="450" Width="600"
         WindowStartupLocation="CenterScreen" Icon="Media/icon1.1.png"
          FontSize="14">
-    <Grid>
+    <Grid x:Name="MainGrid">
         <!--<uc:MainMenuUC x:Name="MainMenuUC"/>
         <uc:GameUC x:Name="GameUC"/>-->
-        <uc:SelectQSetsUC x:Name="SelectQSetUC"/>
+        <!--<uc:SelectQSetsUC x:Name="SelectQSetUC"/>-->
+
+        <ContentControl Content="{Binding CurrentUC}"/>
     </Grid>
 </Window>

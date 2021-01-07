@@ -64,6 +64,7 @@
     <Compile Include="Views\MainMenuUC.xaml.cs">
       <DependentUpon>MainMenuUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NavigationManager.cs" />
     <Compile Include="Views\SelectQSetsUC.xaml.cs">
       <DependentUpon>SelectQSetsUC.xaml</DependentUpon>
     </Compile>
