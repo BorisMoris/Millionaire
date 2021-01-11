@@ -44,7 +44,7 @@
                    Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
                   Grid.Row="2" Grid.Column="2"/>
 
-        <Button Content="Pokračovat →"
+        <Button Content="Pokračovat →" x:Name="continueButton"
                 Width="200" Height="40"
                 VerticalAlignment="Bottom"
                 Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Click="Button_Click"/>

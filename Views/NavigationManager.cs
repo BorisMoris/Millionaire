@@ -18,16 +18,18 @@ namespace Millionaire.Views
             set { _currentUC = value; NotifyPropertyChanged(nameof(CurrentUC)); }
         }
 
+        #region PropertyChanged implementation
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
         public void ShowQSetsUC()
         {
-            UserControl selectQSets = new SelectQSetsUC();
+            UserControl selectQSets = new SelectQSetsUC(this);
             CurrentUC = selectQSets;
         }
 
@@ -35,6 +37,12 @@ namespace Millionaire.Views
         {
             UserControl mainMenu = new MainMenuUC(this);
             CurrentUC = mainMenu;
+        }
+
+        public void ShowGame()
+        {
+            UserControl game = new GameUC();
+            CurrentUC = game;
         }
     }
 }

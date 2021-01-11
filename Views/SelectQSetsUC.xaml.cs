@@ -25,10 +25,15 @@ namespace Millionaire.Views
         public List<QSet> avalaibleQSets;
         
         FileManager fileManager = new FileManager();
+
+        NavigationManager navManager;
         
-        public SelectQSetsUC()
+        public SelectQSetsUC(NavigationManager navManager)
         {
             InitializeComponent();
+
+            this.navManager = navManager;
+
             List<Exception> exceptions;
             avalaibleQSets=fileManager.LoadQuestionSets(out exceptions);
             foreach (Exception ex in exceptions)
@@ -55,6 +60,7 @@ namespace Millionaire.Views
             {
                 Debug.WriteLine(qSet.Name);
             }
+            navManager.ShowGame();
         }
     }
 }
