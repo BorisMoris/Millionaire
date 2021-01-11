@@ -16,15 +16,42 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="2 000 000 Kč"
-            Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
-            HorizontalAlignment="Right"/>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            
+            <!--Texty tlačítek jsou placeholdery, budou nahrazeny obrázky-->
+            <TextBlock Text="2 000 000 Kč"
+                       VerticalAlignment="Center"
+                       Grid.Column="0"/>
+
+            <Button Content="50/50" x:Name="fiftyLifelineButton"
+                    Margin="10"
+                    Grid.Column="1"/>
+            <Button Content="HP" x:Name="audienceLifelineButton"
+                    Margin="10"
+                    Grid.Column="2"/>
+            <Button Content="PnT" x:Name="friendLifelineButton"
+                    Margin="10"
+                    Grid.Column="3"/>
+
+            <Button Content="Ukončit hru" x:Name="endGameButton"
+                    Width="110" Height="40"
+                    HorizontalAlignment="Right"
+                    Grid.Column="4"/>
+        </Grid>        
 
         <TextBlock Text="Kolik dílů seriálu Ředitel bylo celkem natočeno?"
                    FontWeight="Bold"
