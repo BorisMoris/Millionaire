@@ -7,10 +7,11 @@
         xmlns:uc="clr-namespace:Millionaire.Views"
         mc:Ignorable="d"
         Title="Chcete být milionářem?"
-        Height="450" Width="600"
+        MinHeight="450" MinWidth="600"
+        Height="450" Width="800"
         WindowStartupLocation="CenterScreen" Icon="Media/icon1.1.png"
-         FontSize="14">
-    <Grid x:Name="MainGrid">        
+        FontSize="14">
+    <Grid x:Name="MainGrid" MaxHeight="800">        
         <ContentControl Content="{Binding CurrentUC}"/>
     </Grid>
 </Window>
