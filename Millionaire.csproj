@@ -156,9 +156,6 @@
     <Resource Include="Media\50_50.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\audience.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Media\audience.png" />
   </ItemGroup>
   <ItemGroup>

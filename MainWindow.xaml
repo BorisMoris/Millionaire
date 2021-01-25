@@ -11,7 +11,7 @@
         Height="450" Width="800"
         WindowStartupLocation="CenterScreen" Icon="Media/icon1.1.png"
         FontSize="14">
-    <Grid x:Name="MainGrid" MaxHeight="800">        
+    <Grid x:Name="MainGrid">        
         <ContentControl Content="{Binding CurrentUC}"/>
     </Grid>
 </Window>
