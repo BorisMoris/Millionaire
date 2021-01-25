@@ -37,15 +37,21 @@
                        VerticalAlignment="Center"
                        Grid.Column="0"/>
 
-            <Button Content="50/50" x:Name="fiftyLifelineButton"
-                    Margin="10"
-                    Grid.Column="1"/>
-            <Button Content="HP" x:Name="audienceLifelineButton"
-                    Margin="10"
-                    Grid.Column="2"/>
-            <Button Content="PnT" x:Name="friendLifelineButton"
-                    Margin="10"
-                    Grid.Column="3"/>
+            <Button x:Name="fiftyLifelineButton"
+                    Margin="10" Padding="5"
+                    Grid.Column="1">
+                <Image Source="/Millionaire;component/Media/50_50.png"/>
+            </Button>
+            <Button x:Name="audienceLifelineButton"
+                    Margin="10" Padding="5"
+                    Grid.Column="2">
+                <Image Source="/Millionaire;component/Media/audience.png"/>
+            </Button>
+            <Button x:Name="friendLifelineButton"
+                    Margin="10" Padding="5"
+                    Grid.Column="3">
+                <Image Source="/Millionaire;component/Media/phone.png"/>
+            </Button>
 
             <Button Content="Ukončit hru" x:Name="endGameButton"
                     Width="110" Height="40"
