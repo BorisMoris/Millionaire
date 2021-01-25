@@ -104,8 +104,7 @@ namespace Millionaire.Models
                 string s = sr.ReadLine();
                 if (s == null) //checks wheter the first line is not null
                 {
-                    throw new ArgumentException(path + " First line is null, can't load");
-                  //  return null;
+                    throw new ArgumentException(path + " First line is null, can't load");                  
                 }
                 qSet.Name = s.TrimEnd(';');
 
