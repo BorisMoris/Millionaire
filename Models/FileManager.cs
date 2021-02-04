@@ -208,7 +208,7 @@ namespace Millionaire.Models
 
             foreach(Question question in qSet.MediumQuestions)
             {
-                Debug.WriteLine(question.question);
+                Debug.WriteLine(question.QuestionSentence);
             }
 
 
