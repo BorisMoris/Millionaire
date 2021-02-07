@@ -94,7 +94,6 @@
                 <TextBlock Text="{Binding RandomizedAnswers[2]}" TextWrapping="WrapWithOverflow" MaxWidth="200"/>
             </StackPanel>
         </Button>
-
         <Button 
                 HorizontalContentAlignment="Left" Padding="15,0,0,0"
                 Grid.Row="3" Grid.Column="2"                

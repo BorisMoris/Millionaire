@@ -32,9 +32,7 @@
         <ListBox x:Name="QSetsListBox"
                  Grid.Row="2" Grid.Column="1"
                  SelectionMode="Multiple"
-                  SelectionChanged="QSetsListBox_SelectionChanged"
-
-                 >
+                  SelectionChanged="QSetsListBox_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>                    
                     <TextBlock Text="{Binding Name}"/>                    

@@ -9,6 +9,8 @@ using Millionaire.Models;
 
 namespace Millionaire.Views
 {
+    //GC.collect
+    
     public class NavigationManager : INotifyPropertyChanged
     {
         private UserControl currentUC;
@@ -29,7 +31,7 @@ namespace Millionaire.Views
         #endregion
 
         public void ShowQSetsUC()
-        {
+        {      
             UserControl selectQSets = new SelectQSetsUC(this);
             CurrentUC = selectQSets;
         }
