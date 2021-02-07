@@ -10,6 +10,7 @@ namespace Millionaire.Models
     public class GameManager : INotifyPropertyChanged
     {
         public QSet GameQSet { get; set; }
+        private List<Question> currentQList;
 
         private Question currentQuestion;
         public Question CurrentQuestion
@@ -22,11 +23,19 @@ namespace Millionaire.Models
             }
         }
 
-        private Random random = new Random();
-        private List<Question> currentQList;
-        private int round = 1;
+        private Random random = new Random();        
+        private int round = 0;
 
-        public string[] RandomizedAnswers { get; set;}
+        private string[] randomizedAnswers;
+        public string[] RandomizedAnswers {
+            get { return randomizedAnswers; }
+            set
+            {
+                randomizedAnswers = value;
+                NotifyPropertyChanged(nameof(RandomizedAnswers));
+            }
+        }
+
         public int RightAnswerIndex { get; set; }
 
         public GameManager(List<QSet> selectedQSets)
@@ -34,7 +43,7 @@ namespace Millionaire.Models
             GameQSet = new QSet();
             RandomizedAnswers = new string[4];
 
-            foreach (QSet qSet in selectedQSets)
+            foreach (QSet qSet in selectedQSets) //load questions from selected qsets
             {
                 GameQSet.EasyQuestions.AddRange(qSet.EasyQuestions);
                 GameQSet.MediumQuestions.AddRange(qSet.MediumQuestions);
@@ -42,11 +51,6 @@ namespace Millionaire.Models
             }
 
             currentQList = GameQSet.EasyQuestions;
-
-            foreach(Question question in GameQSet.EasyQuestions)
-            {
-                Console.WriteLine(question.RightAnswer);
-            }
             NewQuestion();
         }
 
@@ -59,41 +63,49 @@ namespace Millionaire.Models
         }
         #endregion
 
+        /// <summary>
+        /// Set new question
+        /// </summary>
         public void NewQuestion()
         {
             round++;
-            if (round == 5)
+            if (round == 6) //changing questions difficulty
             {
                 currentQList = GameQSet.MediumQuestions;
             }
-            else if (round == 10)
+            else if (round == 11)
             {
                 currentQList = GameQSet.HardQuestions;
             }
             int position = random.Next(currentQList.Count);
             CurrentQuestion = currentQList[position];            
             currentQList.RemoveAt(position);
-
-            RandomizeAnswers();  
-
+            
+            RandomizedAnswers = RandomizeAnswers(CurrentQuestion, out int temp);
+            RightAnswerIndex = temp;
         }
 
-        public void RandomizeAnswers()
+        /// <summary>
+        /// Randomize order of answers in question
+        /// </summary>
+        /// <param name="question"></param>
+        /// <returns>string[] of randomized answers</returns>
+        public string[] RandomizeAnswers(Question question, out int rightAnswerIndex)
         {
-            RightAnswerIndex = random.Next(4);
-            RandomizedAnswers[RightAnswerIndex] = currentQuestion.RightAnswer;
-            List<string> wrongAnswers = new List<string> { currentQuestion.WrongAnswer1, currentQuestion.WrongAnswer2, currentQuestion.WrongAnswer3 };            
+            string[] randomizedAnswers = new string[4];
+            rightAnswerIndex = random.Next(4);
+            randomizedAnswers[rightAnswerIndex] = question.RightAnswer;
+            List<string> wrongAnswers = new List<string> { question.WrongAnswer1, question.WrongAnswer2, question.WrongAnswer3 };            
             for(int i=0; i<4; i++)
             {
-                if (i != RightAnswerIndex)
+                if (i != rightAnswerIndex)
                 {
                     int randomAnswerIndex = random.Next(wrongAnswers.Count());
-                    RandomizedAnswers[i] = wrongAnswers[randomAnswerIndex];
+                    randomizedAnswers[i] = wrongAnswers[randomAnswerIndex];
                     wrongAnswers.RemoveAt(randomAnswerIndex);
                 }
             }
-
-            NotifyPropertyChanged(nameof(RandomizedAnswers));
+            return randomizedAnswers;
         }
     }
 }
