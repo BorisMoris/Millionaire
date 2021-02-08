@@ -39,9 +39,12 @@ namespace Millionaire.Models
 
         public int RightAnswerIndex { get; set; }
 
+        public PrizeMoney Prize { get; set; }
+
         public GameManager(List<QSet> selectedQSets)
         {
             GameQSet = new QSet();
+            Prize = new PrizeMoney();
             RandomizedAnswers = new string[4];
 
             foreach (QSet qSet in selectedQSets) //load questions from selected qsets

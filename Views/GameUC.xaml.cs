@@ -58,6 +58,8 @@ namespace Millionaire.Views
             if (gameManager.RightAnswerIndex == 0)
             {
                 HighlightAnswer(rightAnswerStyle);
+                gameManager.Prize.Value++;
+                Console.WriteLine(gameManager.Prize);
             }
             else
             {
@@ -71,6 +73,8 @@ namespace Millionaire.Views
             if (gameManager.RightAnswerIndex == 1)
             {
                 HighlightAnswer(rightAnswerStyle);
+                gameManager.Prize.Value++;
+                Console.WriteLine(gameManager.Prize);
             }
             else
             {
@@ -83,7 +87,9 @@ namespace Millionaire.Views
             selectedButton = ((Button)sender);
             if (gameManager.RightAnswerIndex == 2)
             {
-                HighlightAnswer(rightAnswerStyle);                
+                HighlightAnswer(rightAnswerStyle);
+                gameManager.Prize.Value++;
+                Console.WriteLine(gameManager.Prize);
             }
             else
             {
@@ -97,6 +103,8 @@ namespace Millionaire.Views
             if (gameManager.RightAnswerIndex == 3)
             {
                 HighlightAnswer(rightAnswerStyle);
+                gameManager.Prize.Value++;
+                Console.WriteLine(gameManager.Prize);
             }
             else
             {

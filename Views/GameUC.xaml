@@ -57,8 +57,8 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
-            <TextBlock Text="2 000 000 Kč"
+
+            <TextBlock Text="{Binding Prize.StrValue}"
                        VerticalAlignment="Center"
                        Grid.Column="0"/>
 
