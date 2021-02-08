@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,20 +84,24 @@ namespace Millionaire.Models
             
             RandomizedAnswers = RandomizeAnswers(CurrentQuestion, out int temp);
             RightAnswerIndex = temp;
+            Console.WriteLine(RightAnswerIndex);
         }
 
         /// <summary>
         /// Randomize order of answers in question
         /// </summary>
-        /// <param name="question"></param>
-        /// <returns>string[] of randomized answers</returns>
+        /// <param name="question">Contains answers to randomize</param>
+        /// <param name="rightAnswerIndex">Index of right answer in randomizedAnswers[]</param>
+        /// <returns>String[] of randomized answers</returns>
         public string[] RandomizeAnswers(Question question, out int rightAnswerIndex)
         {
             string[] randomizedAnswers = new string[4];
-            rightAnswerIndex = random.Next(4);
+
+            rightAnswerIndex = random.Next(4); //Randomly place right answer in the array
             randomizedAnswers[rightAnswerIndex] = question.RightAnswer;
-            List<string> wrongAnswers = new List<string> { question.WrongAnswer1, question.WrongAnswer2, question.WrongAnswer3 };            
-            for(int i=0; i<4; i++)
+
+            List<string> wrongAnswers = new List<string> { question.WrongAnswer1, question.WrongAnswer2, question.WrongAnswer3 };
+            for (int i = 0; i < 4; i++) //Randomly populate the rest of the array with wrong answers
             {
                 if (i != rightAnswerIndex)
                 {
@@ -105,6 +110,7 @@ namespace Millionaire.Models
                     wrongAnswers.RemoveAt(randomAnswerIndex);
                 }
             }
+
             return randomizedAnswers;
         }
     }
