@@ -24,8 +24,7 @@ namespace Millionaire.Models
             }
         }
 
-        private Random random = new Random();        
-        private int round = 0;
+        private Random random = new Random(); 
 
         private string[] randomizedAnswers;
         public string[] RandomizedAnswers {
@@ -37,6 +36,8 @@ namespace Millionaire.Models
             }
         }
 
+        public GameStatus GameStatus { get; set; }
+        public int Round { get; set; }
         public int RightAnswerIndex { get; set; }
 
         public PrizeMoney Prize { get; set; }
@@ -46,6 +47,7 @@ namespace Millionaire.Models
             GameQSet = new QSet();
             Prize = new PrizeMoney();
             RandomizedAnswers = new string[4];
+            Round = 0;
 
             foreach (QSet qSet in selectedQSets) //load questions from selected qsets
             {
@@ -72,12 +74,12 @@ namespace Millionaire.Models
         /// </summary>
         public void NewQuestion()
         {
-            round++;
-            if (round == 6) //changing questions difficulty
+            Round++;
+            if (Round == 6) //changing questions difficulty
             {
                 currentQList = GameQSet.MediumQuestions;
             }
-            else if (round == 11)
+            else if (Round == 11)
             {
                 currentQList = GameQSet.HardQuestions;
             }
@@ -115,6 +117,24 @@ namespace Millionaire.Models
             }
 
             return randomizedAnswers;
+        }
+
+        public void CheckAnswer(int index)
+        {
+            if (index == RightAnswerIndex && Round > 14)
+            {
+                GameStatus = GameStatus.Victory;
+                Prize.Value++;
+            }
+            else if (index == RightAnswerIndex)
+            {
+                GameStatus = GameStatus.InProgress;
+                Prize.Value++;
+            }
+            else
+            {
+                GameStatus = GameStatus.Loss;
+            }
         }
     }
 }

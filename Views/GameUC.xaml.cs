@@ -31,6 +31,8 @@ namespace Millionaire.Views
 
         private List<Button> answerButtons;
 
+        private bool answeredCorrectly;
+
         public GameUC(List<QSet> selectedQSets)
         {
             InitializeComponent();
@@ -45,81 +47,81 @@ namespace Millionaire.Views
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
 
+            answeredCorrectly = false;
+
             answerButtons = new List<Button>();
             answerButtons.Add(answerAButton);
             answerButtons.Add(answerBButton);
             answerButtons.Add(answerCButton);
             answerButtons.Add(answerDButton);
-        }
+        }        
 
-        private void answerAButton_Click(object sender, RoutedEventArgs e)
+        private void answerButton_Click(object sender, RoutedEventArgs e)
         {
             selectedButton = ((Button)sender);
-            if (gameManager.RightAnswerIndex == 0)
+            switch (selectedButton.Name)
             {
-                HighlightAnswer(rightAnswerStyle);
-                gameManager.Prize.Value++;
-                Console.WriteLine(gameManager.Prize);
+                case "answerAButton":
+                    gameManager.CheckAnswer(0);
+                    break;
+                case "answerBButton":
+                    gameManager.CheckAnswer(1);
+                    break;
+                case "answerCButton":
+                    gameManager.CheckAnswer(2);
+                    break;
+                case "answerDButton":
+                    gameManager.CheckAnswer(3);
+                    break;
+            }
+            HighlightAnswer();
+        }
+
+        /// <summary>
+        /// Highlight selected button with a style 
+        /// </summary>
+        /// <param name="style"></param>
+        private void HighlightAnswer()
+        {
+            Style style;
+            EnableAnswerButtons(false);
+            if(gameManager.GameStatus==GameStatus.InProgress || gameManager.GameStatus == GameStatus.Victory)
+            {
+                style = rightAnswerStyle;
             }
             else
             {
-                HighlightAnswer(wrongAnswerStyle);
+                style = wrongAnswerStyle;
             }
-        }
+            selectedButton.Style = style;
 
-        private void answerBButton_Click(object sender, RoutedEventArgs e)
-        {
-            selectedButton = ((Button)sender);
-            if (gameManager.RightAnswerIndex == 1)
-            {
-                HighlightAnswer(rightAnswerStyle);
-                gameManager.Prize.Value++;
-                Console.WriteLine(gameManager.Prize);
-            }
-            else
-            {
-                HighlightAnswer(wrongAnswerStyle);
-            }
-        }
-
-        private void answerCButton_Click(object sender, RoutedEventArgs e)
-        {
-            selectedButton = ((Button)sender);
-            if (gameManager.RightAnswerIndex == 2)
-            {
-                HighlightAnswer(rightAnswerStyle);
-                gameManager.Prize.Value++;
-                Console.WriteLine(gameManager.Prize);
-            }
-            else
-            {
-                HighlightAnswer(wrongAnswerStyle);
-            }
-        }
-
-        private void answerDButton_Click(object sender, RoutedEventArgs e)
-        {
-            selectedButton = ((Button)sender);
-            if (gameManager.RightAnswerIndex == 3)
-            {
-                HighlightAnswer(rightAnswerStyle);
-                gameManager.Prize.Value++;
-                Console.WriteLine(gameManager.Prize);
-            }
-            else
-            {
-                HighlightAnswer(wrongAnswerStyle);
-            }
+            dispatcherTimer.Start(); //start timer to stop highlighting answer
         }
 
         // This method is executed when the DispatcherTimer interval occurs
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {            
-            selectedButton.Style = default;
-            EnableAnswerButtons(true);
-            gameManager.NewQuestion();
+            EvaluateRound();
 
             dispatcherTimer.IsEnabled = false;
+        }
+
+        private void EvaluateRound()
+        {
+            if(gameManager.GameStatus==GameStatus.InProgress)
+            {
+                selectedButton.Style = default;
+                EnableAnswerButtons(true);
+                gameManager.NewQuestion();
+            }
+            else if (gameManager.GameStatus==GameStatus.Victory)
+            {
+                //win
+            }
+            else
+            {
+                //loose
+            }
         }
 
         /// <summary>
@@ -132,17 +134,6 @@ namespace Millionaire.Views
             {
                 button.IsEnabled = isEnabled;
             }
-        }
-
-        /// <summary>
-        /// Highlight selected button with a style 
-        /// </summary>
-        /// <param name="style"></param>
-        private void HighlightAnswer(Style style)
-        {
-            selectedButton.Style = style;
-            EnableAnswerButtons(false);
-            dispatcherTimer.Start();
-        }
+        }        
     }
 }
