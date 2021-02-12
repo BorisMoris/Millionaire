@@ -70,6 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\FileManager.cs" />
     <Compile Include="Models\GameManager.cs" />
     <Compile Include="Models\GameStatus.cs" />

@@ -23,25 +23,18 @@ namespace Millionaire.Models
         {
             switch (difficulty)
             {
-                case Difficulty.easy:
+                case Difficulty.Easy:
                     easyQuestions.Add(new Question(question, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
-                case Difficulty.medium:
+                case Difficulty.Medium:
                     mediumQuestions.Add(new Question(question, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
-                case Difficulty.hard:
+                case Difficulty.Hard:
                     hardQuestions.Add(new Question(question, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
             }
         }
 
         
-    }
-
-    public enum Difficulty
-    {
-        easy,
-        medium,
-        hard
     }
 }
