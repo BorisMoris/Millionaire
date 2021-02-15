@@ -31,13 +31,13 @@
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="Špatně jsi odpověděl(a) na otázku:" />
             <TextBlock Text="{Binding CurrentQuestion.QuestionSentence}"
-                       FontSize="14" FontWeight="Bold"/>
+                       FontSize="15" FontWeight="Bold"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="1">
             <TextBlock Text="Správná odpověď:"/>
             <TextBlock Text="{Binding CurrentQuestion.RightAnswer}"                       
-                       FontSize="14" FontWeight="Bold" Foreground="DarkGreen"/>
+                       FontSize="15" FontWeight="Bold" Foreground="DarkGreen"/>
         </StackPanel>
 
         <TextBlock FontSize="15" FontWeight="Bold"
@@ -48,7 +48,7 @@
 
         <TextBlock FontSize="15" FontWeight="Bold"
             Grid.Row="4" Grid.Column="1">
-            <Run Text="Správných odpovědí:"/>
+            <Run Text="Získaná částka:"/>
             <Run Text="{Binding Prize.GuaranteedPrize, Mode=OneWay}"/>
         </TextBlock>
 

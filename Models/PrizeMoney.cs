@@ -35,7 +35,6 @@ namespace Millionaire.Models
             get
             {        
                 int lastCheckpoint = value - (value % 5);
-                Console.WriteLine(values[lastCheckpoint].ToString("N0") + " Kč");
                 return values[lastCheckpoint].ToString("N0") + " Kč";                
             }
         }

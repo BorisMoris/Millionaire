@@ -115,6 +115,7 @@ namespace Millionaire.Views
             else if (gameManager.GameStatus==GameStatus.Victory)
             {
                 //win
+                navigationManager.ShowVictory(gameManager);
             }
             else
             {

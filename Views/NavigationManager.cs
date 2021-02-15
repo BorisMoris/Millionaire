@@ -53,5 +53,11 @@ namespace Millionaire.Views
             UserControl endOfGame = new EndOfGame(this, gameManager);
             CurrentUC = endOfGame;
         }
+
+        public void ShowVictory(GameManager gameManager)
+        {
+            UserControl victory = new VictoryUC(this, gameManager);
+            CurrentUC = victory;
+        }
     }
 }

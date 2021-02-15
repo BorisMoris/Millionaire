@@ -17,16 +17,17 @@ using Millionaire.Models;
 namespace Millionaire.Views
 {
     /// <summary>
-    /// Interakční logika pro EndOfGame.xaml
+    /// Interakční logika pro VictoryUC.xaml
     /// </summary>
-    public partial class EndOfGame : UserControl
+    public partial class VictoryUC : UserControl
     {
         public NavigationManager NavigationManager { get; set; }
+        public GameManager  GameManager { get; set; }
 
-        public EndOfGame(NavigationManager navigationManager, GameManager gameManager)
+        public VictoryUC(NavigationManager navigationManager, GameManager gameManager)
         {
             NavigationManager = navigationManager;
-            DataContext = gameManager;
+            GameManager = gameManager;
             InitializeComponent();
         }
     }
