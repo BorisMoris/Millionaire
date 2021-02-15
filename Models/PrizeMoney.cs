@@ -25,8 +25,18 @@ namespace Millionaire.Models
         public string StrValue
         {
             get
-            {
-                return values[Value].ToString("### ### ##0") + " Kč";
+            {                
+                return values[value].ToString("N0") + " Kč";                
+            }
+        }
+
+        public string GuaranteedPrize
+        {
+            get
+            {        
+                int lastCheckpoint = value - (value % 5);
+                Console.WriteLine(values[lastCheckpoint].ToString("N0") + " Kč");
+                return values[lastCheckpoint].ToString("N0") + " Kč";                
             }
         }
 

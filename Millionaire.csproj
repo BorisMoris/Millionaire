@@ -77,6 +77,12 @@
     <Compile Include="Models\PrizeMoney.cs" />
     <Compile Include="Models\QSet.cs" />
     <Compile Include="Models\Question.cs" />
+    <Compile Include="Views\EndOfGame.xaml.cs">
+      <DependentUpon>EndOfGame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EndOfGameButtons.xaml.cs">
+      <DependentUpon>EndOfGameButtons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
@@ -99,6 +105,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\EndOfGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EndOfGameButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GameUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

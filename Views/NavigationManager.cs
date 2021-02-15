@@ -44,8 +44,14 @@ namespace Millionaire.Views
 
         public void ShowGame(List<QSet> selectedQSets)
         {
-            UserControl game = new GameUC(selectedQSets);
+            UserControl game = new GameUC(this, selectedQSets);
             CurrentUC = game;
+        }
+
+        public void ShowEndOfGame(GameManager gameManager)
+        {
+            UserControl endOfGame = new EndOfGame(this, gameManager);
+            CurrentUC = endOfGame;
         }
     }
 }

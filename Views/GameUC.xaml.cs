@@ -23,6 +23,7 @@ namespace Millionaire.Views
     public partial class GameUC : UserControl
     {
         private GameManager gameManager;
+        private NavigationManager navigationManager;
 
         private DispatcherTimer dispatcherTimer;
         private Button selectedButton;
@@ -31,14 +32,13 @@ namespace Millionaire.Views
 
         private List<Button> answerButtons;
 
-        private bool answeredCorrectly;
-
-        public GameUC(List<QSet> selectedQSets)
+        public GameUC(NavigationManager navigationManager, List<QSet> selectedQSets)
         {
             InitializeComponent();
 
             gameManager = new GameManager(selectedQSets);
             DataContext = gameManager;
+            this.navigationManager = navigationManager;
 
             rightAnswerStyle = FindResource("rightAnswer") as Style;
             wrongAnswerStyle = FindResource("wrongAnswer") as Style;
@@ -46,8 +46,6 @@ namespace Millionaire.Views
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-
-            answeredCorrectly = false;
 
             answerButtons = new List<Button>();
             answerButtons.Add(answerAButton);
@@ -121,6 +119,7 @@ namespace Millionaire.Views
             else
             {
                 //loose
+                navigationManager.ShowEndOfGame(gameManager);
             }
         }
 
