@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Millionaire.Views.FriendLifelineUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Millionaire.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="180" d:DesignWidth="400" Background="White">
+
+    <StackPanel HorizontalAlignment="Center">
+        <TextBlock Text="Použil(a) jsi nápovědu"
+                       FontSize="14"
+                       HorizontalAlignment="Center"/>
+        <TextBlock Text="Přítel na telefonu"
+                       FontSize="18" FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+        <TextBlock Margin="0,50,0,0" FontSize="17" TextWrapping="WrapWithOverflow" MaxWidth="400">
+            <Run Text="„Správná odpověď je určitě"/>
+            <Run Text="Eva Přechová a strašně dlouhá odpověď dobrý, to půjde natánout dost" FontWeight="Bold"/><Run Text=".“"/>
+        </TextBlock>
+    </StackPanel>
+</UserControl>

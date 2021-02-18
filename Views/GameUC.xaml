@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontSize="16"
-             Background="White">
+             Background="White" x:Name="Game">
     <UserControl.Resources>
         <Style x:Key="rightAnswer" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#2AFF36"/>
@@ -35,7 +35,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Margin="20">
+    <Grid Margin="18">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="240"/>
@@ -43,7 +43,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="195"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
@@ -52,36 +52,39 @@
         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>                
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="{Binding Prize.StrValue}"
-                       VerticalAlignment="Center"
+                       VerticalAlignment="Top" Margin="0,15,0,0"
                        Grid.Column="0"/>
 
-            <Button x:Name="fiftyLifelineButton"
-                    Margin="10" Padding="5"
-                    Grid.Column="1">
-                <Image Source="/Millionaire;component/Media/50_50.png"/>
-            </Button>
-            <Button x:Name="audienceLifelineButton"
-                    Margin="10" Padding="5"
-                    Grid.Column="2">
-                <Image Source="/Millionaire;component/Media/audience.png"/>
-            </Button>
-            <Button x:Name="friendLifelineButton"
-                    Margin="10" Padding="5"
-                    Grid.Column="3">
-                <Image Source="/Millionaire;component/Media/phone.png"/>
-            </Button>
+            <StackPanel x:Name="lifelineButtonsStackPanel" Orientation="Horizontal" Grid.Column="1" Height="60" VerticalAlignment="Top">
+                <Button x:Name="fiftyLifelineButton"
+                    Margin="10" Padding="5" Click="fiftyLifelineButton_Click">
+                    <Image Source="/Millionaire;component/Media/50_50.png"/>
+                </Button>
+                <Button x:Name="audienceLifelineButton"
+                    Margin="10" Padding="5" Click="audienceLifelineButton_Click">
+                    <Image Source="/Millionaire;component/Media/audience.png"/>
+                </Button>
+                <Button x:Name="friendLifelineButton"
+                    Margin="10" Padding="5">
+                    <Image Source="/Millionaire;component/Media/phone.png"/>
+                </Button>
+            </StackPanel>
+
+            <StackPanel x:Name="lifelinesStackPanel" Grid.Column="1">
+                <local:_50_50LifelineUC x:Name="fiftyLifelineUC" Visibility="Collapsed"/>
+                <local:AudienceLifelineUC x:Name="audienceLifelineUC" Visibility="Collapsed"  DataContext="{Binding audienceLifeline}"/>
+                <local:FriendLifelineUC x:Name="friendLifelineUC" Visibility="Collapsed"/>                
+            </StackPanel>            
 
             <Button Content="Ukončit hru" x:Name="endGameButton"
-                    Width="110" Height="40"
-                    HorizontalAlignment="Right"
-                    Grid.Column="4"/>
+                    Width="110" Height="40" Margin="0,10,0,0"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Grid.Column="2" Click="endGameButton_Click"/>
         </Grid>        
 
         <TextBlock Text="{Binding CurrentQuestion.QuestionSentence}"

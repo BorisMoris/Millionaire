@@ -30,28 +30,30 @@ namespace Millionaire.Views
         private Style rightAnswerStyle;
         private Style wrongAnswerStyle;
 
+        private _50_50Lifeline _50_50Lifeline;
+        private AudienceLifeline audienceLifeline;
+
         private List<Button> answerButtons;
 
         public GameUC(NavigationManager navigationManager, List<QSet> selectedQSets)
-        {
-            InitializeComponent();
-
+        { 
             gameManager = new GameManager(selectedQSets);
             DataContext = gameManager;
             this.navigationManager = navigationManager;
 
-            rightAnswerStyle = FindResource("rightAnswer") as Style;
-            wrongAnswerStyle = FindResource("wrongAnswer") as Style;
+            _50_50Lifeline = new _50_50Lifeline(gameManager);
+            audienceLifeline = new AudienceLifeline(gameManager);
+
+            rightAnswerStyle = this.FindResource("rightAnswer") as Style;
+            wrongAnswerStyle = this.FindResource("wrongAnswer") as Style;
 
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
 
-            answerButtons = new List<Button>();
-            answerButtons.Add(answerAButton);
-            answerButtons.Add(answerBButton);
-            answerButtons.Add(answerCButton);
-            answerButtons.Add(answerDButton);
+            answerButtons = new List<Button> { answerAButton, answerBButton, answerCButton, answerDButton };
+
+            InitializeComponent();
         }        
 
         private void answerButton_Click(object sender, RoutedEventArgs e)
@@ -110,16 +112,20 @@ namespace Millionaire.Views
             {
                 selectedButton.Style = default;
                 EnableAnswerButtons(true);
+                foreach(UserControl userControl in lifelinesStackPanel.Children)
+                {
+                    userControl.Visibility = Visibility.Collapsed;
+                }
+                lifelineButtonsStackPanel.Visibility = Visibility.Visible;
+
                 gameManager.NewQuestion();
             }
             else if (gameManager.GameStatus==GameStatus.Victory)
             {
-                //win
                 navigationManager.ShowVictory(gameManager);
             }
             else
             {
-                //loose
                 navigationManager.ShowEndOfGame(gameManager);
             }
         }
@@ -134,6 +140,39 @@ namespace Millionaire.Views
             {
                 button.IsEnabled = isEnabled;
             }
-        }        
+        }
+
+        private void endGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result= MessageBox.Show("Opravdu chceš ukončit hru? Tvůj postup bude ztracen.", "Ukončit hru", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result==MessageBoxResult.Yes)
+            {
+                navigationManager.ShowMainMenu();
+            }
+        }
+
+        private void fiftyLifelineButton_Click(object sender, RoutedEventArgs e)
+        {
+            lifelineButtonsStackPanel.Visibility = Visibility.Collapsed;
+            fiftyLifelineUC.Visibility = Visibility.Visible;
+            fiftyLifelineButton.IsEnabled = false;
+
+            
+            List<int> wrongIndexes = _50_50Lifeline.WrongAnswers();
+            foreach(int index in wrongIndexes)
+            {
+                answerButtons[index].IsEnabled = false;
+            }
+        }
+
+        private void audienceLifelineButton_Click(object sender, RoutedEventArgs e)
+        {
+            audienceLifeline.CalculateResponses();
+            
+            lifelineButtonsStackPanel.Visibility = Visibility.Collapsed;
+            audienceLifelineUC.Visibility = Visibility.Visible;
+            audienceLifelineButton.IsEnabled = false;
+        }
     }
 }
