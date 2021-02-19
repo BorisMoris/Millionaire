@@ -7,33 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontSize="16"
-             Background="White" x:Name="Game">
+             Background="White">
     <UserControl.Resources>
-        <Style x:Key="rightAnswer" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#2AFF36"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="wrongAnswer" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#E6383E"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        
     </UserControl.Resources>
     <Grid Margin="18">
         <Grid.ColumnDefinitions>
@@ -70,15 +46,15 @@
                     <Image Source="/Millionaire;component/Media/audience.png"/>
                 </Button>
                 <Button x:Name="friendLifelineButton"
-                    Margin="10" Padding="5">
+                    Margin="10" Padding="5" Click="friendLifelineButton_Click">
                     <Image Source="/Millionaire;component/Media/phone.png"/>
                 </Button>
             </StackPanel>
 
             <StackPanel x:Name="lifelinesStackPanel" Grid.Column="1">
                 <local:_50_50LifelineUC x:Name="fiftyLifelineUC" Visibility="Collapsed"/>
-                <local:AudienceLifelineUC x:Name="audienceLifelineUC" Visibility="Collapsed"  DataContext="{Binding audienceLifeline}"/>
-                <local:FriendLifelineUC x:Name="friendLifelineUC" Visibility="Collapsed"/>                
+                <local:AudienceLifelineUC x:Name="audienceLifelineUC" Visibility="Collapsed" DataContext="{Binding AudienceLifeline}"/>
+                <local:FriendLifelineUC x:Name="friendLifelineUC" Visibility="Collapsed" DataContext="{Binding FriendLifeline}"/>                
             </StackPanel>            
 
             <Button Content="Ukončit hru" x:Name="endGameButton"

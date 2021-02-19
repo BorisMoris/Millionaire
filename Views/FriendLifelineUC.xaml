@@ -15,8 +15,8 @@
                        FontSize="18" FontWeight="Bold"
                        HorizontalAlignment="Center"/>
         <TextBlock Margin="0,50,0,0" FontSize="17" TextWrapping="WrapWithOverflow" MaxWidth="400">
-            <Run Text="„Správná odpověď je určitě"/>
-            <Run Text="Eva Přechová a strašně dlouhá odpověď dobrý, to půjde natánout dost" FontWeight="Bold"/><Run Text=".“"/>
+            <Run Text="&#x201E;"/><Run Text="{Binding Statement}"/>
+            <Run Text="{Binding Answer}" FontWeight="Bold"/><Run Text="."/><Run Text="&#x201C;"/>
         </TextBlock>
     </StackPanel>
 </UserControl>

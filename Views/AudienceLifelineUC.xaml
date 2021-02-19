@@ -39,26 +39,38 @@
 
             <TextBlock Text="A:" Grid.Column="0"/>
             <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom">
-                <Rectangle Height="52" Style="{StaticResource rectangleStyle}"/>
-                <TextBlock Text="52 %" TextAlignment="Center"/>
+                <Rectangle Height="{Binding ResponsesRatio[0]}" Style="{StaticResource rectangleStyle}"/>
+                <TextBlock>
+                    <Run Text="{Binding ResponsesRatio[0]}"/>
+                    <Run Text="%"/>
+                </TextBlock>
             </StackPanel>
 
             <TextBlock Text="B:" Grid.Column="1"/>
             <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom">
-                <Rectangle Height="30" Style="{StaticResource rectangleStyle}"/>
-                <TextBlock Text="30 %" TextAlignment="Center" />
+                <Rectangle Height="{Binding ResponsesRatio[1]}" Style="{StaticResource rectangleStyle}"/>
+                <TextBlock>
+                    <Run Text="{Binding ResponsesRatio[1]}"/>
+                    <Run Text="%"/>
+                </TextBlock>
             </StackPanel>
 
             <TextBlock Text="C:" Grid.Column="2"/>
             <StackPanel Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom">
-                <Rectangle Height="5" Style="{StaticResource rectangleStyle}"/>
-                <TextBlock Text="5 %" TextAlignment="Center"/>
+                <Rectangle Height="{Binding ResponsesRatio[2]}" Style="{StaticResource rectangleStyle}"/>
+                <TextBlock>
+                    <Run Text="{Binding ResponsesRatio[2]}"/>
+                    <Run Text="%"/>
+                </TextBlock>
             </StackPanel>
 
             <TextBlock Text="D:" Grid.Column="3"/>
             <StackPanel Grid.Column="3" Grid.Row="1" VerticalAlignment="Bottom">
-                <Rectangle Height="18" Style="{StaticResource rectangleStyle}"/>
-                <TextBlock Text="18 %" TextAlignment="Center"/>
+                <Rectangle Height="{Binding ResponsesRatio[3]}" Style="{StaticResource rectangleStyle}"/>
+                <TextBlock>
+                    <Run Text="{Binding ResponsesRatio[3]}"/>
+                    <Run Text="%"/>
+                </TextBlock>
             </StackPanel>
         </Grid>
         

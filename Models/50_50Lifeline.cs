@@ -6,22 +6,23 @@ using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
-    class _50_50Lifeline
-    {
-        private GameManager gameManager;
-        
-        public _50_50Lifeline(GameManager gameManager)
-        {
-            this.gameManager = gameManager;
+    public class _50_50Lifeline:LifelineBase
+    {        
+        public _50_50Lifeline(Random random) : base(random)
+        {            
         }
 
-        public List<int> WrongAnswers()
+        /// <summary>
+        /// Choose two wrong answers
+        /// </summary>
+        /// <param name="rightAnswerIndex">Index of right answer</param>
+        /// <returns>List of indexes of two wrong answers</returns>
+        public List<int> ChooseWrongAnswers(int rightAnswerIndex)
         {
             List<int> indexes = new List<int> { 0, 1, 2, 3 };
-            Random random = new Random();
-            indexes.Remove(gameManager.RightAnswerIndex);
+            indexes.Remove(rightAnswerIndex);
             indexes.RemoveAt(random.Next(indexes.Count()));
-
+           
             return indexes;
         }
     }

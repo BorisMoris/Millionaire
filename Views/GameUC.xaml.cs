@@ -30,30 +30,24 @@ namespace Millionaire.Views
         private Style rightAnswerStyle;
         private Style wrongAnswerStyle;
 
-        private _50_50Lifeline _50_50Lifeline;
-        private AudienceLifeline audienceLifeline;
-
         private List<Button> answerButtons;
 
         public GameUC(NavigationManager navigationManager, List<QSet> selectedQSets)
-        { 
+        {
+            InitializeComponent();
+
             gameManager = new GameManager(selectedQSets);
             DataContext = gameManager;
             this.navigationManager = navigationManager;
 
-            _50_50Lifeline = new _50_50Lifeline(gameManager);
-            audienceLifeline = new AudienceLifeline(gameManager);
-
-            rightAnswerStyle = this.FindResource("rightAnswer") as Style;
-            wrongAnswerStyle = this.FindResource("wrongAnswer") as Style;
+            rightAnswerStyle = FindResource("rightAnswer") as Style;
+            wrongAnswerStyle = FindResource("wrongAnswer") as Style;
 
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
 
             answerButtons = new List<Button> { answerAButton, answerBButton, answerCButton, answerDButton };
-
-            InitializeComponent();
         }        
 
         private void answerButton_Click(object sender, RoutedEventArgs e)
@@ -106,13 +100,16 @@ namespace Millionaire.Views
             dispatcherTimer.IsEnabled = false;
         }
 
+        /// <summary>
+        /// Decide what to do at the end of the round
+        /// </summary>
         private void EvaluateRound()
         {
             if(gameManager.GameStatus==GameStatus.InProgress)
             {
                 selectedButton.Style = default;
                 EnableAnswerButtons(true);
-                foreach(UserControl userControl in lifelinesStackPanel.Children)
+                foreach (UserControl userControl in lifelinesStackPanel.Children)
                 {
                     userControl.Visibility = Visibility.Collapsed;
                 }
@@ -158,9 +155,8 @@ namespace Millionaire.Views
             fiftyLifelineUC.Visibility = Visibility.Visible;
             fiftyLifelineButton.IsEnabled = false;
 
-            
-            List<int> wrongIndexes = _50_50Lifeline.WrongAnswers();
-            foreach(int index in wrongIndexes)
+            List<int> wrongIndexes = gameManager._50_50Lifeline.ChooseWrongAnswers(gameManager.RightAnswerIndex);
+            foreach (int index in wrongIndexes)
             {
                 answerButtons[index].IsEnabled = false;
             }
@@ -168,11 +164,20 @@ namespace Millionaire.Views
 
         private void audienceLifelineButton_Click(object sender, RoutedEventArgs e)
         {
-            audienceLifeline.CalculateResponses();
-            
+            gameManager.AudienceLifeline.GenerateAdvice(gameManager.Round, gameManager.RightAnswerIndex);
+
             lifelineButtonsStackPanel.Visibility = Visibility.Collapsed;
             audienceLifelineUC.Visibility = Visibility.Visible;
-            audienceLifelineButton.IsEnabled = false;
+           // audienceLifelineButton.IsEnabled = false;
+        }
+
+        private void friendLifelineButton_Click(object sender, RoutedEventArgs e)
+        {
+            gameManager.FriendLifeline.GenerateAdvice(gameManager.Round, gameManager.RightAnswerIndex, gameManager.RandomizedAnswers);
+
+            lifelineButtonsStackPanel.Visibility = Visibility.Collapsed;
+            friendLifelineUC.Visibility = Visibility.Visible;
+          //  friendLifelineButton.IsEnabled = false;
         }
     }
 }
