@@ -25,10 +25,14 @@ namespace Millionaire.Views
         public List<QSet> avalaibleQSets;
         
         FileManager fileManager = new FileManager();
-
-        public SelectQSetsUC()
+        NavigationManager navManager;
+        
+        public SelectQSetsUC(NavigationManager navManager)
         {
             InitializeComponent();
+
+            this.navManager = navManager;
+
             List<Exception> exceptions;
             avalaibleQSets=fileManager.LoadQuestionSets(out exceptions);
             foreach (Exception ex in exceptions)
@@ -49,12 +53,18 @@ namespace Millionaire.Views
             QSetsListBox.UnselectAll();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void continueButton_Click(object sender, RoutedEventArgs e)
         {
             foreach(QSet qSet in QSetsListBox.SelectedItems)
             {
                 Debug.WriteLine(qSet.Name);
             }
+            navManager.ShowGame();
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            navManager.ShowMainMenu();
         }
     }
 }

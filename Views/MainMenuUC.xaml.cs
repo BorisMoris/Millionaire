@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Millionaire;
 
 namespace Millionaire.Views
 {
@@ -20,9 +21,16 @@ namespace Millionaire.Views
     /// </summary>
     public partial class MainMenuUC : UserControl
     {
-        public MainMenuUC()
+        NavigationManager navManager;
+        public MainMenuUC(NavigationManager navManager)
         {
             InitializeComponent();
+            this.navManager = navManager;
+        }
+
+        private void NewGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            navManager.ShowQSetsUC();            
         }
     }
 }

@@ -16,15 +16,46 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="2 000 000 Kč"
-            Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
-            HorizontalAlignment="Right"/>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="2 000 000 Kč"
+                       VerticalAlignment="Center"
+                       Grid.Column="0"/>
+
+            <Button x:Name="fiftyLifelineButton"
+                    Margin="10" Padding="5"
+                    Grid.Column="1">
+                <Image Source="/Millionaire;component/Media/50_50.png"/>
+            </Button>
+            <Button x:Name="audienceLifelineButton"
+                    Margin="10" Padding="5"
+                    Grid.Column="2">
+                <Image Source="/Millionaire;component/Media/audience.png"/>
+            </Button>
+            <Button x:Name="friendLifelineButton"
+                    Margin="10" Padding="5"
+                    Grid.Column="3">
+                <Image Source="/Millionaire;component/Media/phone.png"/>
+            </Button>
+
+            <Button Content="Ukončit hru" x:Name="endGameButton"
+                    Width="110" Height="40"
+                    HorizontalAlignment="Right"
+                    Grid.Column="4"/>
+        </Grid>        
 
         <TextBlock Text="Kolik dílů seriálu Ředitel bylo celkem natočeno?"
                    FontWeight="Bold"
@@ -44,14 +75,12 @@
 
         <Button Content="C: 5"
                 HorizontalContentAlignment="Left" Padding="15,0,0,0"
-                Grid.Row="3" Grid.Column="1"
-               
+                Grid.Row="3" Grid.Column="1"               
                 Margin="0,5,5,0"/>
 
         <Button Content="D: žádný"
                 HorizontalContentAlignment="Left" Padding="15,0,0,0"
-                Grid.Row="3" Grid.Column="2"
-                
+                Grid.Row="3" Grid.Column="2"                
                 Margin="5,5,0,0"/>
 
     </Grid>
