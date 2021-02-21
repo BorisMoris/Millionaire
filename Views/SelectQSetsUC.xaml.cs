@@ -25,7 +25,7 @@ namespace Millionaire.Views
         public List<QSet> avalaibleQSets;
         
         FileManager fileManager = new FileManager();
-        
+
         public SelectQSetsUC()
         {
             InitializeComponent();

@@ -72,16 +72,17 @@ namespace Millionaire.Models
                 try
                 {
                     qSet = LoadQSetFromFile(file);
+                    if (qSet != null)
+                    {
+                        qSets.Add(qSet);
+                    }
                 }
                 catch(Exception ex)
                 {
                     exceptions.Add(ex);
                 }
                 
-                if(qSet != null)
-                {
-                    qSets.Add(qSet);
-                }                                
+                                                
             }
             
             return qSets;
@@ -103,7 +104,7 @@ namespace Millionaire.Models
                 string s = sr.ReadLine();
                 if (s == null) //checks wheter the first line is not null
                 {
-                    return null;
+                    throw new ArgumentException(path + " First line is null, can't load");                  
                 }
                 qSet.Name = s.TrimEnd(';');
 
@@ -117,7 +118,7 @@ namespace Millionaire.Models
                     {
                         if (counter < 5) //checks wheter enough questions of previous difficulty was loaded
                         {
-                            return null;
+                            throw new ArgumentException(path + " Not enough questions of the same difficulty, can't load");
                         }
 
                         if (difficulty < Difficulty.hard) //checks wheter highest difficulty level was reached
@@ -127,90 +128,21 @@ namespace Millionaire.Models
                         }
                         else
                         {
-                            return null;
+                            throw new ArgumentException(path + " Invalid number of difficulty signs, can't load");
                         }                        
                     }
 
                     string[] split = s.Split(';');
                     if (split.Length != 5) //checks wheter the line contains exactly 5 strings
                     {
-                        return null;
+                        throw new ArgumentException(path + " Wrong count of strings on a line, can't load");
                     }
                     qSet.AddQuestion(difficulty, split[0], split[1], split[2], split[3], split[4]);
                     counter++;
 
                     s = sr.ReadLine();
                 }
-
-
-
-
-
-
-                //while (s != null && !s.StartsWith("*"))
-                //{
-                //    string[] split = s.Split(';');
-                //    if (split.Length != 5)
-                //    {
-                //        return null;
-                //    }
-                //    qSet.AddEasyQ(split[0], split[1], split[2], split[3], split[4]);
-                //    counter++;
-
-                //    s = sr.ReadLine();
-                //}
-
-                //if (counter < 5)
-                //{
-                //    return null;
-                //}
-                //counter = 0;
-
-                //s = sr.ReadLine();
-                //while (s != null && !s.StartsWith("*"))
-                //{
-                //    string[] split = s.Split(';');
-                //    if (split.Length != 5)
-                //    {
-                //        return null;
-                //    }
-                //    qSet.AddMediumQ(split[0], split[1], split[2], split[3], split[4]);
-                //    counter++;
-
-                //    s = sr.ReadLine();
-                //}
-
-                //if (counter < 5)
-                //{
-                //    return null;
-                //}
-                //counter = 0;
-
-                //s = sr.ReadLine();
-                //while (s != null && !s.StartsWith("*"))
-                //{
-                //    string[] split = s.Split(';');
-                //    if (split.Length != 5)
-                //    {
-                //        return null;
-                //    }
-                //    qSet.AddHardQ(split[0], split[1], split[2], split[3], split[4]);
-                //    counter++;
-
-                //    s = sr.ReadLine();
-                //}
-
-                //if (counter < 5)
-                //{
-                //    return null;
-                //}
             }
-
-            foreach(Question question in qSet.MediumQuestions)
-            {
-                Debug.WriteLine(question.question);
-            }
-
 
             if (qSet.EasyQuestions.Count() >= 5 && qSet.MediumQuestions.Count() >= 5 && qSet.HardQuestions.Count() >= 5)
             {
@@ -218,7 +150,7 @@ namespace Millionaire.Models
             }
             else
             {
-                return null;
+                throw new ArgumentException(path + " Not enough questions of the same difficulty, can't load");
             }            
         }
 
