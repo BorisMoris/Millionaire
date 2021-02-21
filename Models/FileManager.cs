@@ -110,7 +110,7 @@ namespace Millionaire.Models
 
                 sr.ReadLine();
 
-                Difficulty difficulty = Difficulty.easy;
+                Difficulty difficulty = Difficulty.Easy;
                 s = sr.ReadLine();
                 while(s != null)
                 {
@@ -121,7 +121,7 @@ namespace Millionaire.Models
                             throw new ArgumentException(path + " Not enough questions of the same difficulty, can't load");
                         }
 
-                        if (difficulty < Difficulty.hard) //checks wheter highest difficulty level was reached
+                        if (difficulty < Difficulty.Hard) //checks wheter highest difficulty level was reached
                         {
                             difficulty++;
                             s = sr.ReadLine();

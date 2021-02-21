@@ -6,17 +6,20 @@
              xmlns:local="clr-namespace:Millionaire.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             FontSize="18"
-             Background="White">
-    <Grid Margin="20">
+             FontSize="16"
+             Background="White" x:Name="Game">
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
+    <Grid Margin="18">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="220"/>
-            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="240"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="195"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
@@ -25,64 +28,85 @@
         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>                
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
-            <TextBlock Text="2 000 000 Kč"
-                       VerticalAlignment="Center"
+
+            <TextBlock Text="{Binding Prize.StrValue}"
+                       VerticalAlignment="Top" Margin="0,15,0,0"
                        Grid.Column="0"/>
 
-            <Button x:Name="fiftyLifelineButton"
-                    Margin="10" Padding="5"
-                    Grid.Column="1">
-                <Image Source="/Millionaire;component/Media/50_50.png"/>
-            </Button>
-            <Button x:Name="audienceLifelineButton"
-                    Margin="10" Padding="5"
-                    Grid.Column="2">
-                <Image Source="/Millionaire;component/Media/audience.png"/>
-            </Button>
-            <Button x:Name="friendLifelineButton"
-                    Margin="10" Padding="5"
-                    Grid.Column="3">
-                <Image Source="/Millionaire;component/Media/phone.png"/>
-            </Button>
+            <StackPanel x:Name="lifelineButtonsStackPanel" Orientation="Horizontal" Grid.Column="1" Height="60" VerticalAlignment="Top">
+                <Button x:Name="fiftyLifelineButton"
+                    Margin="10" Padding="5" Click="fiftyLifelineButton_Click">
+                    <Image Source="/Millionaire;component/Media/50_50.png"/>
+                </Button>
+                <Button x:Name="audienceLifelineButton"
+                    Margin="10" Padding="5" Click="audienceLifelineButton_Click">
+                    <Image Source="/Millionaire;component/Media/audience.png"/>
+                </Button>
+                <Button x:Name="friendLifelineButton"
+                    Margin="10" Padding="5" Click="friendLifelineButton_Click">
+                    <Image Source="/Millionaire;component/Media/phone.png"/>
+                </Button>
+            </StackPanel>
+
+            <StackPanel x:Name="lifelinesStackPanel" Grid.Column="1">
+                <local:_50_50LifelineUC x:Name="fiftyLifelineUC" Visibility="Collapsed"/>
+                <local:AudienceLifelineUC x:Name="audienceLifelineUC" Visibility="Collapsed" DataContext="{Binding AudienceLifeline, ElementName=Game}"/>
+                <local:FriendLifelineUC x:Name="friendLifelineUC" Visibility="Collapsed" DataContext="{Binding FriendLifeline, ElementName=Game}"/>                
+            </StackPanel>            
 
             <Button Content="Ukončit hru" x:Name="endGameButton"
-                    Width="110" Height="40"
-                    HorizontalAlignment="Right"
-                    Grid.Column="4"/>
+                    Width="110" Height="40" Margin="0,10,0,0"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Grid.Column="2" Click="endGameButton_Click"/>
         </Grid>        
 
-        <TextBlock Text="Kolik dílů seriálu Ředitel bylo celkem natočeno?"
+        <TextBlock Text="{Binding CurrentQuestion.QuestionSentence}"
                    FontWeight="Bold"
                    Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                    VerticalAlignment="Bottom"
                    Margin="0,10"
                    TextWrapping="Wrap"/>
 
-        <Button Content="A: 1"
+        <Button Name="answerAButton" 
                 HorizontalContentAlignment="Left" Padding="15,0,0,0"
                 Grid.Row="2" Grid.Column="1"               
-                Margin="0,0,5,5"/>
-        <Button Content="B: 2"
+                Margin="0,0,5,5" Click="answerButton_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="A: " VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding RandomizedAnswers[0]}" TextWrapping="WrapWithOverflow" MaxWidth="200"/>
+            </StackPanel>
+        </Button>
+        <Button Name="answerBButton"           
                 HorizontalContentAlignment="Left" Padding="15,0,0,0"
                 Grid.Row="2" Grid.Column="2"
-                Margin="5,0,0,5"/>
+                Margin="5,0,0,5" Click="answerButton_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="B: " VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding RandomizedAnswers[1]}" TextWrapping="WrapWithOverflow" MaxWidth="200"/>
+            </StackPanel>
+        </Button>
 
-        <Button Content="C: 5"
+        <Button Name="answerCButton"
                 HorizontalContentAlignment="Left" Padding="15,0,0,0"
                 Grid.Row="3" Grid.Column="1"               
-                Margin="0,5,5,0"/>
-
-        <Button Content="D: žádný"
+                Margin="0,5,5,0" Click="answerButton_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="C: " VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding RandomizedAnswers[2]}" TextWrapping="WrapWithOverflow" MaxWidth="200"/>
+            </StackPanel>
+        </Button>
+        <Button Name="answerDButton"
                 HorizontalContentAlignment="Left" Padding="15,0,0,0"
                 Grid.Row="3" Grid.Column="2"                
-                Margin="5,5,0,0"/>
-
+                Margin="5,5,0,0" Click="answerButton_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="D: " VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding RandomizedAnswers[3]}" TextWrapping="WrapWithOverflow" MaxWidth="200"/>
+            </StackPanel>
+        </Button>
     </Grid>
 
 </UserControl>

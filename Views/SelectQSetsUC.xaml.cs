@@ -55,16 +55,31 @@ namespace Millionaire.Views
 
         private void continueButton_Click(object sender, RoutedEventArgs e)
         {
+            
+            List<QSet> temp = new List<QSet>();
             foreach(QSet qSet in QSetsListBox.SelectedItems)
             {
                 Debug.WriteLine(qSet.Name);
+                temp.Add(qSet);
             }
-            navManager.ShowGame();
+            navManager.ShowGame(temp);
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             navManager.ShowMainMenu();
+        }
+
+        private void QSetsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (QSetsListBox.SelectedItems.Count>0)
+            {
+                continueButton.IsEnabled = true;
+            }
+            else
+            {
+                continueButton.IsEnabled = false;
+            }
         }
     }
 }

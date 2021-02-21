@@ -5,17 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Millionaire.Models;
 
 namespace Millionaire.Views
 {
+    //GC.collect
+    
     public class NavigationManager : INotifyPropertyChanged
     {
-        private UserControl _currentUC;
+        private UserControl currentUC;
 
         public UserControl CurrentUC
         {
-            get { return _currentUC; }
-            set { _currentUC = value; NotifyPropertyChanged(nameof(CurrentUC)); }
+            get { return currentUC; }
+            set { currentUC = value; NotifyPropertyChanged(nameof(CurrentUC)); }
         }
 
         #region PropertyChanged implementation
@@ -28,7 +31,7 @@ namespace Millionaire.Views
         #endregion
 
         public void ShowQSetsUC()
-        {
+        {      
             UserControl selectQSets = new SelectQSetsUC(this);
             CurrentUC = selectQSets;
         }
@@ -39,10 +42,22 @@ namespace Millionaire.Views
             CurrentUC = mainMenu;
         }
 
-        public void ShowGame()
+        public void ShowGame(List<QSet> selectedQSets)
         {
-            UserControl game = new GameUC();
+            UserControl game = new GameUC(this, selectedQSets);
             CurrentUC = game;
+        }
+
+        public void ShowEndOfGame(GameManager gameManager)
+        {
+            UserControl endOfGame = new EndOfGame(this, gameManager);
+            CurrentUC = endOfGame;
+        }
+
+        public void ShowVictory(GameManager gameManager)
+        {
+            UserControl victory = new VictoryUC(this, gameManager);
+            CurrentUC = victory;
         }
     }
 }
