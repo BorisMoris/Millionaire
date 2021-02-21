@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontSize="16"
-             Background="White">
+             Background="White" x:Name="Game">
     <UserControl.Resources>
         
     </UserControl.Resources>
@@ -53,8 +53,8 @@
 
             <StackPanel x:Name="lifelinesStackPanel" Grid.Column="1">
                 <local:_50_50LifelineUC x:Name="fiftyLifelineUC" Visibility="Collapsed"/>
-                <local:AudienceLifelineUC x:Name="audienceLifelineUC" Visibility="Collapsed" DataContext="{Binding AudienceLifeline}"/>
-                <local:FriendLifelineUC x:Name="friendLifelineUC" Visibility="Collapsed" DataContext="{Binding FriendLifeline}"/>                
+                <local:AudienceLifelineUC x:Name="audienceLifelineUC" Visibility="Collapsed" DataContext="{Binding AudienceLifeline, ElementName=Game}"/>
+                <local:FriendLifelineUC x:Name="friendLifelineUC" Visibility="Collapsed" DataContext="{Binding FriendLifeline, ElementName=Game}"/>                
             </StackPanel>            
 
             <Button Content="Ukončit hru" x:Name="endGameButton"

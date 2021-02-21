@@ -42,10 +42,6 @@ namespace Millionaire.Models
 
         public PrizeMoney Prize { get; set; }
 
-        public _50_50Lifeline _50_50Lifeline { get; set; }
-        public AudienceLifeline AudienceLifeline { get; set; }
-        public FriendLifeline FriendLifeline { get; set; }
-
         public GameManager(List<QSet> selectedQSets)
         {
             GameQSet = new QSet();
@@ -53,9 +49,7 @@ namespace Millionaire.Models
             RandomizedAnswers = new string[4];
             Round = 0;
 
-            _50_50Lifeline = new _50_50Lifeline(random);
-            AudienceLifeline = new AudienceLifeline(random);
-            FriendLifeline = new FriendLifeline(random);
+            
 
             foreach (QSet qSet in selectedQSets) //load questions from selected qsets
             {

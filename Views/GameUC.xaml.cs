@@ -32,8 +32,19 @@ namespace Millionaire.Views
 
         private List<Button> answerButtons;
 
+        private _50_50Lifeline _50_50Lifeline;
+        public AudienceLifeline AudienceLifeline { get; set; }
+        public FriendLifeline FriendLifeline { get; set; }
+
+        private Random random;
+
         public GameUC(NavigationManager navigationManager, List<QSet> selectedQSets)
         {
+            random = new Random();
+            _50_50Lifeline = new _50_50Lifeline(random);
+            AudienceLifeline = new AudienceLifeline(random);
+            FriendLifeline = new FriendLifeline(random);
+
             InitializeComponent();
 
             gameManager = new GameManager(selectedQSets);
@@ -47,7 +58,7 @@ namespace Millionaire.Views
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
 
-            answerButtons = new List<Button> { answerAButton, answerBButton, answerCButton, answerDButton };
+            answerButtons = new List<Button> { answerAButton, answerBButton, answerCButton, answerDButton };            
         }        
 
         private void answerButton_Click(object sender, RoutedEventArgs e)
@@ -155,7 +166,7 @@ namespace Millionaire.Views
             fiftyLifelineUC.Visibility = Visibility.Visible;
             fiftyLifelineButton.IsEnabled = false;
 
-            List<int> wrongIndexes = gameManager._50_50Lifeline.ChooseWrongAnswers(gameManager.RightAnswerIndex);
+            List<int> wrongIndexes = _50_50Lifeline.ChooseWrongAnswers(gameManager.RightAnswerIndex);
             foreach (int index in wrongIndexes)
             {
                 answerButtons[index].IsEnabled = false;
@@ -164,20 +175,20 @@ namespace Millionaire.Views
 
         private void audienceLifelineButton_Click(object sender, RoutedEventArgs e)
         {
-            gameManager.AudienceLifeline.GenerateAdvice(gameManager.Round, gameManager.RightAnswerIndex);
+            AudienceLifeline.GenerateAdvice(gameManager.Round, gameManager.RightAnswerIndex);
 
             lifelineButtonsStackPanel.Visibility = Visibility.Collapsed;
             audienceLifelineUC.Visibility = Visibility.Visible;
-           // audienceLifelineButton.IsEnabled = false;
+            audienceLifelineButton.IsEnabled = false;
         }
 
         private void friendLifelineButton_Click(object sender, RoutedEventArgs e)
         {
-            gameManager.FriendLifeline.GenerateAdvice(gameManager.Round, gameManager.RightAnswerIndex, gameManager.RandomizedAnswers);
+            FriendLifeline.GenerateAdvice(gameManager.Round, gameManager.RightAnswerIndex, gameManager.RandomizedAnswers);
 
             lifelineButtonsStackPanel.Visibility = Visibility.Collapsed;
             friendLifelineUC.Visibility = Visibility.Visible;
-          //  friendLifelineButton.IsEnabled = false;
+            friendLifelineButton.IsEnabled = false;
         }
     }
 }

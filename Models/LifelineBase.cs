@@ -22,7 +22,6 @@ namespace Millionaire.Models
         protected void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Console.WriteLine("property changed");
         }
         #endregion
 
