@@ -25,7 +25,6 @@ namespace Millionaire.Views
         public List<QSet> avalaibleQSets;
         
         FileManager fileManager = new FileManager();
-
         NavigationManager navManager;
         
         public SelectQSetsUC(NavigationManager navManager)
