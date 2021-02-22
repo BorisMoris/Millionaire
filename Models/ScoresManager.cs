@@ -12,7 +12,7 @@ namespace Millionaire.Models
 
         public ScoresManager()
         {
-            Scores = new List<Score>();
+            Scores = FileManager.LoadScores();
         }
 
         public void AddPlayer(string playerName, int rightAnswers, PrizeMoney prize, List<string> questionSets)
@@ -26,7 +26,16 @@ namespace Millionaire.Models
             stringBuilder.Append(questionSets[questionSets.Count() - 1]);
 
             Scores.Add(new Score(playerName, rightAnswers, prize, stringBuilder.ToString()));
-            Console.WriteLine("new player " + playerName + " with x right answers " + rightAnswers);
+            Scores = Scores.OrderByDescending(x => x.RightAnswers).ToList();
+
+            try
+            {
+                FileManager.SaveScores(Scores);
+            }
+            catch
+            {
+                Console.WriteLine("chyba!");
+            }
         }
     }
 }

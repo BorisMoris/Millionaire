@@ -104,6 +104,9 @@
     <Compile Include="Views\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HighScoresUC.xaml.cs">
+      <DependentUpon>HighScoresUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainMenuUC.xaml.cs">
       <DependentUpon>MainMenuUC.xaml</DependentUpon>
     </Compile>
@@ -151,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HighScoresUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

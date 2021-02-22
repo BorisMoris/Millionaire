@@ -8,16 +8,19 @@ namespace Millionaire.Models
 {
     public class Score
     {
-        public string Name { get; set; }
+        public string PlayersName { get; set; }
         public int RightAnswers { get; set; }
         public PrizeMoney Prize { get; set; }
         public string QuestionSets { get; set; }
 
+        public Score() { }
+        
         public Score(string name, int rightAnswers, PrizeMoney prize, string questionSets)
         {
-            Name = name;
+            PlayersName = name;
             RightAnswers = rightAnswers;
             Prize = prize;
+            QuestionSets = questionSets;
         }
     }
 }

@@ -71,5 +71,11 @@ namespace Millionaire.Views
             EnterNicknameWindow enterNicknameWindow = new EnterNicknameWindow(ScoresManager, gameManager, this);
             enterNicknameWindow.ShowDialog();
         }
+
+        public void ShowHighScores()
+        {
+            UserControl highScores = new HighScoresUC(ScoresManager, this);
+            CurrentUC = highScores;
+        }
     }
 }

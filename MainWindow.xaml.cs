@@ -22,23 +22,22 @@ namespace Millionaire
     /// </summary>
     public partial class MainWindow : Window
     {
-        FileManager fileManager;
-
         NavigationManager navManager;
 
 
         public MainWindow()
         {
             InitializeComponent();
-            fileManager = new FileManager();
-            try
-            {
-                fileManager.CopyDefault();                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
+            //fileManager = new FileManager();
+            //try
+            //{
+            //    fileManager.CopyDefault();                
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
 
             navManager = new NavigationManager();
             DataContext = navManager;

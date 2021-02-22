@@ -41,6 +41,7 @@ namespace Millionaire.Views
         {
             scoresManager.AddPlayer(nickNameTextBox.Text, gameManager.Round - 1, gameManager.Prize, gameManager.QSetsNames);
             Close();
+            //přidat přechod do UC s nejlepšími hráči
             navigationManager.ShowMainMenu();
         }
     }

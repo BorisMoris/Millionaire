@@ -32,5 +32,10 @@ namespace Millionaire.Views
         {
             navManager.ShowQSetsUC();            
         }
+
+        private void highScoresButton_Click(object sender, RoutedEventArgs e)
+        {
+            navManager.ShowHighScores();
+        }
     }
 }

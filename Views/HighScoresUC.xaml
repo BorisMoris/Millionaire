@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="Millionaire.Views.HighScoresUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Millionaire.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+
+    <UserControl.Resources>
+        <Style TargetType="TextBlock" x:Key="textBlockStyle">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="gold"/>
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Style="{StaticResource textBlockStyle}"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" MinHeight="50"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Nejlepší skóre"
+                   FontSize="20" FontWeight="Bold"
+                   Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" VerticalAlignment="Bottom"/>
+
+        <DataGrid ItemsSource="{Binding Scores}" Grid.Row="1" Grid.Column="1" Background="Gold" MaxHeight="300"
+                  CanUserResizeColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" IsReadOnly="True"
+                  AutoGenerateColumns="False"  GridLinesVisibility="None"
+                  HeadersVisibility="Column"  MinRowHeight="30" AlternatingRowBackground="LightGoldenrodYellow" HorizontalScrollBarVisibility="Hidden"                  
+                  >
+            <DataGrid.Columns>                
+                <DataGridTemplateColumn Header="Přezdívka" Width="150">                    
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PlayersName}" Style="{StaticResource textBlockStyle}" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Width="80" Header="Správných odpovědí">                    
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding RightAnswers}" Style="{StaticResource textBlockStyle}"  FontWeight="Bold"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Získaná částka" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Prize.GuaranteedPrize}" Style="{StaticResource textBlockStyle}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Sady otázek" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding QuestionSets}" Style="{StaticResource textBlockStyle}" VerticalAlignment="Center" FontSize="12"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>   
+        </DataGrid>
+
+        <Button x:Name="mainMenuButton" Content="Hlavní menu"
+                Width="120" Height="30" Margin="0,8,0,0"
+                Grid.Column="1" Grid.Row="3" Click="mainMenuButton_Click"/>
+    </Grid>
+</UserControl>
