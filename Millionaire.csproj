@@ -78,6 +78,8 @@
     <Compile Include="Models\GameManager.cs" />
     <Compile Include="Models\GameStatus.cs" />
     <Compile Include="Models\LifelineBase.cs" />
+    <Compile Include="Models\Score.cs" />
+    <Compile Include="Models\ScoresManager.cs" />
     <Compile Include="Models\PrizeMoney.cs" />
     <Compile Include="Models\QSet.cs" />
     <Compile Include="Models\Question.cs" />
@@ -92,6 +94,9 @@
     </Compile>
     <Compile Include="Views\EndOfGameButtons.xaml.cs">
       <DependentUpon>EndOfGameButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnterNicknameWindow.xaml.cs">
+      <DependentUpon>EnterNicknameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FriendLifelineUC.xaml.cs">
       <DependentUpon>FriendLifelineUC.xaml</DependentUpon>
@@ -134,6 +139,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EndOfGameButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnterNicknameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

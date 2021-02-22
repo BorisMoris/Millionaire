@@ -22,11 +22,13 @@ namespace Millionaire.Views
     public partial class EndOfGame : UserControl
     {
         public NavigationManager NavigationManager { get; set; }
+        public GameManager GameManager { get; set; }
 
         public EndOfGame(NavigationManager navigationManager, GameManager gameManager)
         {
             NavigationManager = navigationManager;
-            DataContext = gameManager;
+            GameManager = gameManager;
+            DataContext = GameManager;
             InitializeComponent();
         }
     }

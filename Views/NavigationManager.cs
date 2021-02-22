@@ -14,11 +14,17 @@ namespace Millionaire.Views
     public class NavigationManager : INotifyPropertyChanged
     {
         private UserControl currentUC;
-
         public UserControl CurrentUC
         {
             get { return currentUC; }
             set { currentUC = value; NotifyPropertyChanged(nameof(CurrentUC)); }
+        }
+
+        public ScoresManager ScoresManager { get; set; }
+
+        public NavigationManager()
+        {
+            ScoresManager = new ScoresManager();
         }
 
         #region PropertyChanged implementation
@@ -58,6 +64,12 @@ namespace Millionaire.Views
         {
             UserControl victory = new VictoryUC(this, gameManager);
             CurrentUC = victory;
+        }
+
+        public void ShowEnterNickname(GameManager gameManager)
+        {
+            EnterNicknameWindow enterNicknameWindow = new EnterNicknameWindow(ScoresManager, gameManager, this);
+            enterNicknameWindow.ShowDialog();
         }
     }
 }
