@@ -12,10 +12,10 @@ namespace Millionaire.Models
 
         public ScoresManager()
         {
-            Scores = FileManager.LoadScores();
+            Scores = new List<Score>();
         }
 
-        public void AddPlayer(string playerName, int rightAnswers, PrizeMoney prize, List<string> questionSets)
+        public string AddPlayer(string playerName, int rightAnswers, PrizeMoney prize, List<string> questionSets)
         {
             StringBuilder stringBuilder = new StringBuilder();
             for(int i= 0; i < questionSets.Count()-1; i++)
@@ -28,14 +28,24 @@ namespace Millionaire.Models
             Scores.Add(new Score(playerName, rightAnswers, prize, stringBuilder.ToString()));
             Scores = Scores.OrderByDescending(x => x.RightAnswers).ToList();
 
+            //if (Scores.Count() == 0)
+            //{
+            //    try
+            //    {
+            //        Scores = FileManager.LoadScores();
+            //    }
+            //}
+
             try
             {
                 FileManager.SaveScores(Scores);
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("chyba!");
+                Scores.RemoveAt(Scores.Count()-1); //Removes current player, which cannot be saved
+                return ex.Message;
             }
+            return null;
         }
     }
 }

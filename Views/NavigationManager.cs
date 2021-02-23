@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Millionaire.Models;
 
@@ -25,6 +26,15 @@ namespace Millionaire.Views
         public NavigationManager()
         {
             ScoresManager = new ScoresManager();
+            try
+            {
+                ScoresManager.Scores = FileManager.LoadScores();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Nepodařilo se načíst uložená skóre: " + ex.Message, "Nelze načíst skóre", MessageBoxButton.OK, MessageBoxImage.Error);
+                FileManager.safeToSaveScores = false;
+            }
         }
 
         #region PropertyChanged implementation

@@ -26,35 +26,7 @@ namespace Millionaire.Models
         }
 
         private static string scoresFile = "scores.xml";
-        //private static string defaultQSetsPath = @"..\..\DefaultQSets";
-
-
-        ///// <summary>
-        ///// Copy all default question sets to program's folder
-        ///// </summary>
-        //public static void CopyDefault()
-        //{
-            
-        //    DirectoryInfo defaultDirInfo = new DirectoryInfo(defaultQSetsPath);
-        //    FileInfo[] defaultFiles = defaultDirInfo.GetFiles("*.csv");
-
-        //    DirectoryInfo dataDirInfo = new DirectoryInfo(dataDir);
-        //    FileInfo[] dataFiles = dataDirInfo.GetFiles("*.csv");
-            
-        //    List<string> dataFileNames = new List<string>(); //generate list of names of files in program's folder
-        //    foreach (FileInfo file in dataFiles)
-        //    {
-        //        dataFileNames.Add(file.Name);
-        //    }
-
-        //    foreach (FileInfo defaultFile in defaultFiles) //comparing files by names
-        //    {
-        //        if (!dataFileNames.Contains(defaultFile.Name))
-        //        {
-        //            File.Copy(defaultFile.FullName, Path.Combine(dataDir, defaultFile.Name));
-        //        }
-        //    }
-        //}
+        public static bool safeToSaveScores = true;
 
         /// <summary>
         /// Loads all question sets from a program's folder
@@ -154,16 +126,29 @@ namespace Millionaire.Models
             }            
         }
 
+        /// <summary>
+        /// Save list of scores to scores.xml
+        /// </summary>
+        /// <param name="scores"></param>
         public static void SaveScores(List<Score> scores)
-        {            
+        {  
             XmlSerializer serializer = new XmlSerializer(scores.GetType());
 
             using(StreamWriter sw=new StreamWriter(Path.Combine(dataDir, scoresFile)))
             {
+                if (!safeToSaveScores)
+                {
+                    throw new Exception("Kvůli dřívější nepřístupnosti souboru není bezpečné ukládat skóre. Restartujte aplikaci.");
+                }
+
                 serializer.Serialize(sw, scores);
             }
         }
 
+        /// <summary>
+        /// Load list of scores from scores.xml
+        /// </summary>
+        /// <returns></returns>
         public static List<Score> LoadScores()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
