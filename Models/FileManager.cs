@@ -33,9 +33,12 @@ namespace Millionaire.Models
         /// </summary>
         /// <param name="exceptions">Returns list of potential exceptions</param>
         /// <returns>List of question sets</returns>
-        public static List<QSet> LoadQuestionSets(out List<Exception> exceptions)
+        public static Dictionary<string, QSet> LoadQuestionSets(out List<Exception> exceptions)
         {
-            List<QSet> qSets = new List<QSet>();
+            //           List<QSet> qSets = new List<QSet>();
+
+            Dictionary<string, QSet> qSets = new Dictionary<string, QSet>();
+
             QSet qSet = null;
 
             exceptions = new List<Exception>();
@@ -48,7 +51,7 @@ namespace Millionaire.Models
                     qSet = LoadQSetFromFile(file);
                     if (qSet != null)
                     {
-                        qSets.Add(qSet);
+                        qSets.Add(file, qSet);
                     }
                 }
                 catch(Exception ex)

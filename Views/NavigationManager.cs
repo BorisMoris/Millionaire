@@ -10,7 +10,6 @@ using Millionaire.Models;
 
 namespace Millionaire.Views
 {
-    //GC.collect
     
     public class NavigationManager : INotifyPropertyChanged
     {
@@ -22,10 +21,12 @@ namespace Millionaire.Views
         }
 
         public ScoresManager ScoresManager { get; set; }
+        public QSetsManager QSetsManager{ get; set; }
 
         public NavigationManager()
         {
             ScoresManager = new ScoresManager();
+            QSetsManager = new QSetsManager();
             try
             {
                 ScoresManager.Scores = FileManager.LoadScores();
@@ -48,7 +49,7 @@ namespace Millionaire.Views
 
         public void ShowQSetsUC()
         {      
-            UserControl selectQSets = new SelectQSetsUC(this);
+            UserControl selectQSets = new SelectQSetsUC(this, QSetsManager);
             CurrentUC = selectQSets;
         }
 

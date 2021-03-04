@@ -78,6 +78,7 @@
     <Compile Include="Models\GameManager.cs" />
     <Compile Include="Models\GameStatus.cs" />
     <Compile Include="Models\LifelineBase.cs" />
+    <Compile Include="Models\QSetsManager.cs" />
     <Compile Include="Models\Score.cs" />
     <Compile Include="Models\ScoresManager.cs" />
     <Compile Include="Models\PrizeMoney.cs" />
