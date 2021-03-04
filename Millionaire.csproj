@@ -78,6 +78,8 @@
     <Compile Include="Models\GameManager.cs" />
     <Compile Include="Models\GameStatus.cs" />
     <Compile Include="Models\LifelineBase.cs" />
+    <Compile Include="Models\Score.cs" />
+    <Compile Include="Models\ScoresManager.cs" />
     <Compile Include="Models\PrizeMoney.cs" />
     <Compile Include="Models\QSet.cs" />
     <Compile Include="Models\Question.cs" />
@@ -93,11 +95,17 @@
     <Compile Include="Views\EndOfGameButtons.xaml.cs">
       <DependentUpon>EndOfGameButtons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EnterNicknameWindow.xaml.cs">
+      <DependentUpon>EnterNicknameWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FriendLifelineUC.xaml.cs">
       <DependentUpon>FriendLifelineUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HighScoresUC.xaml.cs">
+      <DependentUpon>HighScoresUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainMenuUC.xaml.cs">
       <DependentUpon>MainMenuUC.xaml</DependentUpon>
@@ -137,11 +145,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EnterNicknameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FriendLifelineUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HighScoresUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

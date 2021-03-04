@@ -19,6 +19,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -32,6 +33,8 @@
 
         <Button Content="Náhodné otázky" Grid.Row="2" Grid.Column="1" Width="200" Height="50"  Margin="0,10,0,0"/>
 
-        <Button Content="Správa otázek" Grid.Row="3" Grid.Column="1" Width="200" Height="50"  Margin="0,10,0,0"/>
+        <Button Content="Nejlepší skóre" x:Name="highScoresButton" Grid.Row="3" Grid.Column="1" Width="200" Height="50"  Margin="0,10,0,0" Click="highScoresButton_Click"/>
+
+        <Button Content="Správa otázek" Grid.Row="4" Grid.Column="1" Width="200" Height="50"  Margin="0,10,0,0"/>
     </Grid>
 </UserControl>

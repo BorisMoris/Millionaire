@@ -24,6 +24,8 @@ namespace Millionaire.Models
             }
         }
 
+        public List<string> QSetsNames { get; set; }
+
         private Random random = new Random(); 
 
         private string[] randomizedAnswers;
@@ -45,18 +47,19 @@ namespace Millionaire.Models
         public GameManager(List<QSet> selectedQSets)
         {
             GameQSet = new QSet();
+            QSetsNames = new List<string>();
             Prize = new PrizeMoney();
             RandomizedAnswers = new string[4];
-            Round = 0;
-
-            
+            Round = 0;           
 
             foreach (QSet qSet in selectedQSets) //load questions from selected qsets
             {
                 GameQSet.EasyQuestions.AddRange(qSet.EasyQuestions);
                 GameQSet.MediumQuestions.AddRange(qSet.MediumQuestions);
                 GameQSet.HardQuestions.AddRange(qSet.HardQuestions);
-            }
+
+                QSetsNames.Add(qSet.Name);
+            }  
 
             currentQList = GameQSet.EasyQuestions;
             NewQuestion();

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Millionaire.Models;
 
@@ -14,11 +15,26 @@ namespace Millionaire.Views
     public class NavigationManager : INotifyPropertyChanged
     {
         private UserControl currentUC;
-
         public UserControl CurrentUC
         {
             get { return currentUC; }
             set { currentUC = value; NotifyPropertyChanged(nameof(CurrentUC)); }
+        }
+
+        public ScoresManager ScoresManager { get; set; }
+
+        public NavigationManager()
+        {
+            ScoresManager = new ScoresManager();
+            try
+            {
+                ScoresManager.Scores = FileManager.LoadScores();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Nepodařilo se načíst uložená skóre: " + ex.Message, "Nelze načíst skóre", MessageBoxButton.OK, MessageBoxImage.Error);
+                FileManager.safeToSaveScores = false;
+            }
         }
 
         #region PropertyChanged implementation
@@ -58,6 +74,18 @@ namespace Millionaire.Views
         {
             UserControl victory = new VictoryUC(this, gameManager);
             CurrentUC = victory;
+        }
+
+        public void ShowEnterNickname(GameManager gameManager)
+        {
+            EnterNicknameWindow enterNicknameWindow = new EnterNicknameWindow(ScoresManager, gameManager, this);
+            enterNicknameWindow.ShowDialog();
+        }
+
+        public void ShowHighScores()
+        {
+            UserControl highScores = new HighScoresUC(ScoresManager, this);
+            CurrentUC = highScores;
         }
     }
 }

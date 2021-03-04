@@ -23,8 +23,6 @@ namespace Millionaire.Views
     public partial class SelectQSetsUC : UserControl
     {
         public List<QSet> avalaibleQSets;
-        
-        FileManager fileManager = new FileManager();
         NavigationManager navManager;
         
         public SelectQSetsUC(NavigationManager navManager)
@@ -34,7 +32,7 @@ namespace Millionaire.Views
             this.navManager = navManager;
 
             List<Exception> exceptions;
-            avalaibleQSets=fileManager.LoadQuestionSets(out exceptions);
+            avalaibleQSets=FileManager.LoadQuestionSets(out exceptions);
             foreach (Exception ex in exceptions)
             {
                 MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);

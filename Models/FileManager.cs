@@ -5,61 +5,35 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Millionaire.Models
 {
-    class FileManager
+    static class FileManager
     {
-        private string dataDir
+        private static string dataDir
         {
             get
             {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Millionaire");
-            }
-        }
-        private string defaultQSetsPath = @"..\..\DefaultQSets";
-
-        public FileManager()
-        {
-            if (!Directory.Exists(dataDir))
-            {
-                Directory.CreateDirectory(dataDir);
-            }
-        }
-
-        /// <summary>
-        /// Copy all default question sets to program's folder
-        /// </summary>
-        public void CopyDefault()
-        {
-            
-            DirectoryInfo defaultDirInfo = new DirectoryInfo(defaultQSetsPath);
-            FileInfo[] defaultFiles = defaultDirInfo.GetFiles("*.csv");
-
-            DirectoryInfo dataDirInfo = new DirectoryInfo(dataDir);
-            FileInfo[] dataFiles = dataDirInfo.GetFiles("*.csv");
-            
-            List<string> dataFileNames = new List<string>(); //generate list of names of files in program's folder
-            foreach (FileInfo file in dataFiles)
-            {
-                dataFileNames.Add(file.Name);
-            }
-
-            foreach (FileInfo defaultFile in defaultFiles) //comparing files by names
-            {
-                if (!dataFileNames.Contains(defaultFile.Name))
+                string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Millionaire");
+                if (!Directory.Exists(path))
                 {
-                    File.Copy(defaultFile.FullName, Path.Combine(dataDir, defaultFile.Name));
+                    Directory.CreateDirectory(path);
                 }
+
+                return path;
             }
         }
+
+        private static string scoresFile = "scores.xml";
+        public static bool safeToSaveScores = true;
 
         /// <summary>
         /// Loads all question sets from a program's folder
         /// </summary>
-        /// <param name="exceptions">Out param., returns list of potential exceptions</param>
+        /// <param name="exceptions">Returns list of potential exceptions</param>
         /// <returns>List of question sets</returns>
-        public List<QSet> LoadQuestionSets(out List<Exception> exceptions)
+        public static List<QSet> LoadQuestionSets(out List<Exception> exceptions)
         {
             List<QSet> qSets = new List<QSet>();
             QSet qSet = null;
@@ -80,9 +54,7 @@ namespace Millionaire.Models
                 catch(Exception ex)
                 {
                     exceptions.Add(ex);
-                }
-                
-                                                
+                }                           
             }
             
             return qSets;
@@ -94,7 +66,7 @@ namespace Millionaire.Models
         /// </summary>
         /// <param name="path">File location</param>
         /// <returns>Question set or null if file's content is invalid</returns>
-        public QSet LoadQSetFromFile(string path)
+        public static QSet LoadQSetFromFile(string path)
         {
             QSet qSet = new QSet();
             int counter = 0;
@@ -152,6 +124,45 @@ namespace Millionaire.Models
             {
                 throw new ArgumentException(path + " Not enough questions of the same difficulty, can't load");
             }            
+        }
+
+        /// <summary>
+        /// Save list of scores to scores.xml
+        /// </summary>
+        /// <param name="scores"></param>
+        public static void SaveScores(List<Score> scores)
+        {  
+            XmlSerializer serializer = new XmlSerializer(scores.GetType());
+
+            using(StreamWriter sw=new StreamWriter(Path.Combine(dataDir, scoresFile)))
+            {
+                if (!safeToSaveScores)
+                {
+                    throw new Exception("Kvůli dřívější nepřístupnosti souboru není bezpečné ukládat skóre. Restartujte aplikaci.");
+                }
+
+                serializer.Serialize(sw, scores);
+            }
+        }
+
+        /// <summary>
+        /// Load list of scores from scores.xml
+        /// </summary>
+        /// <returns></returns>
+        public static List<Score> LoadScores()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
+            if (File.Exists(Path.Combine(dataDir, scoresFile)))
+            {
+                using(StreamReader sr=new StreamReader(Path.Combine(dataDir, scoresFile)))
+                {
+                    return (List<Score>)serializer.Deserialize(sr);
+                }
+            }
+            else
+            {
+                return new List<Score>();
+            }
         }
 
     }
