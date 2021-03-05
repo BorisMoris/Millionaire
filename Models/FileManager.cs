@@ -169,12 +169,39 @@ namespace Millionaire.Models
             }
         }
 
+        /// <summary>
+        /// Delete file containing question set
+        /// </summary>
+        /// <param name="path">Path to file to delete</param>
         public static void DeleteQSet(string path)
         {
-            if (File.Exists(path))
+            if (!File.Exists(path))
             {
-                File.Delete(path);
-            }                
+                throw new FileNotFoundException();
+            }
+            File.Delete(path);
+        }
+
+        /// <summary>
+        /// Copy file from one destination to another
+        /// </summary>
+        /// <param name="initialPath">Current path to file</param>
+        /// <param name="targetPath">Path to new file</param>
+        public static void ExportQSet(string initialPath, string targetPath)
+        {
+            File.Copy(initialPath, targetPath);
+        }
+
+        /// <summary>
+        /// Import file with question set
+        /// </summary>
+        /// <param name="initialPath">Path to imported file</param>
+        /// <returns>Path to copied file</returns>
+        public static string ImportQSet(string initialPath)
+        {
+            string finalPath = Path.Combine(dataDir, Path.GetFileName(initialPath));
+            File.Copy(Path.Combine(initialPath), finalPath);
+            return finalPath;
         }
 
     }

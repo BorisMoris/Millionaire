@@ -35,14 +35,13 @@ namespace Millionaire.Views
 
             if (qSetsManager.QuestionSets == null)
             {
-                Console.WriteLine("loading list");
-                
                 List<Exception> exceptions;
                 qSetsManager.QuestionSets = FileManager.LoadQuestionSets(out exceptions);
                 foreach (Exception ex in exceptions)
                 {
                     MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+                qSetsManager.Sort();
             }
             
             QSetsListBox.ItemsSource = qSetsManager.QuestionSets;

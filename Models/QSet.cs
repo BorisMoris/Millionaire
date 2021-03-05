@@ -10,6 +10,7 @@ namespace Millionaire.Models
     {
         public string Name { get; set; }
         public string Path { get; set; }
+        public int QuestionsCount { get { return EasyQuestions.Count() + MediumQuestions.Count() + HardQuestions.Count(); } }
 
         List<Question> easyQuestions = new List<Question>();
         List<Question> mediumQuestions = new List<Question>();
