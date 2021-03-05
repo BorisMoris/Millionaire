@@ -31,11 +31,10 @@
 
         <ListBox x:Name="QSetsListBox"
                  Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Margin="0,0,10,0"
-                 SelectionMode="Single"
-                  SelectionChanged="QSetsListBox_SelectionChanged">
+                 SelectionMode="Single">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding Name}" FontSize="14"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -56,8 +55,10 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Content="Exportovat" Padding="5" Margin="2"/>
-                    <Button Grid.Column="1" Content="Odstranit" Padding="5" Margin="2"/>
+                    <Button x:Name="exportButton" Content="Exportovat"
+                            Grid.Column="0"  Padding="5" Margin="2"/>
+                    <Button x:Name="deleteButton" Content="Odstranit"
+                            Grid.Column="1" Padding="5" Margin="2" Click="deleteButton_Click"/>
                 </Grid>
             </StackPanel>
         </Border>

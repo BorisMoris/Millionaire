@@ -34,7 +34,7 @@
         <Image Grid.Row="1" Grid.Column="2" Source="/Millionaire;component/Media/bagOfMoney.png"/>
 
         <local:EndOfGameButtons
-            Height="40" VerticalAlignment="Bottom" navigationManager="{Binding NavigationManager, ElementName=Victory}"
+            Height="40" VerticalAlignment="Bottom" navigationManager="{Binding NavigationManager, ElementName=Victory}" gameManager="{Binding GameManager, ElementName=Victory}"
             Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

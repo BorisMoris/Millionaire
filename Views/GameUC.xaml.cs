@@ -130,6 +130,7 @@ namespace Millionaire.Views
             }
             else if (gameManager.GameStatus==GameStatus.Victory)
             {
+                gameManager.Round++;
                 navigationManager.ShowVictory(gameManager);
             }
             else

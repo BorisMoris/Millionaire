@@ -9,6 +9,7 @@ namespace Millionaire.Models
     public class QSet
     {
         public string Name { get; set; }
+        public string Path { get; set; }
 
         List<Question> easyQuestions = new List<Question>();
         List<Question> mediumQuestions = new List<Question>();

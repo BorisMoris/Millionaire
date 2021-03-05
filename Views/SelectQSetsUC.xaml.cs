@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,6 @@ namespace Millionaire.Views
     /// </summary>
     public partial class SelectQSetsUC : UserControl
     {
-        public List<QSet> avalaibleQSets;
         NavigationManager navManager;
         QSetsManager qSetsManager;
         
@@ -35,7 +35,7 @@ namespace Millionaire.Views
 
             if (qSetsManager.QuestionSets == null)
             {
-                Console.WriteLine("loading dictionary");
+                Console.WriteLine("loading list");
                 
                 List<Exception> exceptions;
                 qSetsManager.QuestionSets = FileManager.LoadQuestionSets(out exceptions);
@@ -44,9 +44,8 @@ namespace Millionaire.Views
                     MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-
-            avalaibleQSets = qSetsManager.QuestionSets.Values.ToList();
-            QSetsListBox.ItemsSource = avalaibleQSets;
+            
+            QSetsListBox.ItemsSource = qSetsManager.QuestionSets;
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)

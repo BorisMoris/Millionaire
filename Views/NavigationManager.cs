@@ -88,5 +88,11 @@ namespace Millionaire.Views
             UserControl highScores = new HighScoresUC(ScoresManager, this);
             CurrentUC = highScores;
         }
+
+        public void ShowManageQSets()
+        {
+            UserControl manageQSets = new ManageQSetsUC(this, QSetsManager);
+            CurrentUC = manageQSets;
+        }
     }
 }

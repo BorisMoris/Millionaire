@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -33,11 +34,9 @@ namespace Millionaire.Models
         /// </summary>
         /// <param name="exceptions">Returns list of potential exceptions</param>
         /// <returns>List of question sets</returns>
-        public static Dictionary<string, QSet> LoadQuestionSets(out List<Exception> exceptions)
+        public static ObservableCollection<QSet> LoadQuestionSets(out List<Exception> exceptions)
         {
-            //           List<QSet> qSets = new List<QSet>();
-
-            Dictionary<string, QSet> qSets = new Dictionary<string, QSet>();
+            ObservableCollection<QSet> qSets = new ObservableCollection<QSet>();
 
             QSet qSet = null;
 
@@ -51,7 +50,7 @@ namespace Millionaire.Models
                     qSet = LoadQSetFromFile(file);
                     if (qSet != null)
                     {
-                        qSets.Add(file, qSet);
+                        qSets.Add(qSet);
                     }
                 }
                 catch(Exception ex)
@@ -72,6 +71,8 @@ namespace Millionaire.Models
         public static QSet LoadQSetFromFile(string path)
         {
             QSet qSet = new QSet();
+            qSet.Path = path;
+
             int counter = 0;
 
             using (StreamReader sr = new StreamReader(path))
@@ -166,6 +167,14 @@ namespace Millionaire.Models
             {
                 return new List<Score>();
             }
+        }
+
+        public static void DeleteQSet(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }                
         }
 
     }
