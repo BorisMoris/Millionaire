@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -33,9 +34,10 @@ namespace Millionaire.Models
         /// </summary>
         /// <param name="exceptions">Returns list of potential exceptions</param>
         /// <returns>List of question sets</returns>
-        public static List<QSet> LoadQuestionSets(out List<Exception> exceptions)
+        public static ObservableCollection<QSet> LoadQuestionSets(out List<Exception> exceptions)
         {
-            List<QSet> qSets = new List<QSet>();
+            ObservableCollection<QSet> qSets = new ObservableCollection<QSet>();
+
             QSet qSet = null;
 
             exceptions = new List<Exception>();
@@ -69,6 +71,8 @@ namespace Millionaire.Models
         public static QSet LoadQSetFromFile(string path)
         {
             QSet qSet = new QSet();
+            qSet.Path = path;
+
             int counter = 0;
 
             using (StreamReader sr = new StreamReader(path))
@@ -163,6 +167,41 @@ namespace Millionaire.Models
             {
                 return new List<Score>();
             }
+        }
+
+        /// <summary>
+        /// Delete file containing question set
+        /// </summary>
+        /// <param name="path">Path to file to delete</param>
+        public static void DeleteQSet(string path)
+        {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException();
+            }
+            File.Delete(path);
+        }
+
+        /// <summary>
+        /// Copy file from one destination to another
+        /// </summary>
+        /// <param name="initialPath">Current path to file</param>
+        /// <param name="targetPath">Path to new file</param>
+        public static void ExportQSet(string initialPath, string targetPath)
+        {
+            File.Copy(initialPath, targetPath);
+        }
+
+        /// <summary>
+        /// Import file with question set
+        /// </summary>
+        /// <param name="initialPath">Path to imported file</param>
+        /// <returns>Path to copied file</returns>
+        public static string ImportQSet(string initialPath)
+        {
+            string finalPath = Path.Combine(dataDir, Path.GetFileName(initialPath));
+            File.Copy(Path.Combine(initialPath), finalPath);
+            return finalPath;
         }
 
     }

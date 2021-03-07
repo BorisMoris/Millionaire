@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -22,23 +23,28 @@ namespace Millionaire.Views
     /// </summary>
     public partial class SelectQSetsUC : UserControl
     {
-        public List<QSet> avalaibleQSets;
         NavigationManager navManager;
+        QSetsManager qSetsManager;
         
-        public SelectQSetsUC(NavigationManager navManager)
+        public SelectQSetsUC(NavigationManager navManager, QSetsManager qSetsManager)
         {
             InitializeComponent();
 
             this.navManager = navManager;
+            this.qSetsManager = qSetsManager;
 
-            List<Exception> exceptions;
-            avalaibleQSets=FileManager.LoadQuestionSets(out exceptions);
-            foreach (Exception ex in exceptions)
+            if (qSetsManager.QuestionSets == null)
             {
-                MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }            
-
-            QSetsListBox.ItemsSource = avalaibleQSets;
+                List<Exception> exceptions;
+                qSetsManager.QuestionSets = FileManager.LoadQuestionSets(out exceptions);
+                foreach (Exception ex in exceptions)
+                {
+                    MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                qSetsManager.Sort();
+            }
+            
+            QSetsListBox.ItemsSource = qSetsManager.QuestionSets;
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -57,7 +63,6 @@ namespace Millionaire.Views
             List<QSet> temp = new List<QSet>();
             foreach(QSet qSet in QSetsListBox.SelectedItems)
             {
-                Debug.WriteLine(qSet.Name);
                 temp.Add(qSet);
             }
             navManager.ShowGame(temp);
