@@ -58,7 +58,7 @@ namespace Millionaire.Views
 
         private void newGameButton_Click(object sender, RoutedEventArgs e)
         {
-            navigationManager.ShowQSetsUC();
+            navigationManager.ShowQSetsUC(false);
         }
 
         private void saveScoreButton_Click(object sender, RoutedEventArgs e)

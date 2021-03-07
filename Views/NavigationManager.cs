@@ -47,9 +47,9 @@ namespace Millionaire.Views
         }
         #endregion
 
-        public void ShowQSetsUC()
+        public void ShowQSetsUC(bool isSandbox)
         {      
-            UserControl selectQSets = new SelectQSetsUC(this, QSetsManager);
+            UserControl selectQSets = new SelectQSetsUC(this, QSetsManager, isSandbox);
             CurrentUC = selectQSets;
         }
 
@@ -93,6 +93,12 @@ namespace Millionaire.Views
         {
             UserControl manageQSets = new ManageQSetsUC(this, QSetsManager);
             CurrentUC = manageQSets;
+        }
+
+        public void ShowSandboxUC(List<QSet> selectedQSets)
+        {
+            UserControl sandbox = new SandboxUC(this, selectedQSets);
+            CurrentUC = sandbox;
         }
     }
 }
