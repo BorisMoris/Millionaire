@@ -30,7 +30,7 @@ namespace Millionaire.Views
 
         private void NewGameButton_Click(object sender, RoutedEventArgs e)
         {
-            navManager.ShowQSetsUC();            
+            navManager.ShowQSetsUC(false);            
         }
 
         private void highScoresButton_Click(object sender, RoutedEventArgs e)
@@ -41,6 +41,11 @@ namespace Millionaire.Views
         private void manageQSetsButton_Click(object sender, RoutedEventArgs e)
         {
             navManager.ShowManageQSets();
+        }
+
+        private void randomQuestionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            navManager.ShowQSetsUC(true);
         }
     }
 }

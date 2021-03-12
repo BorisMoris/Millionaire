@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\50_50Lifeline.cs" />
     <Compile Include="Models\AudienceLifeline.cs" />
+    <Compile Include="Models\BaseGameManager.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\FileManager.cs" />
     <Compile Include="Models\FriendLifeline.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Models\GameStatus.cs" />
     <Compile Include="Models\LifelineBase.cs" />
     <Compile Include="Models\QSetsManager.cs" />
+    <Compile Include="Models\SandboxGameManager.cs" />
     <Compile Include="Models\Score.cs" />
     <Compile Include="Models\ScoresManager.cs" />
     <Compile Include="Models\PrizeMoney.cs" />
@@ -115,6 +117,9 @@
       <DependentUpon>ManageQSetsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NavigationManager.cs" />
+    <Compile Include="Views\SandboxUC.xaml.cs">
+      <DependentUpon>SandboxUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SelectQSetsUC.xaml.cs">
       <DependentUpon>SelectQSetsUC.xaml</DependentUpon>
     </Compile>
@@ -170,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ManageQSetsUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SandboxUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,10 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontSize="16"
-             Background="White" x:Name="Game">
-    <UserControl.Resources>
-        
-    </UserControl.Resources>
+             Background="White" x:Name="Game">    
     <Grid Margin="18">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

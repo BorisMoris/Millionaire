@@ -25,13 +25,15 @@ namespace Millionaire.Views
     {
         NavigationManager navManager;
         QSetsManager qSetsManager;
+        bool isSandbox;
         
-        public SelectQSetsUC(NavigationManager navManager, QSetsManager qSetsManager)
+        public SelectQSetsUC(NavigationManager navManager, QSetsManager qSetsManager, bool isSandbox)
         {
             InitializeComponent();
 
             this.navManager = navManager;
             this.qSetsManager = qSetsManager;
+            this.isSandbox = isSandbox;
 
             if (qSetsManager.QuestionSets == null)
             {
@@ -58,14 +60,20 @@ namespace Millionaire.Views
         }
 
         private void continueButton_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {            
             List<QSet> temp = new List<QSet>();
             foreach(QSet qSet in QSetsListBox.SelectedItems)
             {
                 temp.Add(qSet);
             }
-            navManager.ShowGame(temp);
+            if (!isSandbox)
+            {
+                navManager.ShowGame(temp);
+            }
+            else
+            {
+                navManager.ShowSandboxUC(temp);
+            }
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
