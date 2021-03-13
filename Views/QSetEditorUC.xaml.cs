@@ -21,24 +21,21 @@ namespace Millionaire.Views
     /// </summary>
     public partial class QSetEditorUC : UserControl
     {
-        QSet editedQSet;
+        public QSet EditedQSet { get; set; }
         
         public QSetEditorUC(string path)
         {
-            InitializeComponent();
-
             try
             {
-                editedQSet = FileManager.LoadQSetFromFile(path);
+                EditedQSet = FileManager.LoadQSetFromFile(path);
             }
             catch(Exception ex)
             {
                 MessageBox.Show("Soubor se sadou se nepodařilo načíst.\n" + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            easyQDataGrid.ItemsSource=editedQSet.EasyQuestions;
-            //mediumQDataGrid.ItemsSource = editedQSet.MediumQuestions;
-            //hardQDataGrid.ItemsSource = editedQSet.HardQuestions;
+            InitializeComponent();
+            DataContext = EditedQSet;
         }
     }
 }
