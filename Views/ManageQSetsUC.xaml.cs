@@ -82,14 +82,11 @@ namespace Millionaire.Views
 
             if (result == true)
             {
-                string dir = saveFileDialog.InitialDirectory;
                 string file = saveFileDialog.FileName;
-                Console.WriteLine("saved file " + dir + file);
-
-                selected = (QSet)QSetsListBox.SelectedItem;
+                
                 try
                 {
-                    FileManager.ExportQSet(selected.Path, System.IO.Path.Combine(dir, file));
+                    FileManager.ExportQSet(selected.Path, file);
                 }
                 catch (Exception ex)
                 {
@@ -143,6 +140,11 @@ namespace Millionaire.Views
                 qSetsManager.Sort();
                 QSetsListBox.ItemsSource = qSetsManager.QuestionSets;
             }            
+        }
+
+        private void editButton_Click(object sender, RoutedEventArgs e)
+        {
+            navManager.ShowQSetEditor(selected.Path);
         }
     }
 }

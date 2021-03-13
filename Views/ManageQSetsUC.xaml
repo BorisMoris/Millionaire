@@ -51,7 +51,7 @@
                 <TextBlock>
                     <Run Text="Počet otázek:"/> <Run Text="{Binding Path=QuestionsCount, Mode=OneWay}"/>
                 </TextBlock>
-                <Button x:Name="editButton" Content="Editovat" IsEnabled="False" Padding="5" Margin="2,15,2,2"/>
+                <Button x:Name="editButton" Content="Editovat" IsEnabled="False" Padding="5" Margin="2,15,2,2" Click="editButton_Click"/>
                 <Grid>
                     <Grid.ColumnDefinitions>                        
                         <ColumnDefinition/>
