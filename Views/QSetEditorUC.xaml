@@ -47,9 +47,10 @@
                     Grid.Column="0"/>
             <TextBox FontSize="14"
                         Grid.Column="1"/>
-            <Button x:Name="searchButton" Content="SE"
-                        Width="30"
-                    Grid.Column="2"/>
+            <Button x:Name="searchButton" Width="30" Padding="5"
+                    Grid.Column="2">
+                <Image Source="/Millionaire;component/Media/magnifier.png" Opacity="0.75"/>
+            </Button>
         </Grid>
         
             <ComboBox x:Name="difficultyComboBox" SelectedIndex="0"
@@ -90,26 +91,28 @@
                     Grid.Column="0" Grid.Row="2"/>
 
         <StackPanel Grid.Row="3" Grid.Column="0"  Grid.RowSpan="2">
-        <GroupBox Header="Označená otázka:" FontSize="13"
-                  >
+        <GroupBox Header="Označená otázka:" DataContext="{Binding ElementName=questionsListBox, Path=SelectedItem}"
+                  FontSize="13">
             <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="Hello" FontSize="14" TextWrapping="Wrap"
+                        <TextBox Text="{Binding QuestionSentence}" FontSize="14" TextWrapping="Wrap"
                                  Margin="0,0,5,0" MaxHeight="80"
                                  Grid.Column="0"/>
-                        <Button x:Name="deleteButton" Content="DLT" Width="30" Height="30"
-                                Grid.Column="1"/>
+                        <Button x:Name="deleteButton" Width="30" Height="30" Padding="3"
+                                Grid.Column="1">
+                            <Image Source="/Millionaire;component/Media/trash_bin.png" Opacity="0.75"/>
+                        </Button>
                     </Grid>                
                 <Label Content="Správná odpověď:"/>
-                <TextBox Text="Sem dám poměrně dlouhou odpověď"/>
+                <TextBox Text="{Binding RightAnswer}"/>
                 <Label Content="Špatné odpovědi:"/>
-                <TextBox Text="Sem dám poměrně dlouhou odpověď"/>
-                <TextBox Text="Sem dám poměrně dlouhou odpověď"/>
-                <TextBox Text="Sem dám poměrně dlouhou odpověď"/>
+                <TextBox Text="{Binding WrongAnswer1}"/>
+                <TextBox Text="{Binding WrongAnswer2}"/>
+                <TextBox Text="{Binding WrongAnswer3}"/>
                 
             </StackPanel>
         </GroupBox>

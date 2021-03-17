@@ -225,9 +225,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Media\icon1.0.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Media\icon1.1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +250,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Media\bagOfMoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\magnifier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\trash_bin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
