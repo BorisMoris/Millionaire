@@ -24,6 +24,7 @@ namespace Millionaire.Views
     public partial class QSetEditorUC : UserControl
     {
         public QSet EditedQSet { get; set; }
+        private NavigationManager navManager;
 
         public ICollectionView EasyCollectionView { get; private set; }
         public ICollectionView MediumCollectionView { get; private set; }
@@ -39,15 +40,33 @@ namespace Millionaire.Views
             set
             {
                 filterKey = value;
-                ICollectionView collectionView = (ICollectionView)questionsListBox.ItemsSource;
-                collectionView.Refresh();
+                Refresh();
             }
         }
 
         private List<TextBox> questionTextBoxes;
-
-        public QSetEditorUC(string path)
+        private Difficulty selectedDifficulty
         {
+            get
+            {
+                switch (difficultyComboBox.SelectedIndex)
+                {
+                    case 0:
+                        return Difficulty.Easy;
+                    case 1:
+                        return Difficulty.Medium;
+                    case 2:
+                        return Difficulty.Hard;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        public QSetEditorUC(NavigationManager navigationManager, string path)
+        {
+            navManager = navigationManager;
+            
             try
             {
                 EditedQSet = FileManager.LoadQSetFromFile(path);
@@ -73,12 +92,7 @@ namespace Millionaire.Views
             questionsListBox.Items.Filter = FiterQuestions;
             questionsListBox.Items.IsLiveFiltering = true;
             questionsListBox.Items.LiveFilteringProperties.Add("QuestionSentence");
-        }
-
-        private void saveButton_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
+        }        
 
         private bool FiterQuestions(object obj)
         {
@@ -100,5 +114,60 @@ namespace Millionaire.Views
                 textBox.IsEnabled = isSelected;
             }
         }
+
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (questionsListBox.SelectedItem != null)
+            {
+                switch (selectedDifficulty)
+                {
+                    case Difficulty.Easy:
+                        EditedQSet.EasyQuestions.Remove((Question)questionsListBox.SelectedItem);
+                        break;
+                    case Difficulty.Medium:
+                        EditedQSet.MediumQuestions.Remove((Question)questionsListBox.SelectedItem);
+                        break;
+                    case Difficulty.Hard:
+                        EditedQSet.HardQuestions.Remove((Question)questionsListBox.SelectedItem);
+                        break;
+                }
+            }            
+
+            Refresh();
+        }
+
+        private void newQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            FilterKey = string.Empty;
+            filterTextBox.Text = string.Empty;
+            
+            EditedQSet.AddQuestion(selectedDifficulty);            
+            
+            Refresh();
+            questionsListBox.SelectedIndex = 0;
+            questionTextBox.Focus();
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {               
+            //foreach (Question question in EditedQSet.EasyQuestions)
+            //{
+            //    Console.WriteLine(question.QuestionSentence + " " + question.RightAnswer);
+            //}
+        }
+
+        private void quitButton_Click(object sender, RoutedEventArgs e)
+        {
+            navManager.ShowManageQSets();
+        }
+
+        /// <summary>
+        /// Refresh currently displayed collection view
+        /// </summary>
+        private void Refresh()
+        {
+            ICollectionView collectionView = (ICollectionView)questionsListBox.ItemsSource;
+            collectionView.Refresh();
+        }        
     }
 }
