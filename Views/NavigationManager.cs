@@ -103,7 +103,7 @@ namespace Millionaire.Views
 
         public void ShowQSetEditor(string path)
         {
-            UserControl editor = new QSetEditorUC(this, path);
+            UserControl editor = new QSetEditorUC(this, QSetsManager, path);
             CurrentUC = editor;
         }
     }

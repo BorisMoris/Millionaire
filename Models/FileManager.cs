@@ -204,5 +204,73 @@ namespace Millionaire.Models
             return finalPath;
         }
 
+        public static void SaveQSet(QSet qSet)
+        {
+            //string error;
+            //if (qSet.EasyQuestions.Count < 5)
+            //{
+            //    error = "Lehké otázky";
+            //}
+            //if (error != null)
+            //{
+            //    throw new Exception("Nedostatek otázek v sekci Lehké otázky. Pro uložení sady jich musí být aspoň 5.");
+            //}
+            
+            using (StreamWriter writer = new StreamWriter(qSet.Path))
+            { 
+                writer.WriteLine(qSet.Name);
+                writer.WriteLine("*easyQuestions");
+                List<Question> questions = qSet.EasyQuestions;
+                string[] parts = new string[5];
+                Difficulty difficulty = Difficulty.Easy;
+                bool loop = true;
+                while (loop)
+                {
+                    if (questions.Count() < 5)
+                    {
+                        //chyba
+                    }
+
+                    int i = 0;
+                    foreach (Question question in questions)
+                    {
+                        parts[0] = question.QuestionSentence;
+                        parts[1] = question.RightAnswer;
+                        parts[2] = question.WrongAnswer1;
+                        parts[3] = question.WrongAnswer2;
+                        parts[4] = question.WrongAnswer3;
+
+                        for(int j = 0; j < 5; j++)
+                        {
+                            if (string.IsNullOrEmpty(parts[j])) //checks wheter all strings are filled in
+                            {
+                                //chyba na řádku i (0 based) - nevyplněno
+                            }
+                            if (parts[0].StartsWith("*")) //checks wheter the question starts with asterisk (charakter used to separate difficulty sections)
+                            {
+                                //chyba na řádku i (0 based) - otázka začíná hvězdičkou
+                            }
+                        }
+
+                        writer.WriteLine(string.Join(";", parts));
+                        throw new Exception("testovací chyba");
+                    }
+
+                    difficulty++;
+                    if (difficulty == Difficulty.Medium)
+                    {
+                        questions = qSet.MediumQuestions;
+                    }
+                    else if (difficulty == Difficulty.Hard)
+                    {
+                        questions = qSet.HardQuestions;
+                    }
+                    else
+                    {
+                        loop = false;
+                    }
+                }                
+            }            
+        }
     }
 }

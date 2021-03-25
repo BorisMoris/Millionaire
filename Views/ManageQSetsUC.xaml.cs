@@ -120,15 +120,12 @@ namespace Millionaire.Views
                 try
                 {
                     newQSet = FileManager.LoadQSetFromFile(file);
-
-                    foreach (QSet qSet in qSetsManager.QuestionSets)
+                    
+                    if (qSetsManager.CheckName(newQSet.Name))
                     {
-                        if (newQSet.Name == qSet.Name)
-                        {
-                            MessageBox.Show("Sada otázek s názvem " + newQSet.Name + " už existuje. Pokud chcete přesto importovat, změňte název jedné ze sad.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
-                    }
+                        MessageBox.Show("Sada otázek s názvem " + newQSet.Name + " už existuje. Pokud chcete přesto importovat, změňte název jedné ze sad.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }                    
 
                     newQSet.Path=FileManager.ImportQSet(file);
                 }
