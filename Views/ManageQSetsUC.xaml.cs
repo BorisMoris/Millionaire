@@ -119,18 +119,18 @@ namespace Millionaire.Views
 
                 try
                 {
-                    newQSet = FileManager.LoadQSetFromFile(file);
-
-                    newQSet.Path = FileManager.GenerateFilePath(newQSet.Name);
+                    newQSet = FileManager.LoadQSetFromFile(file);                    
                     
                     if (qSetsManager.CheckName(newQSet.Name))
                     {
                         MessageBox.Show("Sada otázek s názvem " + newQSet.Name + " už existuje. Pokud chcete přesto importovat, změňte název jedné ze sad.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    if(qSetsManager.CheckPath(newQSet.Path))
+
+                    newQSet.Path = FileManager.GenerateFilePath(newQSet.Name);
+                    if (qSetsManager.CheckPath(newQSet.Path))
                     {
-                        MessageBox.Show("Pro sadu otázek " + newQSet.Name + " nelze vygenerovat jedinečný název souboru.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Pro název " + newQSet.Name + " nelze vygenerovat jedinečný název souboru.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
 
@@ -149,12 +149,37 @@ namespace Millionaire.Views
 
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
-            navManager.ShowQSetEditor(false, QSetsListBox.SelectedIndex);
+            navManager.ShowQSetEditor(QSetsListBox.SelectedIndex);
         }
 
         private void newQSetButton_Click(object sender, RoutedEventArgs e)
         {
-            navManager.ShowQSetEditor(true, 0);
+            InputDialog inputDialog = new InputDialog("Zadejte jméno nové sady:", string.Empty);
+            if (inputDialog.ShowDialog() == true)
+            {
+                string name = inputDialog.Answer;
+
+                if (FileManager.ContainsInvalidChars(name)) //check if the name doesn't contain invalid characters
+                {
+                    MessageBox.Show($"Zadaný název obsahuje nedovolené znaky.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (qSetsManager.CheckName(name)) //check if the name isn't in use already
+                {
+                    MessageBox.Show("Sada otázek s názvem " + name + " už existuje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                string path = FileManager.GenerateFilePath(name);
+                if (qSetsManager.CheckPath(path))
+                {
+                    MessageBox.Show("Pro název " + name + " nelze vygenerovat jedinečný název souboru.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                navManager.ShowQSetEditor(name, path);
+            }            
         }
     }
 }

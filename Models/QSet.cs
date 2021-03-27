@@ -7,9 +7,18 @@ using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
-    public class QSet /*: INotifyPropertyChanged*/
+    public class QSet : INotifyPropertyChanged
     {
-        public string Name { get; set; }
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                NotifyPropertyChanged(nameof(Name));
+            }
+        }
         public string Path { get; set; }
         public int QuestionsCount { get { return EasyQuestions.Count() + MediumQuestions.Count() + HardQuestions.Count(); } }
 
@@ -21,15 +30,22 @@ namespace Millionaire.Models
         public List<Question> MediumQuestions { get { return mediumQuestions; } }
         public List<Question> HardQuestions { get { return hardQuestions; } }
 
-        //#region PropertyChanged implementation
-        //public event PropertyChangedEventHandler PropertyChanged;
+        public QSet() { }
+        
+        public QSet(string name, string path)
+        {
+            Name = name;
+            Path = path;
+        }
 
-        //protected void NotifyPropertyChanged(string propertyName)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //    Console.WriteLine("property changed called");
-        //}
-        //#endregion
+        #region PropertyChanged implementation
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
 
         public Question AddQuestion(Difficulty difficulty)
         {

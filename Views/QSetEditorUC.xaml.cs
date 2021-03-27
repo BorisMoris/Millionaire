@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,8 @@ namespace Millionaire.Views
         public QSet EditedQSet { get; private set; }
         private HashSet<Question> editedQuestions; //HashSet to store only unique items
         private bool saved;
+        private bool nameChanged;
+        private string originalPath;
 
         private NavigationManager navManager;
         private QSetsManager qSetsManager;        
@@ -67,28 +70,37 @@ namespace Millionaire.Views
             }
         }
 
-        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, bool isNew, int index)
+        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager)
         {
             this.navManager = navManager;
             this.qSetsManager = qSetsManager;
 
             editedQuestions = new HashSet<Question>();
             saved = true;
-
-            if (isNew)
-            {
-                EditedQSet = new QSet();
-            }
-            else
-            {
-                EditedQSet = qSetsManager.QuestionSets[index];
-            }            
+            nameChanged = false;
 
             InitializeComponent();
             DataContext = this;
 
-            questionTextBoxes = new List<TextBox> { questionTextBox, rightAnswerTextBox, wrongAnswer1TextBox, wrongAnswer2TextBox, wrongAnswer3TextBox };
+            questionTextBoxes = new List<TextBox> { questionTextBox, rightAnswerTextBox, wrongAnswer1TextBox, wrongAnswer2TextBox, wrongAnswer3TextBox };            
+        }
 
+        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, int index) : this(navManager, qSetsManager)
+        {
+            EditedQSet = qSetsManager.QuestionSets[index];
+            originalPath = EditedQSet.Path;
+            SetCollectionViews();
+        }
+
+        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, string name, string path) : this (navManager, qSetsManager)
+        {            
+            EditedQSet = new QSet(name, path);
+            originalPath = EditedQSet.Path;
+            SetCollectionViews();
+        }
+
+        private void SetCollectionViews()
+        {
             EasyCollectionView = CollectionViewSource.GetDefaultView(EditedQSet.EasyQuestions);
             MediumCollectionView = CollectionViewSource.GetDefaultView(EditedQSet.MediumQuestions);
             HardCollectionView = CollectionViewSource.GetDefaultView(EditedQSet.HardQuestions);
@@ -100,7 +112,7 @@ namespace Millionaire.Views
             questionsListBox.Items.Filter = FiterQuestions;
             questionsListBox.Items.IsLiveFiltering = true;
             questionsListBox.Items.LiveFilteringProperties.Add("QuestionSentence");
-        }        
+        }
 
         private bool FiterQuestions(object obj)
         {
@@ -124,25 +136,27 @@ namespace Millionaire.Views
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
-        {
+        {  
             if (questionsListBox.SelectedItem != null)
             {
+                Question toRemove = (Question)questionsListBox.SelectedItem;
                 switch (selectedDifficulty)
                 {
                     case Difficulty.Easy:
-                        EditedQSet.EasyQuestions.Remove((Question)questionsListBox.SelectedItem);
+                        EditedQSet.EasyQuestions.Remove(toRemove);
                         break;
                     case Difficulty.Medium:
-                        EditedQSet.MediumQuestions.Remove((Question)questionsListBox.SelectedItem);
+                        EditedQSet.MediumQuestions.Remove(toRemove);
                         break;
                     case Difficulty.Hard:
-                        EditedQSet.HardQuestions.Remove((Question)questionsListBox.SelectedItem);
+                        EditedQSet.HardQuestions.Remove(toRemove);
                         break;
                 }
-            }            
 
-            Refresh();
-            saved = false;
+                Refresh();
+                saved = false;
+                editedQuestions.Remove(toRemove);
+            }
         }
 
         private void newQuestionButton_Click(object sender, RoutedEventArgs e)
@@ -161,15 +175,6 @@ namespace Millionaire.Views
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             Save();
-        }
-
-        private void saveAsButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!qSetsManager.CheckName(EditedQSet.Name))
-            {
-                MessageBox.Show($"Chyba při ukládání otázek:\nSada otázek s názvem \"{EditedQSet.Name}\" už existuje. Nelze vytvořit novou sadu se stejn", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
         }
 
         private void quitButton_Click(object sender, RoutedEventArgs e)
@@ -216,6 +221,19 @@ namespace Millionaire.Views
         /// <returns>True if the qSet was saved successfuly, otherwise false </returns>
         private bool Save()
         {
+            if (nameChanged)
+            {
+                try
+                {
+                    File.Move(originalPath, EditedQSet.Path);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Chyba při ukládání otázek:\nPřejmenování souboru se nezdařilo: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+            }
+
             string error = qSetsManager.CheckQSet(EditedQSet);
             if (error != null)
             {
@@ -239,13 +257,18 @@ namespace Millionaire.Views
             {
                 MessageBox.Show($"Chyba při ukládání otázek:\n{ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
-            }
+            }          
 
             saved = true;
+            nameChanged = false;
             editedQuestions.Clear();
             return true;
         }       
         
+        /// <summary>
+        /// Selects given Question in questionListBox
+        /// </summary>
+        /// <param name="wantedQuestion"></param>
         private void SelectQuestion(Question wantedQuestion)
         {            
             int index;
@@ -281,6 +304,12 @@ namespace Millionaire.Views
             }
         }
 
+        /// <summary>
+        /// Finds index of Question in ICollectionView
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="wantedQuestion"></param>
+        /// <returns>Index of Question, -1 if ICollectionView does not contain Question</returns>
         private int IndexOfQuestion(ICollectionView collection, Question wantedQuestion)
         {
             int counter = 0;
@@ -294,6 +323,49 @@ namespace Millionaire.Views
                 counter++;
             }
             return -1;
+        }
+
+        private void renameButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool loop = true;
+            string name = EditedQSet.Name;
+            while (loop)
+            {
+                InputDialog inputDialog = new InputDialog("Zadejte nové jméno sady", name);
+                if (inputDialog.ShowDialog() == true)
+                {
+                    name = inputDialog.Answer;
+
+                    if (FileManager.ContainsInvalidChars(name)) //check if the name doesn't contain invalid characters
+                    {
+                        MessageBox.Show($"Zadaný název obsahuje nedovolené znaky.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        continue;
+                    }
+
+                    if (qSetsManager.CheckName(name)) //check if the name isn't used already
+                    {
+                        MessageBox.Show("Sada otázek s názvem \"" + name + "\" už existuje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        continue;
+                    }
+
+                    string path = FileManager.GenerateFilePath(name);
+                    if (qSetsManager.CheckPath(path)) //check if generated file path isn't used already
+                    {
+                        MessageBox.Show("Pro název \"" + name + "\" nelze vygenerovat jedinečný název souboru.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        continue;
+                    }
+
+                    EditedQSet.Name = name;
+                    EditedQSet.Path = path;
+                    saved = false;
+                    nameChanged = true;
+                    loop = false;
+                }
+                else
+                {
+                    loop = false;
+                }
+            }
         }
     }
 }

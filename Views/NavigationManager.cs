@@ -101,9 +101,15 @@ namespace Millionaire.Views
             CurrentUC = sandbox;
         }
 
-        public void ShowQSetEditor(bool isNew, int index)
+        public void ShowQSetEditor(int index)
         {
-            UserControl editor = new QSetEditorUC(this, QSetsManager, isNew, index);
+            UserControl editor = new QSetEditorUC(this, QSetsManager, index);
+            CurrentUC = editor;
+        }
+
+        public void ShowQSetEditor(string name, string path)
+        {
+            UserControl editor = new QSetEditorUC(this, QSetsManager, name, path);
             CurrentUC = editor;
         }
     }

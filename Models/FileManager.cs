@@ -205,6 +205,10 @@ namespace Millionaire.Models
             return finalPath;
         }
 
+        /// <summary>
+        /// Save given qSet to destination in his Path property
+        /// </summary>
+        /// <param name="qSet"></param>
         public static void SaveQSet(QSet qSet)
         {
             if (qSet.Path == null)
@@ -252,6 +256,11 @@ namespace Millionaire.Models
             }            
         }
 
+        /// <summary>
+        /// Generate path from given name of question set
+        /// </summary>
+        /// <param name="qSetName"></param>
+        /// <returns>Path</returns>
         public static string GenerateFilePath (string qSetName)
         {
             if (ContainsInvalidChars(qSetName))
@@ -271,13 +280,19 @@ namespace Millionaire.Models
             }
 
             qSetName = qSetName.ToLower();
-
-            return dataDir + qSetName + ".csv";
+            qSetName= qSetName.Replace(' ', '_');
+            
+            return Path.Combine(dataDir, qSetName + ".csv");
         }
 
-        public static bool ContainsInvalidChars(string qSetName)
+        /// <summary>
+        /// Checks if given string contains characters invalid for file name
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns>True if string contains invalid characters, otherwise false</returns>
+        public static bool ContainsInvalidChars(string str)
         {
-            foreach(char c in qSetName)
+            foreach(char c in str)
             {
                 foreach (char h in Path.GetInvalidFileNameChars())
                 {
