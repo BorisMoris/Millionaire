@@ -120,19 +120,27 @@ namespace Millionaire.Views
                 try
                 {
                     newQSet = FileManager.LoadQSetFromFile(file);
+
+                    newQSet.Path = FileManager.GenerateFilePath(newQSet.Name);
                     
                     if (qSetsManager.CheckName(newQSet.Name))
                     {
                         MessageBox.Show("Sada otázek s názvem " + newQSet.Name + " už existuje. Pokud chcete přesto importovat, změňte název jedné ze sad.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
-                    }                    
+                    }
+                    if(qSetsManager.CheckPath(newQSet.Path))
+                    {
+                        MessageBox.Show("Pro sadu otázek " + newQSet.Name + " nelze vygenerovat jedinečný název souboru.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
 
-                    newQSet.Path=FileManager.ImportQSet(file);
+                    FileManager.ImportQSet(file);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+
                 qSetsManager.QuestionSets.Add(newQSet);
                 qSetsManager.Sort();
                 QSetsListBox.ItemsSource = qSetsManager.QuestionSets;
@@ -141,7 +149,12 @@ namespace Millionaire.Views
 
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
-            navManager.ShowQSetEditor(selected.Path);
+            navManager.ShowQSetEditor(false, QSetsListBox.SelectedIndex);
+        }
+
+        private void newQSetButton_Click(object sender, RoutedEventArgs e)
+        {
+            navManager.ShowQSetEditor(true, 0);
         }
     }
 }

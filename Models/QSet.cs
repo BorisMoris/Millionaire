@@ -31,20 +31,22 @@ namespace Millionaire.Models
         //}
         //#endregion
 
-        public void AddQuestion(Difficulty difficulty)
+        public Question AddQuestion(Difficulty difficulty)
         {
+            Question question = new Question();
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    EasyQuestions.Add(new Question());
+                    EasyQuestions.Add(question);
                     break;
                 case Difficulty.Medium:
-                    mediumQuestions.Add(new Question());
+                    mediumQuestions.Add(question);
                     break;
                 case Difficulty.Hard:
-                    hardQuestions.Add(new Question());
+                    hardQuestions.Add(question);
                     break;
             }
+            return question;
         }
         
         public void AddQuestion(Difficulty difficulty, string question, string rightAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3)

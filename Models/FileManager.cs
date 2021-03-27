@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -206,15 +207,10 @@ namespace Millionaire.Models
 
         public static void SaveQSet(QSet qSet)
         {
-            //string error;
-            //if (qSet.EasyQuestions.Count < 5)
-            //{
-            //    error = "Lehké otázky";
-            //}
-            //if (error != null)
-            //{
-            //    throw new Exception("Nedostatek otázek v sekci Lehké otázky. Pro uložení sady jich musí být aspoň 5.");
-            //}
+            if (qSet.Path == null)
+            {
+                qSet.Path = GenerateFilePath(qSet.Name);
+            }
             
             using (StreamWriter writer = new StreamWriter(qSet.Path))
             { 
@@ -226,12 +222,6 @@ namespace Millionaire.Models
                 bool loop = true;
                 while (loop)
                 {
-                    if (questions.Count() < 5)
-                    {
-                        //chyba
-                    }
-
-                    int i = 0;
                     foreach (Question question in questions)
                     {
                         parts[0] = question.QuestionSentence;
@@ -240,29 +230,18 @@ namespace Millionaire.Models
                         parts[3] = question.WrongAnswer2;
                         parts[4] = question.WrongAnswer3;
 
-                        for(int j = 0; j < 5; j++)
-                        {
-                            if (string.IsNullOrEmpty(parts[j])) //checks wheter all strings are filled in
-                            {
-                                //chyba na řádku i (0 based) - nevyplněno
-                            }
-                            if (parts[0].StartsWith("*")) //checks wheter the question starts with asterisk (charakter used to separate difficulty sections)
-                            {
-                                //chyba na řádku i (0 based) - otázka začíná hvězdičkou
-                            }
-                        }
-
                         writer.WriteLine(string.Join(";", parts));
-                        throw new Exception("testovací chyba");
                     }
 
                     difficulty++;
                     if (difficulty == Difficulty.Medium)
                     {
+                        writer.WriteLine("*mediumQuestions");
                         questions = qSet.MediumQuestions;
                     }
                     else if (difficulty == Difficulty.Hard)
                     {
+                        writer.WriteLine("*hardQuestions");
                         questions = qSet.HardQuestions;
                     }
                     else
@@ -271,6 +250,45 @@ namespace Millionaire.Models
                     }
                 }                
             }            
+        }
+
+        public static string GenerateFilePath (string qSetName)
+        {
+            if (ContainsInvalidChars(qSetName))
+            {
+                throw new Exception("Název sady obsahuje nepovolené znaky");
+            }
+            
+            string normalized = qSetName.Normalize(NormalizationForm.FormD);
+            qSetName = string.Empty;
+
+            foreach (char c in normalized)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                {
+                    qSetName += c;
+                }
+            }
+
+            qSetName = qSetName.ToLower();
+
+            return dataDir + qSetName + ".csv";
+        }
+
+        public static bool ContainsInvalidChars(string qSetName)
+        {
+            foreach(char c in qSetName)
+            {
+                foreach (char h in Path.GetInvalidFileNameChars())
+                {
+                    if (c == h)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

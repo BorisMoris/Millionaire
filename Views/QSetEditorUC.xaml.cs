@@ -24,7 +24,7 @@ namespace Millionaire.Views
     public partial class QSetEditorUC : UserControl
     {
         public QSet EditedQSet { get; private set; }
-        private HashSet<(Question, Difficulty)> editedQuestions; //HashSet to store only unique items
+        private HashSet<Question> editedQuestions; //HashSet to store only unique items
         private bool saved;
 
         private NavigationManager navManager;
@@ -67,22 +67,22 @@ namespace Millionaire.Views
             }
         }
 
-        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, string path)
+        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, bool isNew, int index)
         {
             this.navManager = navManager;
             this.qSetsManager = qSetsManager;
 
-            editedQuestions = new HashSet<(Question, Difficulty)>();
+            editedQuestions = new HashSet<Question>();
             saved = true;
-            
-            try
+
+            if (isNew)
             {
-                EditedQSet = FileManager.LoadQSetFromFile(path);
+                EditedQSet = new QSet();
             }
-            catch(Exception ex)
+            else
             {
-                MessageBox.Show("Soubor se sadou se nepodařilo načíst.\n" + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                EditedQSet = qSetsManager.QuestionSets[index];
+            }            
 
             InitializeComponent();
             DataContext = this;
@@ -142,6 +142,7 @@ namespace Millionaire.Views
             }            
 
             Refresh();
+            saved = false;
         }
 
         private void newQuestionButton_Click(object sender, RoutedEventArgs e)
@@ -149,7 +150,8 @@ namespace Millionaire.Views
             FilterKey = string.Empty;
             filterTextBox.Text = string.Empty;
             
-            EditedQSet.AddQuestion(selectedDifficulty);            
+            editedQuestions.Add(EditedQSet.AddQuestion(selectedDifficulty));
+            saved = false;
             
             Refresh();
             questionsListBox.SelectedIndex = 0;
@@ -158,26 +160,16 @@ namespace Millionaire.Views
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            //FileManager.SaveQSet(EditedQSet);
-
-            var result = qSetsManager.CheckQuestions(editedQuestions);
-            if (result.Item1 != null && result.Item2!=null)
-            {
-                MessageBox.Show($"Chyba při ukládání otázek:\n {result.Item2}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                //     Console.WriteLine(EasyCollectionView.Contains(result.Item2));
-                //Console.WriteLine(FindQuestion(result.Item1));
-                //questionsListBox.SelectedIndex = FindQuestion(result.Item1);
-                SelectQuestion(result.Item1);
-                return;
-            }
-
             Save();
-            saved = true;
         }
 
         private void saveAsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!qSetsManager.CheckName(EditedQSet.Name))
+            {
+                MessageBox.Show($"Chyba při ukládání otázek:\nSada otázek s názvem \"{EditedQSet.Name}\" už existuje. Nelze vytvořit novou sadu se stejn", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
         private void quitButton_Click(object sender, RoutedEventArgs e)
@@ -191,7 +183,10 @@ namespace Millionaire.Views
                 }
                 else if (result == MessageBoxResult.Yes)
                 {
-                    Save();
+                    if (!Save())
+                    {
+                        return;
+                    }
                 }
             }
             navManager.ShowManageQSets();
@@ -203,7 +198,7 @@ namespace Millionaire.Views
             {
                 saved = false;
             }
-            Console.WriteLine(editedQuestions.Add(((Question)questionsListBox.SelectedItem, selectedDifficulty)));
+            editedQuestions.Add((Question)questionsListBox.SelectedItem);
         }
 
         /// <summary>
@@ -215,77 +210,90 @@ namespace Millionaire.Views
             collectionView.Refresh();
         }
 
-        private void Save() { }       
+        /// <summary>
+        /// Check and save edited question set
+        /// </summary>
+        /// <returns>True if the qSet was saved successfuly, otherwise false </returns>
+        private bool Save()
+        {
+            string error = qSetsManager.CheckQSet(EditedQSet);
+            if (error != null)
+            {
+                MessageBox.Show($"Chyba při ukládání otázek:\n{error}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            
+            var result = qSetsManager.CheckQuestions(editedQuestions);
+            if (result.Item1 != null && result.Item2 != null)
+            {
+                MessageBox.Show($"Chyba při ukládání otázek:\n{result.Item2}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                SelectQuestion(result.Item1);
+                return false;
+            }
+
+            try
+            {
+                FileManager.SaveQSet(EditedQSet);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Chyba při ukládání otázek:\n{ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            saved = true;
+            editedQuestions.Clear();
+            return true;
+        }       
         
         private void SelectQuestion(Question wantedQuestion)
+        {            
+            int index;
+            index = IndexOfQuestion(EasyCollectionView, wantedQuestion);
+            if (index >= 0)
+            {
+                difficultyComboBox.SelectedIndex = 0;
+                questionsListBox.SelectedIndex = index;
+                
+                return;
+            }
+            else
+            {
+                index = IndexOfQuestion(MediumCollectionView, wantedQuestion);
+                if (index >= 0)
+                {
+                    difficultyComboBox.SelectedIndex = 1;
+                    questionsListBox.SelectedIndex = index;
+                    
+                    return;
+                }
+                else
+                {
+                    index = IndexOfQuestion(HardCollectionView, wantedQuestion);
+                    if (index >= 0)
+                    {
+                        difficultyComboBox.SelectedIndex = 2;
+                        questionsListBox.SelectedIndex = index;
+                        
+                        return;
+                    }
+                }
+            }
+        }
+
+        private int IndexOfQuestion(ICollectionView collection, Question wantedQuestion)
         {
-            Difficulty difficulty = Difficulty.Easy;
-            int index = 0;
-
             int counter = 0;
-            foreach (Question question in EasyCollectionView)
+            foreach (Question question in collection)
             {
                 if (question == wantedQuestion)
                 {
-                    difficulty = Difficulty.Easy;
-                    index = counter;
+                    Console.WriteLine(counter);
+                    return counter;
                 }
                 counter++;
             }
-            counter = 0;
-            foreach (Question question in MediumCollectionView)
-            {
-                if (question == wantedQuestion)
-                {
-                    difficulty = Difficulty.Medium;
-                    index = counter;
-                }
-                counter++;
-            }
-            counter = 0;
-            foreach (Question question in HardCollectionView)
-            {
-                if (question == wantedQuestion)
-                {
-                    difficulty = Difficulty.Hard;
-                    index = counter;
-                }
-                counter++;
-            }
-
-            difficultyComboBox.SelectedIndex = (int)difficulty;
-            questionsListBox.SelectedIndex = index;
-
-            //int counter = 0;
-            //foreach (Question question in EasyCollectionView)
-            //{
-            //    if(question == wantedQuestion)
-            //    {
-            //        difficultyComboBox.SelectedIndex = 0;
-            //        questionsListBox.SelectedIndex = counter;
-            //    }
-            //    counter++;
-            //}
-            //counter = 0;
-            //foreach (Question question in MediumCollectionView)
-            //{
-            //    if (question == wantedQuestion)
-            //    {
-            //        difficultyComboBox.SelectedIndex = 1;
-            //        questionsListBox.SelectedIndex = counter;
-            //    }
-            //    counter++;
-            //}
-            //counter = 0;
-            //foreach (Question question in HardCollectionView)
-            //{
-            //    if (question == wantedQuestion)
-            //    {
-            //        difficultyComboBox.SelectedIndex = 2;
-            //        questionsListBox.SelectedIndex = counter;
-            //    }
-            //    counter++;
-            //}
+            return -1;
         }
     }
 }
