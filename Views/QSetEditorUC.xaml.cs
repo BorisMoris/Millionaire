@@ -202,6 +202,7 @@ namespace Millionaire.Views
             if (saved)
             {
                 saved = false;
+                savedInfoStackPanel.Visibility = Visibility.Collapsed;
             }
             editedQuestions.Add((Question)questionsListBox.SelectedItem);
         }
@@ -262,6 +263,7 @@ namespace Millionaire.Views
             saved = true;
             nameChanged = false;
             editedQuestions.Clear();
+            savedInfoStackPanel.Visibility = Visibility.Visible;
             return true;
         }       
         
