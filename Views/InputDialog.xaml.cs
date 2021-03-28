@@ -33,7 +33,14 @@ namespace Millionaire.Views
 
         private void okButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            if (string.IsNullOrWhiteSpace(answerTextBox.Text))
+            {
+                MessageBox.Show("Zadejte prosím text.", "Prázdná odpověď");
+            }
+            else
+            {
+                this.DialogResult = true;
+            }
         }
     }
 }
