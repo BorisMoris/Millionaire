@@ -56,7 +56,6 @@ namespace Millionaire.Views
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            
             MessageBoxResult result = MessageBox.Show("Opravdu chcete smazat sadu " + selected.Name + "?", "Smazat sadu?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
@@ -149,7 +148,15 @@ namespace Millionaire.Views
 
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
-            navManager.ShowQSetEditor(QSetsListBox.SelectedIndex);
+            try
+            {
+                QSet toEdit =  FileManager.LoadQSetFromFile(selected.Path);
+                navManager.ShowQSetEditor(toEdit, QSetsListBox.SelectedIndex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Soubor se nepodařilo načíst.\n" + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }  
         }
 
         private void newQSetButton_Click(object sender, RoutedEventArgs e)

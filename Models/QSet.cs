@@ -79,6 +79,6 @@ namespace Millionaire.Models
                     hardQuestions.Add(new Question(question, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
             }
-        }        
+        }
     }
 }

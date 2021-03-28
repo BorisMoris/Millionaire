@@ -26,9 +26,21 @@ namespace Millionaire.Views
     {
         public QSet EditedQSet { get; private set; }
         private HashSet<Question> editedQuestions; //HashSet to store only unique items
-        private bool saved;
+
+        private bool saved = true;
+        public bool Saved
+        {
+            get { return saved; }
+            set {
+                saved = value;
+                savedInfoStackPanel.Visibility = saved ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private bool isNew;
         private bool nameChanged;
-        private string originalPath;
+        private string actualPath;
+        private int index;
 
         private NavigationManager navManager;
         private QSetsManager qSetsManager;        
@@ -70,35 +82,57 @@ namespace Millionaire.Views
             }
         }
 
+        /// <summary>
+        /// Base constructor
+        /// </summary>
+        /// <param name="navManager"></param>
+        /// <param name="qSetsManager"></param>
         public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager)
         {
+            InitializeComponent();
+            DataContext = this;
+
             this.navManager = navManager;
             this.qSetsManager = qSetsManager;
 
             editedQuestions = new HashSet<Question>();
-            saved = true;
             nameChanged = false;
-
-            InitializeComponent();
-            DataContext = this;
 
             questionTextBoxes = new List<TextBox> { questionTextBox, rightAnswerTextBox, wrongAnswer1TextBox, wrongAnswer2TextBox, wrongAnswer3TextBox };            
         }
 
-        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, int index) : this(navManager, qSetsManager)
+        /// <summary>
+        /// Constructor for editing existing QSet
+        /// </summary>
+        /// <param name="navManager"></param>
+        /// <param name="qSetsManager"></param>
+        /// <param name="index"></param>
+        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, QSet qSet, int index) : this(navManager, qSetsManager)
         {
-            EditedQSet = qSetsManager.QuestionSets[index];
-            originalPath = EditedQSet.Path;
+            EditedQSet = qSet;
+            isNew = false;
+            this.index = index;
+            actualPath = EditedQSet.Path;
             SetCollectionViews();
         }
 
+        /// <summary>
+        /// Constructor for creating new QSet
+        /// </summary>
+        /// <param name="navManager"></param>
+        /// <param name="qSetsManager"></param>
+        /// <param name="name"></param>
+        /// <param name="path"></param>
         public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, string name, string path) : this (navManager, qSetsManager)
         {            
             EditedQSet = new QSet(name, path);
-            originalPath = EditedQSet.Path;
+            isNew = true;
             SetCollectionViews();
         }
 
+        /// <summary>
+        /// Set sorting and filtering
+        /// </summary>
         private void SetCollectionViews()
         {
             EasyCollectionView = CollectionViewSource.GetDefaultView(EditedQSet.EasyQuestions);
@@ -154,7 +188,7 @@ namespace Millionaire.Views
                 }
 
                 Refresh();
-                saved = false;
+                Saved = false;
                 editedQuestions.Remove(toRemove);
             }
         }
@@ -165,7 +199,7 @@ namespace Millionaire.Views
             filterTextBox.Text = string.Empty;
             
             editedQuestions.Add(EditedQSet.AddQuestion(selectedDifficulty));
-            saved = false;
+            Saved = false;
             
             Refresh();
             questionsListBox.SelectedIndex = 0;
@@ -179,7 +213,7 @@ namespace Millionaire.Views
 
         private void quitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!saved)
+            if (!Saved)
             {
                 MessageBoxResult result = MessageBox.Show("Chystáte se zavřít editor. Přejete si uložit změny?", "Uložit změny", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Cancel)
@@ -194,15 +228,37 @@ namespace Millionaire.Views
                     }
                 }
             }
+
+            QSet savedQSet;
+            try
+            {
+                savedQSet = FileManager.LoadQSetFromFile(actualPath);
+                if (isNew)
+                {
+                    qSetsManager.QuestionSets.Add(savedQSet);
+                }
+                else
+                {
+                    qSetsManager.QuestionSets[index] = savedQSet;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Nelze načíst změny v sadě otázek:\n{ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             navManager.ShowManageQSets();
         }
 
+        /// <summary>
+        /// Mark current question as edited
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (saved)
+            if (Saved)
             {
-                saved = false;
-                savedInfoStackPanel.Visibility = Visibility.Collapsed;
+                Saved = false;
             }
             editedQuestions.Add((Question)questionsListBox.SelectedItem);
         }
@@ -222,11 +278,12 @@ namespace Millionaire.Views
         /// <returns>True if the qSet was saved successfuly, otherwise false </returns>
         private bool Save()
         {
-            if (nameChanged)
+            if (nameChanged && actualPath!=null)
             {
                 try
                 {
-                    File.Move(originalPath, EditedQSet.Path);
+                    File.Move(actualPath, EditedQSet.Path);
+                    actualPath = EditedQSet.Path;
                 }
                 catch (Exception ex)
                 {
@@ -253,6 +310,7 @@ namespace Millionaire.Views
             try
             {
                 FileManager.SaveQSet(EditedQSet);
+                actualPath = EditedQSet.Path;
             }
             catch (Exception ex)
             {
@@ -260,10 +318,9 @@ namespace Millionaire.Views
                 return false;
             }          
 
-            saved = true;
+            Saved = true;
             nameChanged = false;
             editedQuestions.Clear();
-            savedInfoStackPanel.Visibility = Visibility.Visible;
             return true;
         }       
         
@@ -327,6 +384,11 @@ namespace Millionaire.Views
             return -1;
         }
 
+        /// <summary>
+        /// Rename QSet
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void renameButton_Click(object sender, RoutedEventArgs e)
         {
             bool loop = true;
@@ -356,10 +418,10 @@ namespace Millionaire.Views
                         MessageBox.Show("Pro název \"" + name + "\" nelze vygenerovat jedinečný název souboru.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                         continue;
                     }
-
-                    EditedQSet.Name = name;
+                 
                     EditedQSet.Path = path;
-                    saved = false;
+                    EditedQSet.Name = name;                    
+                    Saved = false;
                     nameChanged = true;
                     loop = false;
                 }
