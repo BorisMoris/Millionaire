@@ -133,11 +133,12 @@ namespace Millionaire.Views
                         return;
                     }
 
-                    FileManager.ImportQSet(file);
+                    FileManager.ImportQSet(file, newQSet.Path);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
 
                 qSetsManager.QuestionSets.Add(newQSet);

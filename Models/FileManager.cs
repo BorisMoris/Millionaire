@@ -198,9 +198,9 @@ namespace Millionaire.Models
         /// </summary>
         /// <param name="initialPath">Path to imported file</param>
         /// <returns>Path to copied file</returns>
-        public static string ImportQSet(string initialPath)
+        public static string ImportQSet(string initialPath, string finalPath)
         {
-            string finalPath = Path.Combine(dataDir, Path.GetFileName(initialPath));
+           // string finalPath = Path.Combine(dataDir, Path.GetFileName(initialPath));
             File.Copy(Path.Combine(initialPath), finalPath);
             return finalPath;
         }
