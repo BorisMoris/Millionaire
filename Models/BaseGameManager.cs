@@ -55,18 +55,9 @@ namespace Millionaire.Models
 
         public abstract void LoadQuestions(List<QSet> selectedQSets);
 
-        /// <summary>
-        /// Set new question
-        /// </summary>
-        public virtual void NewQuestion()
-        {
-            int position = random.Next(currentQList.Count);
-            CurrentQuestion = currentQList[position];
-            currentQList.RemoveAt(position);
+        public abstract void NewQuestion();
 
-            RandomizedAnswers = RandomizeAnswers(CurrentQuestion, out int temp);
-            RightAnswerIndex = temp;
-        }
+        public abstract void CheckAnswer(int index);
 
         /// <summary>
         /// Randomize order of answers in question
@@ -95,6 +86,6 @@ namespace Millionaire.Models
             return randomizedAnswers;
         }
 
-        public abstract void CheckAnswer(int index);
+        
     }
 }
