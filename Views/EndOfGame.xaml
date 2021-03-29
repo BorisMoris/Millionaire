@@ -30,13 +30,13 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="Špatně jsi odpověděl(a) na otázku:" />
-            <TextBlock Text="{Binding CurrentQuestion.QuestionSentence}"
+            <TextBlock Text="{Binding CurrentQuestion.QuestionSentence}" TextWrapping="Wrap"
                        FontSize="15" FontWeight="Bold"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="1">
             <TextBlock Text="Správná odpověď:"/>
-            <TextBlock Text="{Binding CurrentQuestion.RightAnswer}"                       
+            <TextBlock Text="{Binding CurrentQuestion.RightAnswer}" TextWrapping="Wrap"                      
                        FontSize="15" FontWeight="Bold" Foreground="DarkGreen"/>
         </StackPanel>
 
