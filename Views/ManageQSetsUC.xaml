@@ -42,12 +42,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Border Padding="5" MaxHeight="210"
-                BorderBrush="LightGray" BorderThickness="1" CornerRadius="2"
+        <GroupBox Padding="2" MaxHeight="210" Header="Označená sada:"
                 Grid.Row="2" Grid.Column="2">
             <StackPanel DataContext="{Binding ElementName=QSetsListBox,Path=SelectedItem}">
-                <TextBlock Text="Označená sada:" FontWeight="Light" Margin="0,0,0,8"/>
-                <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" TextWrapping="Wrap" MaxHeight="40"/>
                 <TextBlock>
                     <Run Text="Počet otázek:"/> <Run Text="{Binding Path=QuestionsCount, Mode=OneWay}"/>
                 </TextBlock>
@@ -64,7 +62,7 @@
                             Grid.Column="1" Padding="5" Margin="2" Click="deleteButton_Click"/>
                 </Grid>
             </StackPanel>
-        </Border>
+        </GroupBox>
 
         <StackPanel Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom">
             <Button Content="Importovat sadu otázek" x:Name="importButton"
