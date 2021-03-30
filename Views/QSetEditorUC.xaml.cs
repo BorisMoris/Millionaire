@@ -158,6 +158,16 @@ namespace Millionaire.Views
             }            
         }
 
+        /// <summary>
+        /// Set focus on this UserControl to get keyboard shortcuts working
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Focus();
+        }
+
         private void questionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             bool isSelected = questionsListBox.SelectedItem != null;
@@ -193,15 +203,7 @@ namespace Millionaire.Views
 
         private void newQuestionButton_Click(object sender, RoutedEventArgs e)
         {
-            FilterKey = string.Empty; //clear filter (or new question won't be displayed properly)
-            filterTextBox.Text = string.Empty;
             
-            editedQuestions.Add(EditedQSet.AddQuestion(selectedDifficulty)); //add new question to EditedQSet and add the same question to editedQuestions
-            Saved = false;
-            
-            Refresh();
-            questionsListBox.SelectedIndex = 0; //empty new question is displayed on the first row
-            questionTextBox.Focus();
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
@@ -430,6 +432,24 @@ namespace Millionaire.Views
                     loop = false;
                 }
             }
+        }
+
+        private void saveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Save();
+        }
+
+        private void newQuestionCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            FilterKey = string.Empty; //clear filter (or new question won't be displayed properly)
+            filterTextBox.Text = string.Empty;
+
+            editedQuestions.Add(EditedQSet.AddQuestion(selectedDifficulty)); //add new question to EditedQSet and add the same question to editedQuestions
+            Saved = false;
+
+            Refresh();
+            questionsListBox.SelectedIndex = 0; //empty new question is displayed on the first row
+            questionTextBox.Focus();
         }
     }
 }
