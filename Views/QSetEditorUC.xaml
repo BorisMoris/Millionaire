@@ -109,7 +109,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="questionTextBox" Text="{Binding QuestionSentence, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"
-                                 FontSize="14" TextWrapping="Wrap"
+                                 FontSize="14" TextWrapping="Wrap" MaxLength="160"
                                 Margin="0,0,5,0" MaxHeight="80"
                                 Grid.Column="0"/>
                         <Button x:Name="deleteButton" ToolTip="Smazat označenou otázku"
@@ -121,13 +121,17 @@
                     </Grid>
                     <Label Content="Správná odpověď:"/>
                     <TextBox x:Name="rightAnswerTextBox" Text="{Binding RightAnswer, UpdateSourceTrigger=PropertyChanged}"
+                             MaxLength="55"
                              IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"/>
                     <Label Content="Špatné odpovědi:"/>
                     <TextBox x:Name="wrongAnswer1TextBox" Text="{Binding WrongAnswer1, UpdateSourceTrigger=PropertyChanged}"
+                             MaxLength="55"
                              IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"/>
                     <TextBox x:Name="wrongAnswer2TextBox" Text="{Binding WrongAnswer2, UpdateSourceTrigger=PropertyChanged}"
+                             MaxLength="55"
                              IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"/>
                     <TextBox x:Name="wrongAnswer3TextBox" Text="{Binding WrongAnswer3, UpdateSourceTrigger=PropertyChanged}"
+                             MaxLength="55"
                              IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"/>
                 </StackPanel>
             </GroupBox>
