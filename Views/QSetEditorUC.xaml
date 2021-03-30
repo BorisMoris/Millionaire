@@ -86,26 +86,28 @@
         </StackPanel>        
         
 
-        <StackPanel Grid.Row="3" Grid.Column="0"  Grid.RowSpan="2">
+        <StackPanel Grid.Row="3" Grid.Column="0"  Grid.RowSpan="2" >
             <GroupBox Header="Označená otázka:" DataContext="{Binding ElementName=questionsListBox, Path=SelectedItem}"
-                      FontSize="13">
+                      KeyboardNavigation.TabNavigation="Cycle" FontSize="13">
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="questionTextBox" Text="{Binding QuestionSentence}" IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"
+                        <TextBox x:Name="questionTextBox" Text="{Binding QuestionSentence}"
+                                 IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"
                                  FontSize="14" TextWrapping="Wrap"
                                 Margin="0,0,5,0" MaxHeight="80"
                                 Grid.Column="0"/>
-                        <Button x:Name="deleteButton" Width="30" Height="30" Padding="3"
+                        <Button x:Name="deleteButton" Width="30" Height="30" Padding="3" IsTabStop="False"
                             Grid.Column="1" Margin="0.2,0" VerticalAlignment="Top" Click="deleteButton_Click">
                             <Image Source="/Millionaire;component/Media/trash_bin.png" Opacity="0.75"/>
                         </Button>
                     </Grid>
                     <Label Content="Správná odpověď:"/>
-                    <TextBox x:Name="rightAnswerTextBox" Text="{Binding RightAnswer}" IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"/>
+                    <TextBox x:Name="rightAnswerTextBox" Text="{Binding RightAnswer}"
+                             IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"/>
                     <Label Content="Špatné odpovědi:"/>
                     <TextBox x:Name="wrongAnswer1TextBox" Text="{Binding WrongAnswer1}" IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"/>
                     <TextBox x:Name="wrongAnswer2TextBox" Text="{Binding WrongAnswer2}" IsEnabled="False" GotKeyboardFocus="textBox_GotKeyboardFocus"/>
