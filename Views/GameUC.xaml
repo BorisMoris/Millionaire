@@ -34,15 +34,15 @@
                        Grid.Column="0"/>
 
             <StackPanel x:Name="lifelineButtonsStackPanel" Orientation="Horizontal" Grid.Column="1" Height="60" VerticalAlignment="Top">
-                <Button x:Name="fiftyLifelineButton"
+                <Button x:Name="fiftyLifelineButton" ToolTip="Nápověda 50/50"
                     Margin="10" Padding="5" Click="fiftyLifelineButton_Click">
                     <Image Source="/Millionaire;component/Media/50_50.png"/>
                 </Button>
-                <Button x:Name="audienceLifelineButton"
+                <Button x:Name="audienceLifelineButton" ToolTip="Nápověda Hlas publika"
                     Margin="10" Padding="5" Click="audienceLifelineButton_Click">
                     <Image Source="/Millionaire;component/Media/audience.png"/>
                 </Button>
-                <Button x:Name="friendLifelineButton"
+                <Button x:Name="friendLifelineButton" ToolTip="Nápověda Přítel na telefonu"
                     Margin="10" Padding="5" Click="friendLifelineButton_Click">
                     <Image Source="/Millionaire;component/Media/phone.png"/>
                 </Button>

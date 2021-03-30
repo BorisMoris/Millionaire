@@ -49,25 +49,29 @@
                 <TextBlock>
                     <Run Text="Počet otázek:"/> <Run Text="{Binding Path=QuestionsCount, Mode=OneWay}"/>
                 </TextBlock>
-                <Button x:Name="editButton" Content="Editovat" IsEnabled="False" Padding="5" Margin="2,15,2,2" Click="editButton_Click"/>
+                <Button x:Name="editButton" Content="Editovat" ToolTip="Upravit otázky či přejmenovat sadu"
+                        IsEnabled="False" Padding="5" Margin="2,15,2,2" Click="editButton_Click"/>
                 <Grid>
                     <Grid.ColumnDefinitions>                        
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button x:Name="exportButton" Content="Exportovat" IsEnabled="False"
-                            Grid.Column="0"  Padding="5" Margin="2" Click="exportButton_Click"/>
-                    <Button x:Name="deleteButton" Content="Odstranit" IsEnabled="False"
+                    <Button x:Name="exportButton" Content="Exportovat" ToolTip="Exportovat sadu (.csv) na vybrané místo v úložišti"
+                            IsEnabled="False" Click="exportButton_Click"
+                            Grid.Column="0"  Padding="5" Margin="2"/>
+                    <Button x:Name="deleteButton" Content="Odstranit" ToolTip="Trvale odstranit sadu"
+                            IsEnabled="False"
                             Grid.Column="1" Padding="5" Margin="2" Click="deleteButton_Click"/>
                 </Grid>
             </StackPanel>
         </GroupBox>
 
         <StackPanel Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom">
-            <Button Content="Importovat sadu otázek" x:Name="importButton"
+            <Button Content="Importovat sadu otázek" x:Name="importButton" ToolTip="Importovat sadu (.csv) z vybraného místa v úložišti"
                     Height="30" Margin="0,0,0,4" Click="importButton_Click"/>
-            <Button Content="Vytvořit novou sadu otázek" x:Name="newQSetButton" Click="newQSetButton_Click"
+            <Button Content="Vytvořit novou sadu otázek" x:Name="newQSetButton"
+                    Click="newQSetButton_Click" ToolTip="Vytvořit novou prázdnou sadu otázek"
                     Grid.Row="3" Grid.Column="2" Height="30"/>
         </StackPanel>
         
