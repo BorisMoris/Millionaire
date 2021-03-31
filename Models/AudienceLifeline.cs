@@ -38,16 +38,19 @@ namespace Millionaire.Models
             {
                 rightAnswerIndex = ChangeIndex(rightAnswerIndex);
             }
-
-            int sum = 0;
-            int rnd;
-            for (int i = 0; i < 3; i++)
+            do
             {
-                rnd = random.Next(80 - sum);
-                sum += rnd;
-                ResponsesRatio[i] = rnd;
-            }
-            ResponsesRatio[3] = 100 - sum;
+                int sum = 0;
+                int rnd;
+                for (int i = 0; i < 3; i++)
+                {
+                    rnd = random.Next(70 - sum);
+                    sum += rnd;
+                    ResponsesRatio[i] = rnd;
+                }
+                ResponsesRatio[3] = 100 - sum;
+            } while (ResponsesRatio.Max() > 70);
+            
             ResponsesRatio = ResponsesRatio.OrderBy(x => random.Next()).ToArray();
 
             int maxIndex = Array.IndexOf(ResponsesRatio, ResponsesRatio.Max());
