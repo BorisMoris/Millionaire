@@ -34,7 +34,7 @@ namespace Millionaire.Models
         {
             get
             {        
-                int lastCheckpoint = value - (value % 5);
+                int lastCheckpoint = Value - (Value % 5);
                 return values[lastCheckpoint].ToString("N0") + " Kč";                
             }
         }
@@ -47,5 +47,11 @@ namespace Millionaire.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        public static PrizeMoney operator ++(PrizeMoney prizeMoney)
+        {
+            prizeMoney.Value++;
+            return prizeMoney;
+        }
     }
 }

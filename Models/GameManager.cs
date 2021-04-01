@@ -69,12 +69,12 @@ namespace Millionaire.Models
             if (index == RightAnswerIndex && Round > 14)
             {
                 GameStatus = GameStatus.Victory;
-                Prize.Value++;
+                Prize++;
             }
             else if (index == RightAnswerIndex)
             {
                 GameStatus = GameStatus.InProgress;
-                Prize.Value++;
+                Prize++;
             }
             else
             {
