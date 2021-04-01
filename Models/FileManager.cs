@@ -74,8 +74,6 @@ namespace Millionaire.Models
             QSet qSet = new QSet();
             qSet.Path = path;
 
-            int counter = 0;
-
             using (StreamReader sr = new StreamReader(path))
             {
                 string s = sr.ReadLine();
@@ -89,15 +87,11 @@ namespace Millionaire.Models
 
                 Difficulty difficulty = Difficulty.Easy;
                 s = sr.ReadLine();
+                int line = 3;
                 while(s != null)
                 {
                     if (s.StartsWith("*")) //checks wheter higher difficulty section was reached
-                    {
-                        if (counter < 5) //checks wheter enough questions of previous difficulty was loaded
-                        {
-                            throw new ArgumentException(path + " Not enough questions of the same difficulty, can't load");
-                        }
-
+                    {                        
                         if (difficulty < Difficulty.Hard) //checks wheter highest difficulty level was reached
                         {
                             difficulty++;
@@ -105,17 +99,17 @@ namespace Millionaire.Models
                         }
                         else
                         {
-                            throw new ArgumentException(path + " Invalid number of difficulty signs, can't load");
+                            throw new ArgumentException(path + " Špatný počet značek pro změnu obtížnosti, nelze načíst.");
                         }                        
                     }
 
                     string[] split = s.Split(';');
                     if (split.Length != 5) //checks wheter the line contains exactly 5 strings
                     {
-                        throw new ArgumentException(path + " Wrong count of strings on a line, can't load");
+                        throw new ArgumentException(path + $" Špatný počet řetězců na řádku {line}, nelze načíst.");
                     }
                     qSet.AddQuestion(difficulty, split[0], split[1], split[2], split[3], split[4]);
-                    counter++;
+                    line++;
 
                     s = sr.ReadLine();
                 }
@@ -127,7 +121,7 @@ namespace Millionaire.Models
             }
             else
             {
-                throw new ArgumentException(path + " Not enough questions of the same difficulty, can't load");
+                throw new ArgumentException(path + " Nedostatek otázek stejné obtížnosti, nelze načíst.");
             }            
         }
 
@@ -200,8 +194,7 @@ namespace Millionaire.Models
         /// <returns>Path to copied file</returns>
         public static string ImportQSet(string initialPath, string finalPath)
         {
-           // string finalPath = Path.Combine(dataDir, Path.GetFileName(initialPath));
-            File.Copy(Path.Combine(initialPath), finalPath);
+            File.Copy(initialPath, finalPath);
             return finalPath;
         }
 

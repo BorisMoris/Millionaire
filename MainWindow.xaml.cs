@@ -29,16 +29,6 @@ namespace Millionaire
         {
             InitializeComponent();
 
-            //fileManager = new FileManager();
-            //try
-            //{
-            //    fileManager.CopyDefault();                
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-
             navManager = new NavigationManager();
             DataContext = navManager;
             navManager.ShowMainMenu();
