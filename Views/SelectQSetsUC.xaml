@@ -29,10 +29,13 @@
                    FontSize="15"
                    Grid.Row="1" Grid.Column="1"/>
 
-        <ListBox x:Name="QSetsListBox"
+        <ListBox x:Name="QSetsListBox" Style="{StaticResource qSetsListBoxStyle}"
                  Grid.Row="2" Grid.Column="1"
                  SelectionMode="Multiple"
                   SelectionChanged="QSetsListBox_SelectionChanged">
+            <ListBox.Resources>
+               
+            </ListBox.Resources>
             <ListBox.ItemTemplate>
                 <DataTemplate>                    
                     <TextBlock Text="{Binding Name}"/>                    
