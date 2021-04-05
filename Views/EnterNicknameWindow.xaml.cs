@@ -39,13 +39,21 @@ namespace Millionaire.Views
 
         private void saveScoreButton_Click(object sender, RoutedEventArgs e)
         {
-            string error = scoresManager.AddPlayer(nickNameTextBox.Text, gameManager.Round - 1, gameManager.Prize, gameManager.QSetsNames);
-            if (!string.IsNullOrEmpty(error))
+            if (!string.IsNullOrWhiteSpace(nickNameTextBox.Text))
             {
-                MessageBox.Show("Při ukládání skóre došlo k chybě: " + error, "Chyba při ukládání", MessageBoxButton.OK, MessageBoxImage.Error);
+                string error = scoresManager.AddPlayer(nickNameTextBox.Text, gameManager.Round - 1, gameManager.Prize, gameManager.QSetsNames);
+                if (!string.IsNullOrEmpty(error))
+                {
+                    MessageBox.Show("Při ukládání skóre došlo k chybě: " + error, "Chyba při ukládání", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                Close();
+                navigationManager.ShowHighScores();
             }
-            Close();
-            navigationManager.ShowHighScores();
+            else
+            {
+                MessageBox.Show("Zadejte přezdívku", "Prázdná odpověď", MessageBoxButton.OK);
+            }
+            
         }
     }
 }
