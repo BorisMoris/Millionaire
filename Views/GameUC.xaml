@@ -37,7 +37,7 @@
                     Margin="10" Padding="5" Click="fiftyLifelineButton_Click">
                     <Image Source="/Millionaire;component/Media/50_50.png"/>
                 </Button>
-                <Button x:Name="audienceLifelineButton" ToolTip="Nápověda Hlas publika"
+                <Button x:Name="audienceLifelineButton" ToolTip="Nápověda Rada publika"
                     Margin="10" Padding="5" Click="audienceLifelineButton_Click">
                     <Image Source="/Millionaire;component/Media/audience.png"/>
                 </Button>

@@ -22,7 +22,7 @@
         <TextBlock Text="Použil(a) jsi nápovědu"
                        FontSize="14"
                        HorizontalAlignment="Center"/>
-        <TextBlock Text="Hlas publika"
+        <TextBlock Text="Rada publika"
                        FontSize="18" FontWeight="Bold"
                        HorizontalAlignment="Center"/>
         <Grid Margin="0,10,0,0" Width="250">

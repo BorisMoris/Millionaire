@@ -12,11 +12,12 @@ namespace Millionaire.Models
             "Správná odpověď je určitě",
             "Řekni, že je to",
             "Myslím, že odpověď je",
-            "Podle mě to bude"
+            "Podle mě to bude",
+            "Odpověď by mohla být",
+            "Jsem si skoro jistý, že je to"
         };
 
         private string statement;
-
         public string Statement
         {
             get { return statement; }
