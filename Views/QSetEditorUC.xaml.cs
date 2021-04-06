@@ -243,6 +243,7 @@ namespace Millionaire.Views
                     {
                         qSetsManager.QuestionSets[index] = savedQSet; //replace old QSet with the edited one
                     }
+                    qSetsManager.Sort();
                 }
                 catch (Exception ex)
                 {

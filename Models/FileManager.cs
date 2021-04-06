@@ -33,15 +33,15 @@ namespace Millionaire.Models
         /// <summary>
         /// Loads all question sets from a program's folder
         /// </summary>
-        /// <param name="exceptions">Returns list of potential exceptions</param>
+        /// <param name="errors">Returns list of potential errors</param>
         /// <returns>List of question sets</returns>
-        public static ObservableCollection<QSet> LoadQuestionSets(out List<Exception> exceptions)
+        public static ObservableCollection<QSet> LoadQuestionSets(out List<string> errors)
         {
             ObservableCollection<QSet> qSets = new ObservableCollection<QSet>();
 
             QSet qSet = null;
 
-            exceptions = new List<Exception>();
+            errors = new List<string>();
             
             string[] files = Directory.GetFiles(dataDir, "*.csv");
             foreach (string file in files)
@@ -56,7 +56,7 @@ namespace Millionaire.Models
                 }
                 catch(Exception ex)
                 {
-                    exceptions.Add(ex);
+                    errors.Add(ex.Message);
                 }                           
             }
             
@@ -208,9 +208,9 @@ namespace Millionaire.Models
             {
                 qSet.Path = GenerateFilePath(qSet.Name);
             }
-            
-            using (StreamWriter writer = new StreamWriter(qSet.Path))
-            { 
+
+            using (StreamWriter writer = new StreamWriter(qSet.Path, false, Encoding.UTF8))
+            {
                 writer.WriteLine(qSet.Name);
                 writer.WriteLine("*easyQuestions");
                 List<Question> questions = qSet.EasyQuestions;
@@ -245,7 +245,7 @@ namespace Millionaire.Models
                     {
                         loop = false;
                     }
-                }                
+                }
             }            
         }
 

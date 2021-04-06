@@ -34,11 +34,11 @@ namespace Millionaire.Views
 
             if (qSetsManager.QuestionSets == null)
             {
-                List<Exception> exceptions;
-                qSetsManager.QuestionSets = FileManager.LoadQuestionSets(out exceptions);
-                foreach (Exception ex in exceptions)
+                List<string> errors;
+                qSetsManager.QuestionSets = FileManager.LoadQuestionSets(out errors);
+                foreach (string error in errors)
                 {
-                    MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(error, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 qSetsManager.Sort();
             }
