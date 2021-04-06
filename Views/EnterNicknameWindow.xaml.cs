@@ -53,7 +53,6 @@ namespace Millionaire.Views
             {
                 MessageBox.Show("Zadejte přezdívku", "Prázdná odpověď", MessageBoxButton.OK);
             }
-            
         }
     }
 }

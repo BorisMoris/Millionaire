@@ -21,6 +21,7 @@ namespace Millionaire.Views
     /// </summary>
     public partial class EndOfGameButtons : UserControl
     {
+        //instances of manager classes are passed through DependencyProperties
         public NavigationManager navigationManager
         {
             get { return (NavigationManager)GetValue(navigationManagerProperty); }
@@ -41,13 +42,12 @@ namespace Millionaire.Views
 
         private static void OnPropertySet(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue !=null)
+            if (e.NewValue !=null) //decide wheter saveScoreButton should be enabled
                 ((EndOfGameButtons)d).DisableButton();
         }
 
         public EndOfGameButtons()
-        {      
-
+        { 
             InitializeComponent();
         }
 

@@ -51,6 +51,7 @@ namespace Millionaire.Views
             DataContext = gameManager;
             this.navigationManager = navigationManager;
 
+            //find resources defined in App.xaml
             rightAnswerStyle = FindResource("rightAnswer") as Style;
             wrongAnswerStyle = FindResource("wrongAnswer") as Style;
 
@@ -64,7 +65,7 @@ namespace Millionaire.Views
         private void answerButton_Click(object sender, RoutedEventArgs e)
         {
             selectedButton = ((Button)sender);
-            switch (selectedButton.Name)
+            switch (selectedButton.Name) //check answer in the GameManager
             {
                 case "answerAButton":
                     gameManager.CheckAnswer(0);
@@ -116,7 +117,7 @@ namespace Millionaire.Views
         /// </summary>
         private void EvaluateRound()
         {
-            if(gameManager.GameStatus==GameStatus.InProgress)
+            if(gameManager.GameStatus==GameStatus.InProgress) //game continues - set everything to default and pick a new question
             {
                 selectedButton.Style = default;
                 EnableAnswerButtons(true);
@@ -128,12 +129,12 @@ namespace Millionaire.Views
 
                 gameManager.NewQuestion();
             }
-            else if (gameManager.GameStatus==GameStatus.Victory)
+            else if (gameManager.GameStatus==GameStatus.Victory) //the player wins
             {
                 gameManager.Round++;
                 navigationManager.ShowVictory(gameManager);
             }
-            else
+            else //the player loses
             {
                 navigationManager.ShowEndOfGame(gameManager);
             }

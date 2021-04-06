@@ -22,8 +22,6 @@ namespace Millionaire.Models
             }
         }
 
-        protected Random random = new Random();
-
         private string[] randomizedAnswers;
         public string[] RandomizedAnswers
         {
@@ -34,6 +32,8 @@ namespace Millionaire.Models
                 NotifyPropertyChanged(nameof(RandomizedAnswers));
             }
         }
+
+        protected Random random = new Random();
         public int RightAnswerIndex { get; set; }
 
         public BaseGameManager(List<QSet> selectedQSets)
@@ -84,8 +84,6 @@ namespace Millionaire.Models
             }
 
             return randomizedAnswers;
-        }
-
-        
+        }        
     }
 }

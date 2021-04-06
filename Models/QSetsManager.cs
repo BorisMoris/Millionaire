@@ -12,12 +12,20 @@ namespace Millionaire.Models
         public ObservableCollection<QSet> QuestionSets { get; set; }
         private const int MINIMUM_OF_QUESTIONS = 5;
 
+        /// <summary>
+        /// Sorts the collection of QSets
+        /// </summary>
         public void Sort()
         {
             List<QSet> sorted = QuestionSets.OrderBy(x => x.Name).ToList();
             QuestionSets = new ObservableCollection<QSet>(sorted);
         }
 
+        /// <summary>
+        /// Checks if the name is not used already
+        /// </summary>
+        /// <param name="newName"></param>
+        /// <returns></returns>
         public bool CheckName(string newName)
         {
             foreach(QSet qSet in QuestionSets)
@@ -30,6 +38,11 @@ namespace Millionaire.Models
             return false;
         }
 
+        /// <summary>
+        /// Checks if the path is not used already
+        /// </summary>
+        /// <param name="newPath"></param>
+        /// <returns></returns>
         public bool CheckPath(string newPath)
         {
             foreach (QSet qSet in QuestionSets)
@@ -42,6 +55,11 @@ namespace Millionaire.Models
             return false;
         }
 
+        /// <summary>
+        /// Checks number of questions in QSet
+        /// </summary>
+        /// <param name="qSet"></param>
+        /// <returns>Error message; null if QSet is ok</returns>
         public string CheckQSet(QSet qSet)
         {
             if (qSet.EasyQuestions.Count() < MINIMUM_OF_QUESTIONS)
@@ -60,6 +78,11 @@ namespace Millionaire.Models
             return null;
         }
 
+        /// <summary>
+        /// Checks individual questions of nulls and invalid characters
+        /// </summary>
+        /// <param name="questions"></param>
+        /// <returns>Tuple with invalid question and an error message; (null, null) if all questions are ok</returns>
         public (Question, string) CheckQuestions(HashSet<Question> questions)
         {
             string[] parts = new string[5];

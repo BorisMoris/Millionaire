@@ -16,11 +16,7 @@ namespace Millionaire.Models
 
         public Question()
         {
-            QuestionSentence = string.Empty;
-            RightAnswer = string.Empty;
-            WrongAnswer1 = string.Empty;
-            WrongAnswer2 = string.Empty;
-            WrongAnswer3 = string.Empty;
+            QuestionSentence = string.Empty; //Musn't be null because of sorting
         }
         
         public Question(string question, string rightAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3)

@@ -30,6 +30,9 @@ namespace Millionaire.Models
             }
         }
 
+        /// <summary>
+        /// Prize of the last checkpoint
+        /// </summary>
         public string GuaranteedPrize
         {
             get

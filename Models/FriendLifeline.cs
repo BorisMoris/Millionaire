@@ -21,7 +21,8 @@ namespace Millionaire.Models
         public string Statement
         {
             get { return statement; }
-            set {
+            set
+            {
                 statement = value;
                 NotifyPropertyChanged(nameof(Statement));
             }

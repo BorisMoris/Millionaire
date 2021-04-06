@@ -8,18 +8,8 @@ using System.Threading.Tasks;
 namespace Millionaire.Models
 {
     public class AudienceLifeline : LifelineBase
-    {   
-        private int[] responsesRatio;
-        public int[] ResponsesRatio {
-            get
-            {
-                return responsesRatio;
-            }
-            set
-            {
-                responsesRatio = value;
-            }
-        }
+    {
+        public int[] ResponsesRatio { get; set; }
 
         public AudienceLifeline(Random random) :base(random)
         {
@@ -34,26 +24,30 @@ namespace Millionaire.Models
         public void GenerateAdvice(int round, int rightAnswerIndex)
         {
             bool rightAdvice = DecideIfAdviseCorrectly(round);
-            if (!rightAdvice) //change rightAnswerIndex to give wrong advice
-            {
-                rightAnswerIndex = ChangeIndex(rightAnswerIndex);
-            }
+            rightAnswerIndex = rightAdvice ? rightAnswerIndex : ChangeIndex(rightAnswerIndex);
+
             do
             {
                 int sum = 0;
                 int rnd;
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 3; i++) //fill 3 positions in ResponsesRatio[] with random values lower than 70
                 {
                     rnd = random.Next(70 - sum);
                     sum += rnd;
                     ResponsesRatio[i] = rnd;
                 }
-                ResponsesRatio[3] = 100 - sum;
-            } while (ResponsesRatio.Max() > 70);
-            
-            ResponsesRatio = ResponsesRatio.OrderBy(x => random.Next()).ToArray();
+                ResponsesRatio[3] = 100 - sum; //complete to 100
+            } while (ResponsesRatio.Max() > 70); //if the max value is bigger than 70 (unlikely, but possible), repeat the cycle
 
-            int maxIndex = Array.IndexOf(ResponsesRatio, ResponsesRatio.Max());
+            for(int i = 0; i < ResponsesRatio.Length; i++) //randomly shift values to add more accident
+            {
+                int rnd = random.Next(ResponsesRatio.Length);
+                int temp = ResponsesRatio[i];
+                ResponsesRatio[i] = ResponsesRatio[rnd];
+                ResponsesRatio[rnd] = temp;
+            }
+
+            int maxIndex = Array.IndexOf(ResponsesRatio, ResponsesRatio.Max()); //match the highest value with the right answer
             if (rightAnswerIndex != maxIndex)
             {
                 int temp = ResponsesRatio[rightAnswerIndex];
@@ -63,6 +57,5 @@ namespace Millionaire.Models
 
             NotifyPropertyChanged(nameof(ResponsesRatio));
         }
-
     }
 }

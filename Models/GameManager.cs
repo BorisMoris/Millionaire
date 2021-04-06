@@ -48,7 +48,7 @@ namespace Millionaire.Models
         public override void NewQuestion()
         {
             Round++;
-            if (Round == 6) //changing questions difficulty
+            if (Round == 6) //changing difficulty of questions
             {
                 currentQList = GameQSet.MediumQuestions;
             }
@@ -56,7 +56,7 @@ namespace Millionaire.Models
             {
                 currentQList = GameQSet.HardQuestions;
             }
-            int position = random.Next(currentQList.Count);
+            int position = random.Next(currentQList.Count); //Randomly pick new question and remove it from the list so it won't be picked again
             CurrentQuestion = currentQList[position];            
             currentQList.RemoveAt(position);
             
@@ -64,6 +64,10 @@ namespace Millionaire.Models
             RightAnswerIndex = temp;
         }
 
+        /// <summary>
+        /// Checks index of the answer and sets GameStatus accordingly
+        /// </summary>
+        /// <param name="index"></param>
         public override void CheckAnswer(int index)
         {
             if (index == RightAnswerIndex && Round > 14)
