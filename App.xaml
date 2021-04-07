@@ -30,6 +30,7 @@
             </Setter>
         </Style>
 
+        <!--The way of displaying a message if the listbox is empty adopted from https://stackoverflow.com/a/35552850-->
         <Style TargetType="ListBox" x:Key="qSetsListBoxStyle">
             <Style.Triggers>
                 <Trigger Property="HasItems" Value="False">

@@ -250,8 +250,11 @@ namespace Millionaire.Models
         }
 
         /// <summary>
-        /// Generate path from given name of question set
+        /// Generate path from given name of question set 
         /// </summary>
+        /// <remarks>
+        /// Source of diacritics removing algorythm: http://archives.miloush.net/michkap/archive/2007/05/14/2629747.html
+        /// </remarks>
         /// <param name="qSetName"></param>
         /// <returns>Path</returns>
         public static string GenerateFilePath (string qSetName)
@@ -260,22 +263,23 @@ namespace Millionaire.Models
             {
                 throw new Exception("Název sady obsahuje nepovolené znaky");
             }
-            
+
+            qSetName = qSetName.ToLower();
             string normalized = qSetName.Normalize(NormalizationForm.FormD);
-            qSetName = string.Empty;
+            StringBuilder stringBuilder = new StringBuilder();
 
             foreach (char c in normalized)
             {
                 if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
                 {
-                    qSetName += c;
+                    stringBuilder.Append(c);
                 }
             }
 
-            qSetName = qSetName.ToLower();
-            qSetName= qSetName.Replace(' ', '_');
+            stringBuilder.Replace(' ', '_');
+            stringBuilder.Append(".csv");
             
-            return Path.Combine(dataDir, qSetName + ".csv");
+            return Path.Combine(dataDir, stringBuilder.ToString());
         }
 
         /// <summary>

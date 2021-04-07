@@ -17,6 +17,8 @@
         <RoutedUICommand x:Key="newQuestionCommand"/>
     </UserControl.Resources>
 
+    <!--The way of implementing keyboard shortcuts in WPF adopted from https://stackoverflow.com/a/11455413-->
+    
     <UserControl.CommandBindings>
         <CommandBinding Command="{StaticResource saveCommand}" Executed="saveCommand_Executed"/>
         <CommandBinding Command="{StaticResource newQuestionCommand}" Executed="newQuestionCommand_Executed"/>
