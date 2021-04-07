@@ -130,16 +130,15 @@ namespace Millionaire.Models
         /// </summary>
         /// <param name="scores"></param>
         public static void SaveScores(List<Score> scores)
-        {  
-            XmlSerializer serializer = new XmlSerializer(scores.GetType());
+        {
+            if (!safeToSaveScores)
+            {
+                throw new Exception("Kvůli dřívější nepřístupnosti souboru není bezpečné ukládat skóre. Restartujte aplikaci.");
+            }
 
+            XmlSerializer serializer = new XmlSerializer(scores.GetType());
             using(StreamWriter sw=new StreamWriter(Path.Combine(dataDir, scoresFile)))
             {
-                if (!safeToSaveScores)
-                {
-                    throw new Exception("Kvůli dřívější nepřístupnosti souboru není bezpečné ukládat skóre. Restartujte aplikaci.");
-                }
-
                 serializer.Serialize(sw, scores);
             }
         }
@@ -253,7 +252,7 @@ namespace Millionaire.Models
         /// Generate path from given name of question set 
         /// </summary>
         /// <remarks>
-        /// Source of diacritics removing algorythm: http://archives.miloush.net/michkap/archive/2007/05/14/2629747.html
+        /// Source of diacritics removing algorithm: http://archives.miloush.net/michkap/archive/2007/05/14/2629747.html
         /// </remarks>
         /// <param name="qSetName"></param>
         /// <returns>Path</returns>

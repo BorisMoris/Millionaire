@@ -44,7 +44,7 @@ namespace Millionaire.Views
                 string error = scoresManager.AddPlayer(nickNameTextBox.Text, gameManager.Round - 1, gameManager.Prize, gameManager.QSetsNames);
                 if (!string.IsNullOrEmpty(error))
                 {
-                    MessageBox.Show("Při ukládání skóre došlo k chybě: " + error, "Chyba při ukládání", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Skóre se nepodařilo uložit: " + error, "Chyba při ukládání", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 Close();
                 navigationManager.ShowHighScores();

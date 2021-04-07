@@ -28,21 +28,12 @@ namespace Millionaire.Models
             Scores.Add(new Score(playerName, rightAnswers, prize, stringBuilder.ToString()));
             Scores = Scores.OrderByDescending(x => x.RightAnswers).ToList();
 
-            //if (Scores.Count() == 0)
-            //{
-            //    try
-            //    {
-            //        Scores = FileManager.LoadScores();
-            //    }
-            //}
-
             try
             {
                 FileManager.SaveScores(Scores);
             }
             catch (Exception ex)
             {
-                Scores.RemoveAt(Scores.Count()-1); //Removes current player, which cannot be saved
                 return ex.Message;
             }
             return null;
