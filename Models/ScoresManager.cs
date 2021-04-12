@@ -15,7 +15,15 @@ namespace Millionaire.Models
             Scores = new List<Score>();
         }
 
-        public string AddPlayer(string playerName, int rightAnswers, PrizeMoney prize, List<string> questionSets)
+        /// <summary>
+        /// Adds new instance of Score to the list of scores and saves the list
+        /// </summary>
+        /// <param name="playersName"></param>
+        /// <param name="rightAnswers"></param>
+        /// <param name="prize"></param>
+        /// <param name="questionSets"></param>
+        /// <returns></returns>
+        public string AddScore(string playersName, int rightAnswers, PrizeMoney prize, List<string> questionSets)
         {
             StringBuilder stringBuilder = new StringBuilder();
             for(int i= 0; i < questionSets.Count()-1; i++)
@@ -25,7 +33,7 @@ namespace Millionaire.Models
             }
             stringBuilder.Append(questionSets[questionSets.Count() - 1]);
 
-            Scores.Add(new Score(playerName, rightAnswers, prize, stringBuilder.ToString()));
+            Scores.Add(new Score(playersName, rightAnswers, prize, stringBuilder.ToString()));
             Scores = Scores.OrderByDescending(x => x.RightAnswers).ToList();
 
             try

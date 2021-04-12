@@ -60,7 +60,7 @@ namespace Millionaire.Models
         /// </summary>
         /// <param name="qSet"></param>
         /// <returns>Error message; null if QSet is ok</returns>
-        public string CheckQSet(QSet qSet)
+        public static string CheckQSet(QSet qSet)
         {
             if (qSet.EasyQuestions.Count() < MINIMUM_OF_QUESTIONS)
             {
@@ -86,6 +86,7 @@ namespace Millionaire.Models
         public (Question, string) CheckQuestions(HashSet<Question> questions)
         {
             string[] parts = new string[5];
+            string error = string.Empty;
             foreach (Question question in questions)
             {
                 parts[0] = question.QuestionSentence;
@@ -94,9 +95,9 @@ namespace Millionaire.Models
                 parts[3] = question.WrongAnswer2;
                 parts[4] = question.WrongAnswer3;
 
-                if (parts[0].StartsWith("*"))
+                if (parts[0].StartsWith(FileManager.TAG_FIRST_CHAR))
                 {
-                    return (question, $"Otázka \"{parts[0]}\" začíná nedovoleným charakterem.");
+                    error = $"Otázka \"{parts[0]}\" začíná nedovoleným charakterem.";
                 }
 
                 foreach (string str in parts)
@@ -105,7 +106,12 @@ namespace Millionaire.Models
                     {
                         return (question, $"Otázka \"{parts[0]}\" obsahuje nevyplněné pole.");
                     }
+                    if (str.Contains(";"))
+                    {
+                        return (question, $"Otázka \"{parts[0]}\" obsahuje nepovolený znak: ;");
+                    }
                 }
+                return (question, error);
             }
             return (null, null);
         }

@@ -201,16 +201,6 @@ namespace Millionaire.Views
             }
         }
 
-        private void newQuestionButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void saveButton_Click(object sender, RoutedEventArgs e)
-        {
-            Save();
-        }
-
         private void quitButton_Click(object sender, RoutedEventArgs e)
         {
             if (!Saved)
@@ -229,7 +219,7 @@ namespace Millionaire.Views
                 }
             }
             
-            if (actualPath != null) //actualPath is null for new QSet which has not been saved yet, so there's nothing to load in that case
+            if (actualPath != null) //actualPath is null for a new QSet which has not been saved yet, so there's nothing to load in that case
             {
                 QSet savedQSet;
                 savedQSet = FileManager.LoadQSetFromFile(actualPath);
@@ -282,20 +272,11 @@ namespace Millionaire.Views
         /// <returns>True if the qSet was saved successfuly, otherwise false </returns>
         private bool Save()
         {
-            if (nameChanged && actualPath!=null) //EditedQSet has been renamed and has a file to rename
+            if (saved)
             {
-                try
-                {
-                    File.Move(actualPath, EditedQSet.Path);
-                    actualPath = EditedQSet.Path;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Chyba při ukládání otázek:\nPřejmenování souboru se nezdařilo: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
-                }
+                return true;
             }
-
+            
             string error = qSetsManager.CheckQSet(EditedQSet); //check number of questions
             if (error != null)
             {
@@ -311,16 +292,30 @@ namespace Millionaire.Views
                 return false;
             }
 
+            if (nameChanged && actualPath != null) //rename if EditedQSet has been renamed and there is a file to rename
+            {
+                try
+                {
+                    File.Move(actualPath, EditedQSet.Path);
+                    actualPath = EditedQSet.Path;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Chyba při ukládání otázek:\nPřejmenování souboru se nezdařilo: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+            }
+
             try
             {
                 FileManager.SaveQSet(EditedQSet);
-                actualPath = EditedQSet.Path;
+                actualPath = EditedQSet.Path; //if this was the first saving of the new QSet, actual path was null
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Chyba při ukládání otázek:\n{ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
-            }          
+            }
 
             Saved = true;
             nameChanged = false;
@@ -449,7 +444,7 @@ namespace Millionaire.Views
             Saved = false;
 
             Refresh();
-            questionsListBox.SelectedIndex = 0; //empty new question is displayed on the first row
+            questionsListBox.SelectedIndex = 0; //new empty question is displayed on the first row
             questionTextBox.Focus();
         }
     }

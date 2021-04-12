@@ -13,7 +13,10 @@ namespace Millionaire.Models
 {
     static class FileManager
     {
-        private static string dataDir
+        public const string TAG_FIRST_CHAR = "*";
+        private const string EASY_SECTION_TAG = "*easyQuestions", MEDIUM_SECTION_TAG = "*mediumQuestions", HARD_SECTION_TAG = "*hardQuestions";
+        
+        private static string dataDir //program's working directory
         {
             get
             {
@@ -90,7 +93,7 @@ namespace Millionaire.Models
                 int line = 3;
                 while(s != null)
                 {
-                    if (s.StartsWith("*")) //checks wheter higher difficulty section was reached
+                    if (s.StartsWith(TAG_FIRST_CHAR)) //checks wheter higher difficulty section was reached
                     {                        
                         if (difficulty < Difficulty.Hard) //checks wheter highest difficulty level was reached
                         {
@@ -211,8 +214,8 @@ namespace Millionaire.Models
             using (StreamWriter writer = new StreamWriter(qSet.Path, false, Encoding.UTF8))
             {
                 writer.WriteLine(qSet.Name);
-                writer.WriteLine("*easyQuestions");
-                List<Question> questions = qSet.EasyQuestions;
+                writer.WriteLine(EASY_SECTION_TAG); //difficulty section tag
+                List<Question> questions = qSet.EasyQuestions; //start with writing easy questions
                 string[] parts = new string[5];
                 Difficulty difficulty = Difficulty.Easy;
                 bool loop = true;
@@ -232,12 +235,12 @@ namespace Millionaire.Models
                     difficulty++;
                     if (difficulty == Difficulty.Medium)
                     {
-                        writer.WriteLine("*mediumQuestions");
+                        writer.WriteLine(MEDIUM_SECTION_TAG);
                         questions = qSet.MediumQuestions;
                     }
                     else if (difficulty == Difficulty.Hard)
                     {
-                        writer.WriteLine("*hardQuestions");
+                        writer.WriteLine(HARD_SECTION_TAG);
                         questions = qSet.HardQuestions;
                     }
                     else

@@ -33,7 +33,7 @@ namespace Millionaire.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Nepodařilo se načíst uložená skóre: " + ex.Message, "Nelze načíst skóre", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Nepodařilo se načíst uložená skóre: " + ex.Message + "\nNebude možné ukládat skóre. Pokud chcete umožnit ukládání, restartujte aplikaci.", "Nelze načíst skóre", MessageBoxButton.OK, MessageBoxImage.Error);
                 FileManager.safeToSaveScores = false;
             }
         }
