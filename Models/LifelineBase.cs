@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
     public abstract class LifelineBase : INotifyPropertyChanged
     {
         protected Random random;
-        
+
         public LifelineBase(Random random)
         {
-            this.random=random;
+            this.random = random;
         }
 
         #region PropertyChanged implementation

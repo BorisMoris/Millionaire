@@ -1,16 +1,13 @@
-﻿using System;
+﻿using Millionaire.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Millionaire.Models;
 
 namespace Millionaire.Views
 {
-    
+
     public class NavigationManager : INotifyPropertyChanged
     {
         private UserControl currentUC;
@@ -21,7 +18,7 @@ namespace Millionaire.Views
         }
 
         public ScoresManager ScoresManager { get; set; }
-        public QSetsManager QSetsManager{ get; set; }
+        public QSetsManager QSetsManager { get; set; }
 
         public NavigationManager()
         {
@@ -52,7 +49,7 @@ namespace Millionaire.Views
         /// </summary>
         /// <param name="isSandbox">True if the user wants to practice random questions</param>
         public void ShowQSetsUC(bool isSandbox)
-        {      
+        {
             UserControl selectQSets = new SelectQSetsUC(this, QSetsManager, isSandbox);
             CurrentUC = selectQSets;
         }

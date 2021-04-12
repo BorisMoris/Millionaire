@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Millionaire.Models;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Millionaire.Models;
 
 namespace Millionaire.Views
 {
@@ -27,7 +15,7 @@ namespace Millionaire.Views
             get { return (NavigationManager)GetValue(navigationManagerProperty); }
             set { SetValue(navigationManagerProperty, value); }
         }
-        
+
         public static readonly DependencyProperty navigationManagerProperty =
             DependencyProperty.Register("navigationManager", typeof(NavigationManager), typeof(EndOfGameButtons), new PropertyMetadata(null));
 
@@ -42,17 +30,17 @@ namespace Millionaire.Views
 
         private static void OnPropertySet(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue !=null) //decide wheter saveScoreButton should be enabled
+            if (e.NewValue != null) //decide wheter saveScoreButton should be enabled
                 ((EndOfGameButtons)d).DisableButton();
         }
 
         public EndOfGameButtons()
-        { 
+        {
             InitializeComponent();
         }
 
         private void backToMenuButton_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             navigationManager.ShowMainMenu();
         }
 

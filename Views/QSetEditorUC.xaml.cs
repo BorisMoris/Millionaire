@@ -1,21 +1,12 @@
-﻿using System;
+﻿using Millionaire.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Millionaire.Models;
 
 namespace Millionaire.Views
 {
@@ -44,7 +35,7 @@ namespace Millionaire.Views
         private int index; //index of edited QSet in QSetsManager.QuestionSets collection
 
         private NavigationManager navManager;
-        private QSetsManager qSetsManager;        
+        private QSetsManager qSetsManager;
 
         public ICollectionView EasyCollectionView { get; private set; }
         public ICollectionView MediumCollectionView { get; private set; }
@@ -95,7 +86,7 @@ namespace Millionaire.Views
 
             editedQuestions = new HashSet<Question>();
 
-            questionTextBoxes = new List<TextBox> { questionTextBox, rightAnswerTextBox, wrongAnswer1TextBox, wrongAnswer2TextBox, wrongAnswer3TextBox };            
+            questionTextBoxes = new List<TextBox> { questionTextBox, rightAnswerTextBox, wrongAnswer1TextBox, wrongAnswer2TextBox, wrongAnswer3TextBox };
         }
 
         /// <summary>
@@ -120,8 +111,8 @@ namespace Millionaire.Views
         /// <param name="qSetsManager"></param>
         /// <param name="name"></param>
         /// <param name="path"></param>
-        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, string name, string path) : this (navManager, qSetsManager)
-        {            
+        public QSetEditorUC(NavigationManager navManager, QSetsManager qSetsManager, string name, string path) : this(navManager, qSetsManager)
+        {
             EditedQSet = new QSet(name, path);
             isNew = true;
             saved = false;
@@ -148,14 +139,14 @@ namespace Millionaire.Views
 
         private bool FiterQuestions(object obj)
         {
-            if(obj is Question question)
+            if (obj is Question question)
             {
-                return question.QuestionSentence.IndexOf(FilterKey, StringComparison.InvariantCultureIgnoreCase)>=0;
+                return question.QuestionSentence.IndexOf(FilterKey, StringComparison.InvariantCultureIgnoreCase) >= 0;
             }
             else
             {
                 return false;
-            }            
+            }
         }
 
         /// <summary>
@@ -171,14 +162,14 @@ namespace Millionaire.Views
         private void questionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             bool isSelected = questionsListBox.SelectedItem != null;
-            foreach(TextBox textBox in questionTextBoxes)
+            foreach (TextBox textBox in questionTextBoxes)
             {
                 textBox.IsEnabled = isSelected;
             }
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
-        {  
+        {
             if (questionsListBox.SelectedItem != null)
             {
                 Question toRemove = (Question)questionsListBox.SelectedItem;
@@ -218,7 +209,7 @@ namespace Millionaire.Views
                     }
                 }
             }
-            
+
             if (actualPath != null) //actualPath is null for a new QSet which has not been saved yet, so there's nothing to load in that case
             {
                 QSet savedQSet;
@@ -239,7 +230,7 @@ namespace Millionaire.Views
                 {
                     MessageBox.Show($"Nelze načíst změny v sadě otázek:\n{ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            } 
+            }
             navManager.ShowManageQSets();
         }
 
@@ -276,14 +267,14 @@ namespace Millionaire.Views
             {
                 return true;
             }
-            
+
             string error = qSetsManager.CheckQSet(EditedQSet); //check number of questions
             if (error != null)
             {
                 MessageBox.Show($"Chyba při ukládání otázek:\n{error}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-            
+
             var result = qSetsManager.CheckQuestions(editedQuestions); //check individal questions
             if (result.Item1 != null && result.Item2 != null)
             {
@@ -321,21 +312,21 @@ namespace Millionaire.Views
             nameChanged = false;
             editedQuestions.Clear();
             return true;
-        }       
-        
+        }
+
         /// <summary>
         /// Selects given Question in questionListBox
         /// </summary>
         /// <param name="wantedQuestion"></param>
         private void SelectQuestion(Question wantedQuestion)
-        {            
+        {
             int index;
             index = IndexOfQuestion(EasyCollectionView, wantedQuestion);
             if (index >= 0)
             {
                 difficultyComboBox.SelectedIndex = 0;
                 questionsListBox.SelectedIndex = index;
-                
+
                 return;
             }
             else
@@ -345,7 +336,7 @@ namespace Millionaire.Views
                 {
                     difficultyComboBox.SelectedIndex = 1;
                     questionsListBox.SelectedIndex = index;
-                    
+
                     return;
                 }
                 else
@@ -355,7 +346,7 @@ namespace Millionaire.Views
                     {
                         difficultyComboBox.SelectedIndex = 2;
                         questionsListBox.SelectedIndex = index;
-                        
+
                         return;
                     }
                 }
@@ -374,7 +365,7 @@ namespace Millionaire.Views
             foreach (Question question in collection)
             {
                 if (question == wantedQuestion)
-                { 
+                {
                     return counter;
                 }
                 counter++;
@@ -416,9 +407,9 @@ namespace Millionaire.Views
                         MessageBox.Show("Pro název \"" + name + "\" nelze vygenerovat jedinečný název souboru.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                         continue;
                     }
-                 
+
                     EditedQSet.Path = path;
-                    EditedQSet.Name = name;                    
+                    EditedQSet.Name = name;
                     Saved = false;
                     nameChanged = true;
                     loop = false;

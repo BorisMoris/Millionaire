@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
@@ -11,7 +7,7 @@ namespace Millionaire.Models
     {
         public int[] ResponsesRatio { get; set; }
 
-        public AudienceLifeline(Random random) :base(random)
+        public AudienceLifeline(Random random) : base(random)
         {
             ResponsesRatio = new int[4];
         }
@@ -39,7 +35,7 @@ namespace Millionaire.Models
                 ResponsesRatio[3] = 100 - sum; //complete to 100
             } while (ResponsesRatio.Max() > 70); //if the max value is bigger than 70 (unlikely, but possible), repeat the cycle
 
-            for(int i = 0; i < ResponsesRatio.Length; i++) //randomly shift values to add more accident
+            for (int i = 0; i < ResponsesRatio.Length; i++) //randomly shift values to add more accident
             {
                 int rnd = random.Next(ResponsesRatio.Length);
                 int temp = ResponsesRatio[i];

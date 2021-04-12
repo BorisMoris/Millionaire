@@ -1,19 +1,8 @@
-﻿using System;
+﻿using Millionaire.Models;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Millionaire.Models;
 
 namespace Millionaire.Views
 {
@@ -27,7 +16,7 @@ namespace Millionaire.Views
         List<Button> qSetActionButtons;
         QSet selected;
 
-        public ManageQSetsUC(NavigationManager navigationManager, QSetsManager qSetsManager )
+        public ManageQSetsUC(NavigationManager navigationManager, QSetsManager qSetsManager)
         {
             navManager = navigationManager;
             this.qSetsManager = qSetsManager;
@@ -82,7 +71,7 @@ namespace Millionaire.Views
             if (result == true)
             {
                 string file = saveFileDialog.FileName;
-                
+
                 try
                 {
                     FileManager.ExportQSet(selected.Path, file);
@@ -95,8 +84,8 @@ namespace Millionaire.Views
         }
 
         private void QSetsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {            
-            foreach(Button button in qSetActionButtons)
+        {
+            foreach (Button button in qSetActionButtons)
             {
                 button.IsEnabled = QSetsListBox.SelectedItem != null;
             }
@@ -118,8 +107,8 @@ namespace Millionaire.Views
 
                 try
                 {
-                    newQSet = FileManager.LoadQSetFromFile(file);                    
-                    
+                    newQSet = FileManager.LoadQSetFromFile(file);
+
                     if (qSetsManager.CheckName(newQSet.Name))
                     {
                         MessageBox.Show("Sada otázek s názvem " + newQSet.Name + " už existuje. Pokud chcete přesto importovat, změňte název jedné ze sad.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -144,20 +133,20 @@ namespace Millionaire.Views
                 qSetsManager.QuestionSets.Add(newQSet);
                 qSetsManager.Sort();
                 QSetsListBox.ItemsSource = qSetsManager.QuestionSets;
-            }            
+            }
         }
 
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                QSet toEdit =  FileManager.LoadQSetFromFile(selected.Path);
+                QSet toEdit = FileManager.LoadQSetFromFile(selected.Path);
                 navManager.ShowQSetEditor(toEdit, QSetsListBox.SelectedIndex);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Soubor se nepodařilo načíst.\n" + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }  
+            }
         }
 
         private void newQSetButton_Click(object sender, RoutedEventArgs e)
@@ -187,7 +176,7 @@ namespace Millionaire.Views
                 }
 
                 navManager.ShowQSetEditor(name, path);
-            }            
+            }
         }
     }
 }

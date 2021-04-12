@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
@@ -26,7 +25,7 @@ namespace Millionaire.Models
         public string AddScore(string playersName, int rightAnswers, PrizeMoney prize, List<string> questionSets)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            for(int i= 0; i < questionSets.Count()-1; i++)
+            for (int i = 0; i < questionSets.Count() - 1; i++)
             {
                 stringBuilder.Append(questionSets[i]);
                 stringBuilder.Append(", ");

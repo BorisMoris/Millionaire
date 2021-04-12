@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
-    public class FriendLifeline:LifelineBase
+    public class FriendLifeline : LifelineBase
     {
         private string[] statements = new string[] {
             "Správná odpověď je určitě",
@@ -33,13 +29,13 @@ namespace Millionaire.Models
         {
             get { return answer; }
             set
-            { 
+            {
                 answer = value;
                 NotifyPropertyChanged(nameof(Answer));
             }
         }
 
-        public FriendLifeline(Random random):base (random)
+        public FriendLifeline(Random random) : base(random)
         {
         }
 

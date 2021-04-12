@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
@@ -28,7 +25,7 @@ namespace Millionaire.Models
         /// <returns></returns>
         public bool CheckName(string newName)
         {
-            foreach(QSet qSet in QuestionSets)
+            foreach (QSet qSet in QuestionSets)
             {
                 if (qSet.Name == newName)
                 {

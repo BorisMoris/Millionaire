@@ -1,20 +1,7 @@
-﻿using System;
+﻿using Millionaire.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Millionaire.Models;
 
 namespace Millionaire.Views
 {
@@ -26,7 +13,7 @@ namespace Millionaire.Views
         NavigationManager navManager;
         QSetsManager qSetsManager;
         bool isSandbox;
-        
+
         public SelectQSetsUC(NavigationManager navManager, QSetsManager qSetsManager, bool isSandbox)
         {
             InitializeComponent();
@@ -60,9 +47,9 @@ namespace Millionaire.Views
         }
 
         private void continueButton_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             List<QSet> temp = new List<QSet>();
-            foreach(QSet qSet in QSetsListBox.SelectedItems)
+            foreach (QSet qSet in QSetsListBox.SelectedItems)
             {
                 temp.Add(qSet);
             }
@@ -83,7 +70,7 @@ namespace Millionaire.Views
 
         private void QSetsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (QSetsListBox.SelectedItems.Count>0)
+            if (QSetsListBox.SelectedItems.Count > 0)
             {
                 continueButton.IsEnabled = true;
             }

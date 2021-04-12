@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
@@ -31,7 +28,7 @@ namespace Millionaire.Models
         public List<Question> HardQuestions { get { return hardQuestions; } }
 
         public QSet() { }
-        
+
         public QSet(string name, string path)
         {
             Name = name;
@@ -69,7 +66,7 @@ namespace Millionaire.Models
             }
             return question;
         }
-        
+
         /// <summary>
         /// Adds question
         /// </summary>
