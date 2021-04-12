@@ -122,6 +122,9 @@ namespace Millionaire.Views
         /// <summary>
         /// Set sorting and filtering
         /// </summary>
+        /// <remarks>
+        /// Info about working with ICollectionView comes from this demo: https://github.com/SingletonSean/wpf-tutorials/tree/master/CollectionViewFilteringMVVM/ViewModels
+        /// </remarks>
         private void SetCollectionViews()
         {
             EasyCollectionView = CollectionViewSource.GetDefaultView(EditedQSet.EasyQuestions);

@@ -101,14 +101,19 @@ namespace Millionaire.Models
                 {
                     if (string.IsNullOrEmpty(str))
                     {
-                        return (question, $"Otázka \"{parts[0]}\" obsahuje nevyplněné pole.");
+                        error= $"Otázka \"{parts[0]}\" obsahuje nevyplněné pole.";
                     }
-                    if (str.Contains(";"))
+                    else if (str.Contains(";"))
                     {
-                        return (question, $"Otázka \"{parts[0]}\" obsahuje nepovolený znak: ;");
+                        error = $"Otázka \"{parts[0]}\" obsahuje nepovolený znak: ;";
                     }
                 }
-                return (question, error);
+
+                if (!string.IsNullOrEmpty(error))
+                {
+                    return (question, error);
+                }
+                
             }
             return (null, null);
         }
