@@ -268,7 +268,7 @@ namespace Millionaire.Views
                 return true;
             }
 
-            string error = qSetsManager.CheckQSet(EditedQSet); //check number of questions
+            string error = QSetsManager.CheckQSet(EditedQSet); //check number of questions
             if (error != null)
             {
                 MessageBox.Show($"Chyba při ukládání otázek:\n{error}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
