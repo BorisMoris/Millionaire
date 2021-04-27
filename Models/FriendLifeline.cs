@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
-    public class FriendLifeline:LifelineBase
+    public class FriendLifeline : LifelineBase
     {
         private string[] statements = new string[] {
             "Správná odpověď je určitě",
             "Řekni, že je to",
             "Myslím, že odpověď je",
-            "Podle mě to bude"
+            "Podle mě to bude",
+            "Odpověď by mohla být",
+            "Jsem si skoro jistý, že je to"
         };
 
         private string statement;
-
         public string Statement
         {
             get { return statement; }
-            set {
+            set
+            {
                 statement = value;
                 NotifyPropertyChanged(nameof(Statement));
             }
@@ -31,13 +29,13 @@ namespace Millionaire.Models
         {
             get { return answer; }
             set
-            { 
+            {
                 answer = value;
                 NotifyPropertyChanged(nameof(Answer));
             }
         }
 
-        public FriendLifeline(Random random):base (random)
+        public FriendLifeline(Random random) : base(random)
         {
         }
 

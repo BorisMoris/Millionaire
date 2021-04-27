@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
@@ -22,8 +20,6 @@ namespace Millionaire.Models
             }
         }
 
-        protected Random random = new Random();
-
         private string[] randomizedAnswers;
         public string[] RandomizedAnswers
         {
@@ -34,6 +30,8 @@ namespace Millionaire.Models
                 NotifyPropertyChanged(nameof(RandomizedAnswers));
             }
         }
+
+        protected Random random = new Random();
         public int RightAnswerIndex { get; set; }
 
         public BaseGameManager(List<QSet> selectedQSets)
@@ -55,18 +53,9 @@ namespace Millionaire.Models
 
         public abstract void LoadQuestions(List<QSet> selectedQSets);
 
-        /// <summary>
-        /// Set new question
-        /// </summary>
-        public virtual void NewQuestion()
-        {
-            int position = random.Next(currentQList.Count);
-            CurrentQuestion = currentQList[position];
-            currentQList.RemoveAt(position);
+        public abstract void NewQuestion();
 
-            RandomizedAnswers = RandomizeAnswers(CurrentQuestion, out int temp);
-            RightAnswerIndex = temp;
-        }
+        public abstract void CheckAnswer(int index);
 
         /// <summary>
         /// Randomize order of answers in question
@@ -94,7 +83,5 @@ namespace Millionaire.Models
 
             return randomizedAnswers;
         }
-
-        public abstract void CheckAnswer(int index);
     }
 }

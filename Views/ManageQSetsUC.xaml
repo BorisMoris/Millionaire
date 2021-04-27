@@ -32,7 +32,7 @@
                    FontSize="15"
                    Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
 
-        <ListBox x:Name="QSetsListBox"
+        <ListBox x:Name="QSetsListBox" Style="{StaticResource qSetsListBoxStyle}"
                  Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Margin="0,0,10,0"
                  SelectionMode="Single" SelectionChanged="QSetsListBox_SelectionChanged">
             <ListBox.ItemTemplate>
@@ -42,34 +42,36 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Border Padding="5" MaxHeight="210"
-                BorderBrush="LightGray" BorderThickness="1" CornerRadius="2"
+        <GroupBox Padding="2" MaxHeight="210" Header="Označená sada:"
                 Grid.Row="2" Grid.Column="2">
             <StackPanel DataContext="{Binding ElementName=QSetsListBox,Path=SelectedItem}">
-                <TextBlock Text="Označená sada:" FontWeight="Light" Margin="0,0,0,8"/>
-                <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" TextWrapping="Wrap" MaxHeight="40"/>
                 <TextBlock>
                     <Run Text="Počet otázek:"/> <Run Text="{Binding Path=QuestionsCount, Mode=OneWay}"/>
                 </TextBlock>
-                <Button x:Name="editButton" Content="Editovat" IsEnabled="False" Padding="5" Margin="2,15,2,2" Click="editButton_Click"/>
+                <Button x:Name="editButton" Content="Editovat" ToolTip="Upravit otázky či přejmenovat sadu"
+                        IsEnabled="False" Padding="5" Margin="2,15,2,2" Click="editButton_Click"/>
                 <Grid>
                     <Grid.ColumnDefinitions>                        
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button x:Name="exportButton" Content="Exportovat" IsEnabled="False"
-                            Grid.Column="0"  Padding="5" Margin="2" Click="exportButton_Click"/>
-                    <Button x:Name="deleteButton" Content="Odstranit" IsEnabled="False"
+                    <Button x:Name="exportButton" Content="Exportovat" ToolTip="Exportovat sadu (.csv) na vybrané místo v úložišti"
+                            IsEnabled="False" Click="exportButton_Click"
+                            Grid.Column="0"  Padding="5" Margin="2"/>
+                    <Button x:Name="deleteButton" Content="Odstranit" ToolTip="Trvale odstranit sadu"
+                            IsEnabled="False"
                             Grid.Column="1" Padding="5" Margin="2" Click="deleteButton_Click"/>
                 </Grid>
             </StackPanel>
-        </Border>
+        </GroupBox>
 
         <StackPanel Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom">
-            <Button Content="Importovat sadu otázek" x:Name="importButton"
+            <Button Content="Importovat sadu otázek" x:Name="importButton" ToolTip="Importovat sadu (.csv) z vybraného místa v úložišti"
                     Height="30" Margin="0,0,0,4" Click="importButton_Click"/>
-            <Button Content="Vytvořit novou sadu otázek" x:Name="newQSetButton" Click="newQSetButton_Click"
+            <Button Content="Vytvořit novou sadu otázek" x:Name="newQSetButton"
+                    Click="newQSetButton_Click" ToolTip="Vytvořit novou prázdnou sadu otázek"
                     Grid.Row="3" Grid.Column="2" Height="30"/>
         </StackPanel>
         

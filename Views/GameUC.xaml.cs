@@ -1,19 +1,9 @@
-﻿using System;
+﻿using Millionaire.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using Millionaire.Models;
 
 namespace Millionaire.Views
 {
@@ -51,6 +41,7 @@ namespace Millionaire.Views
             DataContext = gameManager;
             this.navigationManager = navigationManager;
 
+            //find resources defined in App.xaml
             rightAnswerStyle = FindResource("rightAnswer") as Style;
             wrongAnswerStyle = FindResource("wrongAnswer") as Style;
 
@@ -58,13 +49,13 @@ namespace Millionaire.Views
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
 
-            answerButtons = new List<Button> { answerAButton, answerBButton, answerCButton, answerDButton };            
-        }        
+            answerButtons = new List<Button> { answerAButton, answerBButton, answerCButton, answerDButton };
+        }
 
         private void answerButton_Click(object sender, RoutedEventArgs e)
         {
             selectedButton = ((Button)sender);
-            switch (selectedButton.Name)
+            switch (selectedButton.Name) //check answer in the GameManager
             {
                 case "answerAButton":
                     gameManager.CheckAnswer(0);
@@ -90,7 +81,7 @@ namespace Millionaire.Views
         {
             Style style;
             EnableAnswerButtons(false);
-            if(gameManager.GameStatus==GameStatus.InProgress || gameManager.GameStatus == GameStatus.Victory)
+            if (gameManager.GameStatus == GameStatus.InProgress || gameManager.GameStatus == GameStatus.Victory)
             {
                 style = rightAnswerStyle;
             }
@@ -105,7 +96,7 @@ namespace Millionaire.Views
 
         // This method is executed when the DispatcherTimer interval occurs
         private void dispatcherTimer_Tick(object sender, EventArgs e)
-        {            
+        {
             EvaluateRound();
 
             dispatcherTimer.IsEnabled = false;
@@ -116,7 +107,7 @@ namespace Millionaire.Views
         /// </summary>
         private void EvaluateRound()
         {
-            if(gameManager.GameStatus==GameStatus.InProgress)
+            if (gameManager.GameStatus == GameStatus.InProgress) //game continues - set everything to default and pick a new question
             {
                 selectedButton.Style = default;
                 EnableAnswerButtons(true);
@@ -128,12 +119,12 @@ namespace Millionaire.Views
 
                 gameManager.NewQuestion();
             }
-            else if (gameManager.GameStatus==GameStatus.Victory)
+            else if (gameManager.GameStatus == GameStatus.Victory) //the player wins
             {
                 gameManager.Round++;
                 navigationManager.ShowVictory(gameManager);
             }
-            else
+            else //the player loses
             {
                 navigationManager.ShowEndOfGame(gameManager);
             }
@@ -145,7 +136,7 @@ namespace Millionaire.Views
         /// <param name="isEnabled"></param>
         private void EnableAnswerButtons(bool isEnabled)
         {
-            foreach(Button button in answerButtons)
+            foreach (Button button in answerButtons)
             {
                 button.IsEnabled = isEnabled;
             }
@@ -153,9 +144,9 @@ namespace Millionaire.Views
 
         private void endGameButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result= MessageBox.Show("Opravdu chceš ukončit hru? Tvůj postup bude ztracen.", "Ukončit hru", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Opravdu chceš ukončit hru? Tvůj postup bude ztracen.", "Ukončit hru", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            if (result==MessageBoxResult.Yes)
+            if (result == MessageBoxResult.Yes)
             {
                 navigationManager.ShowMainMenu();
             }

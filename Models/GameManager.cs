@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Millionaire.Models
 {
@@ -15,14 +9,14 @@ namespace Millionaire.Models
         public PrizeMoney Prize { get; set; }
 
         public GameStatus GameStatus { get; set; }
-        public int Round { get; set; }        
+        public int Round { get; set; }
 
-        public GameManager(List<QSet> selectedQSets):base(selectedQSets)
-        {            
+        public GameManager(List<QSet> selectedQSets) : base(selectedQSets)
+        {
             Prize = new PrizeMoney();
             Round = 0;
 
-            LoadQuestions(selectedQSets);            
+            LoadQuestions(selectedQSets);
             NewQuestion();
         }
 
@@ -41,14 +35,14 @@ namespace Millionaire.Models
 
             currentQList = GameQSet.EasyQuestions;
         }
-                
+
         /// <summary>
         /// Set new question
         /// </summary>
         public override void NewQuestion()
         {
             Round++;
-            if (Round == 6) //changing questions difficulty
+            if (Round == 6) //changing difficulty of questions
             {
                 currentQList = GameQSet.MediumQuestions;
             }
@@ -56,25 +50,29 @@ namespace Millionaire.Models
             {
                 currentQList = GameQSet.HardQuestions;
             }
-            int position = random.Next(currentQList.Count);
-            CurrentQuestion = currentQList[position];            
+            int position = random.Next(currentQList.Count); //Randomly pick new question and remove it from the list so it won't be picked again
+            CurrentQuestion = currentQList[position];
             currentQList.RemoveAt(position);
-            
+
             RandomizedAnswers = RandomizeAnswers(CurrentQuestion, out int temp);
             RightAnswerIndex = temp;
         }
 
+        /// <summary>
+        /// Checks index of the answer and sets GameStatus accordingly
+        /// </summary>
+        /// <param name="index"></param>
         public override void CheckAnswer(int index)
         {
             if (index == RightAnswerIndex && Round > 14)
             {
                 GameStatus = GameStatus.Victory;
-                Prize.Value++;
+                Prize++;
             }
             else if (index == RightAnswerIndex)
             {
                 GameStatus = GameStatus.InProgress;
-                Prize.Value++;
+                Prize++;
             }
             else
             {

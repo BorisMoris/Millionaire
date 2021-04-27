@@ -8,7 +8,7 @@
         Title="EnterNicknameWindow"
         Height="170" Width="300"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        FontSize="14">
+        FontSize="14" Icon="/Millionaire;component/Media/icon1.1.png">
     <Grid Margin="18">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>

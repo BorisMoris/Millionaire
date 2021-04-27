@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Millionaire.Models
 {
     static class FileManager
     {
-        private static string dataDir
+        public const string TAG_FIRST_CHAR = "*";
+        private const string EASY_SECTION_TAG = "*easyQuestions", MEDIUM_SECTION_TAG = "*mediumQuestions", HARD_SECTION_TAG = "*hardQuestions";
+
+        private static string dataDir //program's working directory
         {
             get
             {
@@ -33,16 +34,16 @@ namespace Millionaire.Models
         /// <summary>
         /// Loads all question sets from a program's folder
         /// </summary>
-        /// <param name="exceptions">Returns list of potential exceptions</param>
+        /// <param name="errors">Returns list of potential errors</param>
         /// <returns>List of question sets</returns>
-        public static ObservableCollection<QSet> LoadQuestionSets(out List<Exception> exceptions)
+        public static ObservableCollection<QSet> LoadQuestionSets(out List<string> errors)
         {
             ObservableCollection<QSet> qSets = new ObservableCollection<QSet>();
 
             QSet qSet = null;
 
-            exceptions = new List<Exception>();
-            
+            errors = new List<string>();
+
             string[] files = Directory.GetFiles(dataDir, "*.csv");
             foreach (string file in files)
             {
@@ -54,12 +55,12 @@ namespace Millionaire.Models
                         qSets.Add(qSet);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    exceptions.Add(ex);
-                }                           
+                    errors.Add(ex.Message);
+                }
             }
-            
+
             return qSets;
         }
 
@@ -74,14 +75,12 @@ namespace Millionaire.Models
             QSet qSet = new QSet();
             qSet.Path = path;
 
-            int counter = 0;
-
             using (StreamReader sr = new StreamReader(path))
             {
                 string s = sr.ReadLine();
                 if (s == null) //checks wheter the first line is not null
                 {
-                    throw new ArgumentException(path + " First line is null, can't load");                  
+                    throw new ArgumentException(path + " First line is null, can't load");
                 }
                 qSet.Name = s.TrimEnd(';');
 
@@ -89,15 +88,11 @@ namespace Millionaire.Models
 
                 Difficulty difficulty = Difficulty.Easy;
                 s = sr.ReadLine();
-                while(s != null)
+                int line = 3;
+                while (s != null)
                 {
-                    if (s.StartsWith("*")) //checks wheter higher difficulty section was reached
+                    if (s.StartsWith(TAG_FIRST_CHAR)) //checks wheter higher difficulty section was reached
                     {
-                        if (counter < 5) //checks wheter enough questions of previous difficulty was loaded
-                        {
-                            throw new ArgumentException(path + " Not enough questions of the same difficulty, can't load");
-                        }
-
                         if (difficulty < Difficulty.Hard) //checks wheter highest difficulty level was reached
                         {
                             difficulty++;
@@ -105,17 +100,17 @@ namespace Millionaire.Models
                         }
                         else
                         {
-                            throw new ArgumentException(path + " Invalid number of difficulty signs, can't load");
-                        }                        
+                            throw new ArgumentException(path + " Špatný počet značek pro změnu obtížnosti, nelze načíst.");
+                        }
                     }
 
                     string[] split = s.Split(';');
                     if (split.Length != 5) //checks wheter the line contains exactly 5 strings
                     {
-                        throw new ArgumentException(path + " Wrong count of strings on a line, can't load");
+                        throw new ArgumentException(path + $" Špatný počet řetězců na řádku {line}, nelze načíst.");
                     }
                     qSet.AddQuestion(difficulty, split[0], split[1], split[2], split[3], split[4]);
-                    counter++;
+                    line++;
 
                     s = sr.ReadLine();
                 }
@@ -127,8 +122,8 @@ namespace Millionaire.Models
             }
             else
             {
-                throw new ArgumentException(path + " Not enough questions of the same difficulty, can't load");
-            }            
+                throw new ArgumentException(path + " Nedostatek otázek stejné obtížnosti, nelze načíst.");
+            }
         }
 
         /// <summary>
@@ -136,16 +131,15 @@ namespace Millionaire.Models
         /// </summary>
         /// <param name="scores"></param>
         public static void SaveScores(List<Score> scores)
-        {  
-            XmlSerializer serializer = new XmlSerializer(scores.GetType());
-
-            using(StreamWriter sw=new StreamWriter(Path.Combine(dataDir, scoresFile)))
+        {
+            if (!safeToSaveScores)
             {
-                if (!safeToSaveScores)
-                {
-                    throw new Exception("Kvůli dřívější nepřístupnosti souboru není bezpečné ukládat skóre. Restartujte aplikaci.");
-                }
+                throw new Exception("Kvůli dřívější nepřístupnosti souboru není bezpečné ukládat skóre. Restartujte aplikaci.");
+            }
 
+            XmlSerializer serializer = new XmlSerializer(scores.GetType());
+            using (StreamWriter sw = new StreamWriter(Path.Combine(dataDir, scoresFile)))
+            {
                 serializer.Serialize(sw, scores);
             }
         }
@@ -159,7 +153,7 @@ namespace Millionaire.Models
             XmlSerializer serializer = new XmlSerializer(typeof(List<Score>));
             if (File.Exists(Path.Combine(dataDir, scoresFile)))
             {
-                using(StreamReader sr=new StreamReader(Path.Combine(dataDir, scoresFile)))
+                using (StreamReader sr = new StreamReader(Path.Combine(dataDir, scoresFile)))
                 {
                     return (List<Score>)serializer.Deserialize(sr);
                 }
@@ -200,8 +194,7 @@ namespace Millionaire.Models
         /// <returns>Path to copied file</returns>
         public static string ImportQSet(string initialPath, string finalPath)
         {
-           // string finalPath = Path.Combine(dataDir, Path.GetFileName(initialPath));
-            File.Copy(Path.Combine(initialPath), finalPath);
+            File.Copy(initialPath, finalPath);
             return finalPath;
         }
 
@@ -215,12 +208,12 @@ namespace Millionaire.Models
             {
                 qSet.Path = GenerateFilePath(qSet.Name);
             }
-            
-            using (StreamWriter writer = new StreamWriter(qSet.Path))
-            { 
+
+            using (StreamWriter writer = new StreamWriter(qSet.Path, false, Encoding.UTF8))
+            {
                 writer.WriteLine(qSet.Name);
-                writer.WriteLine("*easyQuestions");
-                List<Question> questions = qSet.EasyQuestions;
+                writer.WriteLine(EASY_SECTION_TAG); //difficulty section tag
+                List<Question> questions = qSet.EasyQuestions; //start with writing easy questions
                 string[] parts = new string[5];
                 Difficulty difficulty = Difficulty.Easy;
                 bool loop = true;
@@ -240,49 +233,53 @@ namespace Millionaire.Models
                     difficulty++;
                     if (difficulty == Difficulty.Medium)
                     {
-                        writer.WriteLine("*mediumQuestions");
+                        writer.WriteLine(MEDIUM_SECTION_TAG);
                         questions = qSet.MediumQuestions;
                     }
                     else if (difficulty == Difficulty.Hard)
                     {
-                        writer.WriteLine("*hardQuestions");
+                        writer.WriteLine(HARD_SECTION_TAG);
                         questions = qSet.HardQuestions;
                     }
                     else
                     {
                         loop = false;
                     }
-                }                
-            }            
+                }
+            }
         }
 
         /// <summary>
-        /// Generate path from given name of question set
+        /// Generate path from given name of question set 
         /// </summary>
+        /// <remarks>
+        /// Source of diacritics removing algorithm: http://archives.miloush.net/michkap/archive/2007/05/14/2629747.html
+        /// </remarks>
         /// <param name="qSetName"></param>
         /// <returns>Path</returns>
-        public static string GenerateFilePath (string qSetName)
+        public static string GenerateFilePath(string qSetName)
         {
             if (ContainsInvalidChars(qSetName))
             {
                 throw new Exception("Název sady obsahuje nepovolené znaky");
             }
-            
+
+            qSetName = qSetName.ToLower();
             string normalized = qSetName.Normalize(NormalizationForm.FormD);
-            qSetName = string.Empty;
+            StringBuilder stringBuilder = new StringBuilder();
 
             foreach (char c in normalized)
             {
                 if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
                 {
-                    qSetName += c;
+                    stringBuilder.Append(c);
                 }
             }
 
-            qSetName = qSetName.ToLower();
-            qSetName= qSetName.Replace(' ', '_');
-            
-            return Path.Combine(dataDir, qSetName + ".csv");
+            stringBuilder.Replace(' ', '_');
+            stringBuilder.Append(".csv");
+
+            return Path.Combine(dataDir, stringBuilder.ToString());
         }
 
         /// <summary>
@@ -292,7 +289,7 @@ namespace Millionaire.Models
         /// <returns>True if string contains invalid characters, otherwise false</returns>
         public static bool ContainsInvalidChars(string str)
         {
-            foreach(char c in str)
+            foreach (char c in str)
             {
                 foreach (char h in Path.GetInvalidFileNameChars())
                 {

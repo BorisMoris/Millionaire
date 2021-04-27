@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
-    public class _50_50Lifeline:LifelineBase
-    {        
+    public class _50_50Lifeline : LifelineBase
+    {
         public _50_50Lifeline(Random random) : base(random)
-        {            
+        {
         }
 
         /// <summary>
@@ -22,7 +20,7 @@ namespace Millionaire.Models
             List<int> indexes = new List<int> { 0, 1, 2, 3 };
             indexes.Remove(rightAnswerIndex);
             indexes.RemoveAt(random.Next(indexes.Count()));
-           
+
             return indexes;
         }
     }

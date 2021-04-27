@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Millionaire.Models
 {
@@ -31,7 +28,7 @@ namespace Millionaire.Models
         public List<Question> HardQuestions { get { return hardQuestions; } }
 
         public QSet() { }
-        
+
         public QSet(string name, string path)
         {
             Name = name;
@@ -47,6 +44,11 @@ namespace Millionaire.Models
         }
         #endregion
 
+        /// <summary>
+        /// Adds empty question
+        /// </summary>
+        /// <param name="difficulty">Difficulty of the new question</param>
+        /// <returns>Added question</returns>
         public Question AddQuestion(Difficulty difficulty)
         {
             Question question = new Question();
@@ -64,19 +66,28 @@ namespace Millionaire.Models
             }
             return question;
         }
-        
-        public void AddQuestion(Difficulty difficulty, string question, string rightAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3)
+
+        /// <summary>
+        /// Adds question
+        /// </summary>
+        /// <param name="difficulty"></param>
+        /// <param name="questionSentence"></param>
+        /// <param name="rightAnswer"></param>
+        /// <param name="wrongAnswer1"></param>
+        /// <param name="wrongAnswer2"></param>
+        /// <param name="wrongAnswer3"></param>
+        public void AddQuestion(Difficulty difficulty, string questionSentence, string rightAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3)
         {
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    EasyQuestions.Add(new Question(question, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
+                    EasyQuestions.Add(new Question(questionSentence, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
                 case Difficulty.Medium:
-                    mediumQuestions.Add(new Question(question, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
+                    mediumQuestions.Add(new Question(questionSentence, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
                 case Difficulty.Hard:
-                    hardQuestions.Add(new Question(question, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
+                    hardQuestions.Add(new Question(questionSentence, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
             }
         }

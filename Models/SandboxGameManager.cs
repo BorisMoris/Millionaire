@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Millionaire.Models
 {
     public class SandboxGameManager : BaseGameManager
-    {        
+    {
+        public List<QSet> SelectedQSets { get; set; }
+
         private int rightAnswersCount;
         public int RightAnswersCount
         {
@@ -36,6 +34,7 @@ namespace Millionaire.Models
         {
             RightAnswersCount = 0;
             WrongAnswersCount = 0;
+            SelectedQSets = selectedQSets;
         }
 
         public override void LoadQuestions(List<QSet> selectedQSets)
@@ -47,6 +46,24 @@ namespace Millionaire.Models
                 currentQList.AddRange(qSet.MediumQuestions);
                 currentQList.AddRange(qSet.HardQuestions);
             }
+        }
+
+        /// <summary>
+        /// Set new question
+        /// </summary>
+        public override void NewQuestion()
+        {
+            int position = random.Next(currentQList.Count);
+            CurrentQuestion = currentQList[position];
+            currentQList.RemoveAt(position);
+
+            if (currentQList.Count == 0)
+            {
+                LoadQuestions(SelectedQSets);
+            }
+
+            RandomizedAnswers = RandomizeAnswers(CurrentQuestion, out int temp);
+            RightAnswerIndex = temp;
         }
 
         public override void CheckAnswer(int index)
