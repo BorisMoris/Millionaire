@@ -56,7 +56,6 @@ namespace Millionaire.Views
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            
             MessageBoxResult result = MessageBox.Show("Opravdu chcete smazat sadu " + selected.Name + "?", "Smazat sadu?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
@@ -82,14 +81,11 @@ namespace Millionaire.Views
 
             if (result == true)
             {
-                string dir = saveFileDialog.InitialDirectory;
                 string file = saveFileDialog.FileName;
-                Console.WriteLine("saved file " + dir + file);
-
-                selected = (QSet)QSetsListBox.SelectedItem;
+                
                 try
                 {
-                    FileManager.ExportQSet(selected.Path, System.IO.Path.Combine(dir, file));
+                    FileManager.ExportQSet(selected.Path, file);
                 }
                 catch (Exception ex)
                 {
@@ -122,26 +118,75 @@ namespace Millionaire.Views
 
                 try
                 {
-                    newQSet = FileManager.LoadQSetFromFile(file);
-
-                    foreach (QSet qSet in qSetsManager.QuestionSets)
+                    newQSet = FileManager.LoadQSetFromFile(file);                    
+                    
+                    if (qSetsManager.CheckName(newQSet.Name))
                     {
-                        if (newQSet.Name == qSet.Name)
-                        {
-                            MessageBox.Show("Sada otázek s názvem " + newQSet.Name + " už existuje. Pokud chcete přesto importovat, změňte název jedné ze sad.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
+                        MessageBox.Show("Sada otázek s názvem " + newQSet.Name + " už existuje. Pokud chcete přesto importovat, změňte název jedné ze sad.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
                     }
 
-                    newQSet.Path=FileManager.ImportQSet(file);
+                    newQSet.Path = FileManager.GenerateFilePath(newQSet.Name);
+                    if (qSetsManager.CheckPath(newQSet.Path))
+                    {
+                        MessageBox.Show("Pro název " + newQSet.Name + " nelze vygenerovat jedinečný název souboru.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    FileManager.ImportQSet(file, newQSet.Path);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
+
                 qSetsManager.QuestionSets.Add(newQSet);
                 qSetsManager.Sort();
                 QSetsListBox.ItemsSource = qSetsManager.QuestionSets;
+            }            
+        }
+
+        private void editButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                QSet toEdit =  FileManager.LoadQSetFromFile(selected.Path);
+                navManager.ShowQSetEditor(toEdit, QSetsListBox.SelectedIndex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Soubor se nepodařilo načíst.\n" + ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }  
+        }
+
+        private void newQSetButton_Click(object sender, RoutedEventArgs e)
+        {
+            InputDialog inputDialog = new InputDialog("Zadejte jméno nové sady:", string.Empty);
+            if (inputDialog.ShowDialog() == true)
+            {
+                string name = inputDialog.Answer;
+
+                if (FileManager.ContainsInvalidChars(name)) //check if the name doesn't contain invalid characters
+                {
+                    MessageBox.Show($"Zadaný název obsahuje nedovolené znaky.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (qSetsManager.CheckName(name)) //check if the name isn't in use already
+                {
+                    MessageBox.Show("Sada otázek s názvem " + name + " už existuje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                string path = FileManager.GenerateFilePath(name);
+                if (qSetsManager.CheckPath(path))
+                {
+                    MessageBox.Show("Pro název " + name + " nelze vygenerovat jedinečný název souboru.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                navManager.ShowQSetEditor(name, path);
             }            
         }
     }

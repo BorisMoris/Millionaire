@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -197,12 +198,112 @@ namespace Millionaire.Models
         /// </summary>
         /// <param name="initialPath">Path to imported file</param>
         /// <returns>Path to copied file</returns>
-        public static string ImportQSet(string initialPath)
+        public static string ImportQSet(string initialPath, string finalPath)
         {
-            string finalPath = Path.Combine(dataDir, Path.GetFileName(initialPath));
+           // string finalPath = Path.Combine(dataDir, Path.GetFileName(initialPath));
             File.Copy(Path.Combine(initialPath), finalPath);
             return finalPath;
         }
 
+        /// <summary>
+        /// Save given qSet to destination in his Path property
+        /// </summary>
+        /// <param name="qSet"></param>
+        public static void SaveQSet(QSet qSet)
+        {
+            if (qSet.Path == null)
+            {
+                qSet.Path = GenerateFilePath(qSet.Name);
+            }
+            
+            using (StreamWriter writer = new StreamWriter(qSet.Path))
+            { 
+                writer.WriteLine(qSet.Name);
+                writer.WriteLine("*easyQuestions");
+                List<Question> questions = qSet.EasyQuestions;
+                string[] parts = new string[5];
+                Difficulty difficulty = Difficulty.Easy;
+                bool loop = true;
+                while (loop)
+                {
+                    foreach (Question question in questions)
+                    {
+                        parts[0] = question.QuestionSentence;
+                        parts[1] = question.RightAnswer;
+                        parts[2] = question.WrongAnswer1;
+                        parts[3] = question.WrongAnswer2;
+                        parts[4] = question.WrongAnswer3;
+
+                        writer.WriteLine(string.Join(";", parts));
+                    }
+
+                    difficulty++;
+                    if (difficulty == Difficulty.Medium)
+                    {
+                        writer.WriteLine("*mediumQuestions");
+                        questions = qSet.MediumQuestions;
+                    }
+                    else if (difficulty == Difficulty.Hard)
+                    {
+                        writer.WriteLine("*hardQuestions");
+                        questions = qSet.HardQuestions;
+                    }
+                    else
+                    {
+                        loop = false;
+                    }
+                }                
+            }            
+        }
+
+        /// <summary>
+        /// Generate path from given name of question set
+        /// </summary>
+        /// <param name="qSetName"></param>
+        /// <returns>Path</returns>
+        public static string GenerateFilePath (string qSetName)
+        {
+            if (ContainsInvalidChars(qSetName))
+            {
+                throw new Exception("Název sady obsahuje nepovolené znaky");
+            }
+            
+            string normalized = qSetName.Normalize(NormalizationForm.FormD);
+            qSetName = string.Empty;
+
+            foreach (char c in normalized)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                {
+                    qSetName += c;
+                }
+            }
+
+            qSetName = qSetName.ToLower();
+            qSetName= qSetName.Replace(' ', '_');
+            
+            return Path.Combine(dataDir, qSetName + ".csv");
+        }
+
+        /// <summary>
+        /// Checks if given string contains characters invalid for file name
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns>True if string contains invalid characters, otherwise false</returns>
+        public static bool ContainsInvalidChars(string str)
+        {
+            foreach(char c in str)
+            {
+                foreach (char h in Path.GetInvalidFileNameChars())
+                {
+                    if (c == h)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }

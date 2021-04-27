@@ -51,7 +51,7 @@
                 <TextBlock>
                     <Run Text="Počet otázek:"/> <Run Text="{Binding Path=QuestionsCount, Mode=OneWay}"/>
                 </TextBlock>
-                <Button x:Name="editButton" Content="Editovat" IsEnabled="False" Padding="5" Margin="2,15,2,2"/>
+                <Button x:Name="editButton" Content="Editovat" IsEnabled="False" Padding="5" Margin="2,15,2,2" Click="editButton_Click"/>
                 <Grid>
                     <Grid.ColumnDefinitions>                        
                         <ColumnDefinition/>
@@ -69,7 +69,8 @@
         <StackPanel Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom">
             <Button Content="Importovat sadu otázek" x:Name="importButton"
                     Height="30" Margin="0,0,0,4" Click="importButton_Click"/>
-            <Button Content="Vytvořit novou sadu otázek" Grid.Row="3" Grid.Column="2" Height="30"/>
+            <Button Content="Vytvořit novou sadu otázek" x:Name="newQSetButton" Click="newQSetButton_Click"
+                    Grid.Row="3" Grid.Column="2" Height="30"/>
         </StackPanel>
         
         <Button Content="← Zpět" x:Name="backButton"

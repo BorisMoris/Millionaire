@@ -117,11 +117,17 @@
       <DependentUpon>ManageQSetsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NavigationManager.cs" />
+    <Compile Include="Views\QSetEditorUC.xaml.cs">
+      <DependentUpon>QSetEditorUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SandboxUC.xaml.cs">
       <DependentUpon>SandboxUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SelectQSetsUC.xaml.cs">
       <DependentUpon>SelectQSetsUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InputDialog.xaml.cs">
+      <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VictoryUC.xaml.cs">
       <DependentUpon>VictoryUC.xaml</DependentUpon>
@@ -178,11 +184,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\QSetEditorUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SandboxUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SelectQSetsUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,9 +232,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Media\icon1.0.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Media\icon1.1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +257,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Media\bagOfMoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\magnifier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\trash_bin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
