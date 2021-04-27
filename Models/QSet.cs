@@ -58,10 +58,10 @@ namespace Millionaire.Models
                     EasyQuestions.Add(question);
                     break;
                 case Difficulty.Medium:
-                    mediumQuestions.Add(question);
+                    MediumQuestions.Add(question);
                     break;
                 case Difficulty.Hard:
-                    hardQuestions.Add(question);
+                    HardQuestions.Add(question);
                     break;
             }
             return question;
@@ -84,10 +84,10 @@ namespace Millionaire.Models
                     EasyQuestions.Add(new Question(questionSentence, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
                 case Difficulty.Medium:
-                    mediumQuestions.Add(new Question(questionSentence, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
+                    MediumQuestions.Add(new Question(questionSentence, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
                 case Difficulty.Hard:
-                    hardQuestions.Add(new Question(questionSentence, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
+                    HardQuestions.Add(new Question(questionSentence, rightAnswer, wrongAnswer1, wrongAnswer2, wrongAnswer3));
                     break;
             }
         }

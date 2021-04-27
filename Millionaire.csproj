@@ -275,9 +275,6 @@
     <Resource Include="Media\bagOfMoney.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Media\magnifier.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Media\trash_bin.png" />
   </ItemGroup>
   <ItemGroup>
