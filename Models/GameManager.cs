@@ -9,7 +9,17 @@ namespace Millionaire.Models
         public PrizeMoney Prize { get; set; }
 
         public GameStatus GameStatus { get; set; }
-        public int Round { get; set; }
+
+        private int round;
+        public int Round
+        {
+            get { return round; }
+            set
+            {
+                round = value;
+                NotifyPropertyChanged(nameof(Round));
+            }
+        }
 
         public GameManager(List<QSet> selectedQSets) : base(selectedQSets)
         {

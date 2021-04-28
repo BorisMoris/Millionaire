@@ -14,6 +14,7 @@ namespace Millionaire.Models
             {
                 this.value = value;
                 NotifyPropertyChanged(nameof(StrValue));
+                NotifyPropertyChanged(nameof(GuaranteedPrize));
             }
         }
 
