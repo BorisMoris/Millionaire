@@ -28,17 +28,17 @@ namespace Millionaire.Models
         /// <returns>Bool correct</returns>
         public bool DecideIfAdviseCorrectly(int round)
         {
-            if (round > 10) //in difficult section the lifeline will always be correct
+            if (round > 10) //in difficult section the lifeline has 67% probability of being correct
             {
-                return true;
+                return random.Next(3) < 2;
             }
             else if (round > 5) //in medium section the lifeline has 80% probability of being correct
             {
                 return random.Next(5) < 4;
             }
-            else //in easy section the lifeline has 67% probability of being correct
-            {
-                return random.Next(3) < 2;
+            else //in easy section the lifeline will always be correct
+            {                
+                return true;
             }
         }
 
