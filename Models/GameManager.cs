@@ -25,7 +25,7 @@ namespace Millionaire.Models
         {
             get
             {
-                return round - 1;
+                return Round - 1;
             }
         }
 
