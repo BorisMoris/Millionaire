@@ -29,7 +29,7 @@
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="550"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -49,30 +49,30 @@
                   HeadersVisibility="Column"  MinRowHeight="30" AlternatingRowBackground="LightGoldenrodYellow" HorizontalScrollBarVisibility="Hidden"                  
                   >
             <DataGrid.Columns>                
-                <DataGridTemplateColumn Header="Přezdívka" Width="150">                    
+                <DataGridTemplateColumn Header="Přezdívka" Width="170">                    
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding PlayersName}" Style="{StaticResource textBlockStyle}" FontWeight="Bold"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>  
                 
-                <DataGridTemplateColumn Width="80" Header="Správných odpovědí">                    
+                <DataGridTemplateColumn Header="Získaná částka" Width="110">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding RightAnswers}" Style="{StaticResource textBlockStyle}"  FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Prize.StrValue}" Style="{StaticResource textBlockStyle}"  FontWeight="Bold"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTemplateColumn Header="Získaná částka" Width="100">
+                <DataGridTemplateColumn Width="80" Header="Správných odpovědí">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Prize.GuaranteedPrize}" Style="{StaticResource textBlockStyle}" />
+                            <TextBlock Text="{Binding RightAnswers}" Style="{StaticResource textBlockStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="Sady otázek" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

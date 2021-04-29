@@ -60,10 +60,10 @@
                 <local:FriendLifelineUC x:Name="friendLifelineUC" Visibility="Collapsed" DataContext="{Binding FriendLifeline, ElementName=Game}"/>                
             </StackPanel>            
 
-            <Button Content="Ukončit hru" x:Name="endGameButton"
+            <Button Content="Odejít ze hry" x:Name="giveUpButton"
                     Width="110" Height="40" Margin="0,10,0,0"
                     HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Grid.Column="2" Click="endGameButton_Click"/>
+                    Grid.Column="2" Click="giveUpButton_Click"/>
         </Grid>
 
         <TextBlock Text="{Binding CurrentQuestion.QuestionSentence}"

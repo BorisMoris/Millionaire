@@ -21,6 +21,14 @@ namespace Millionaire.Models
             }
         }
 
+        public int RightAnswers
+        {
+            get
+            {
+                return Round - 1;
+            }
+        }
+
         public GameManager(List<QSet> selectedQSets) : base(selectedQSets)
         {
             Prize = new PrizeMoney();
@@ -87,6 +95,7 @@ namespace Millionaire.Models
             else
             {
                 GameStatus = GameStatus.Loss;
+                Prize.ReturnToCheckpoint();
             }
         }
     }
