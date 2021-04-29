@@ -142,13 +142,13 @@ namespace Millionaire.Views
             }
         }
 
-        private void endGameButton_Click(object sender, RoutedEventArgs e)
+        private void giveUpButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Opravdu chceš ukončit hru? Tvůj postup bude ztracen.", "Ukončit hru", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Přeješ si odejít ze hry? Dosud vyhraná částka ti zůstane.", "Odejít ze hry", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                navigationManager.ShowMainMenu();
+                navigationManager.ShowGaveUp(gameManager);
             }
         }
 

@@ -93,6 +93,12 @@ namespace Millionaire.Views
             CurrentUC = victory;
         }
 
+        public void ShowGaveUp(GameManager gameManager)
+        {
+            UserControl gaveUp = new GaveUpUC(this, gameManager);
+            CurrentUC = gaveUp;
+        }
+
         /// <summary>
         /// Shows a window allowing to enter nickname and save score
         /// </summary>

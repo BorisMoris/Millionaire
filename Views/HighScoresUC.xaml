@@ -68,7 +68,7 @@
                 <DataGridTemplateColumn Header="Získaná částka" Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Prize.GuaranteedPrize}" Style="{StaticResource textBlockStyle}" />
+                            <TextBlock Text="{Binding Prize.StrValue}" Style="{StaticResource textBlockStyle}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

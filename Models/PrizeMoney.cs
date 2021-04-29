@@ -24,7 +24,7 @@ namespace Millionaire.Models
             {
                 return values[value].ToString("N0") + " Kč";
             }
-        }
+        }        
 
         /// <summary>
         /// Prize of the last checkpoint
@@ -36,6 +36,14 @@ namespace Millionaire.Models
                 int lastCheckpoint = Value - (Value % 5);
                 return values[lastCheckpoint].ToString("N0") + " Kč";
             }
+        }
+
+        /// <summary>
+        /// Sets prize to last checkpoint
+        /// </summary>
+        public void ReturnToCheckpoint()
+        {
+            Value = Value - (Value % 5);
         }
 
         #region PropertyChanged implementation

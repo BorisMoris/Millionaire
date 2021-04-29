@@ -123,6 +123,9 @@
     <Compile Include="Views\GameUC.xaml.cs">
       <DependentUpon>GameUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GaveUpUC.xaml.cs">
+      <DependentUpon>GaveUpUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HighScoresUC.xaml.cs">
       <DependentUpon>HighScoresUC.xaml</DependentUpon>
     </Compile>
@@ -185,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GaveUpUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
