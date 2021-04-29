@@ -33,7 +33,7 @@ namespace Millionaire.Models
             stringBuilder.Append(questionSets[questionSets.Count() - 1]);
 
             Scores.Add(new Score(playersName, rightAnswers, prize, stringBuilder.ToString()));
-            Scores = Scores.OrderByDescending(x => x.RightAnswers).ToList();
+            Scores = Scores.OrderByDescending(x => x.Prize.Value).ToList();
 
             try
             {
