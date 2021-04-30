@@ -10,6 +10,8 @@ namespace Millionaire.Views
 
     public class NavigationManager : INotifyPropertyChanged
     {
+        //Idea of binding UserControls comes from a comment below this video: https://www.youtube.com/watch?v=1_cUgpWqS0Y
+
         private UserControl currentUC;
         public UserControl CurrentUC
         {
