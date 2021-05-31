@@ -88,6 +88,7 @@ namespace Millionaire.Views
             else
             {
                 style = wrongAnswerStyle;
+                answerButtons[gameManager.RightAnswerIndex].Style = rightAnswerStyle;
             }
             selectedButton.Style = style;
 

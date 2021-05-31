@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Millionaire.Views"
         mc:Ignorable="d"
-        Title="EnterNicknameWindow"
+        Title="Zadej přezdívku"
         Height="170" Width="300"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         FontSize="14" Icon="/Millionaire;component/Media/icon1.1.png">

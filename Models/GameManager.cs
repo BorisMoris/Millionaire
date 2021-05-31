@@ -33,9 +33,6 @@ namespace Millionaire.Models
         {
             Prize = new PrizeMoney();
             Round = 0;
-
-            LoadQuestions(selectedQSets);
-            NewQuestion();
         }
 
         public override void LoadQuestions(List<QSet> selectedQSets)
@@ -55,7 +52,7 @@ namespace Millionaire.Models
         }
 
         /// <summary>
-        /// Set new question
+        /// Sets new question
         /// </summary>
         public override void NewQuestion()
         {
