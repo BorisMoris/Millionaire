@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Millionaire.Models
 {
@@ -32,7 +33,6 @@ namespace Millionaire.Models
         public GameManager(List<QSet> selectedQSets) : base(selectedQSets)
         {
             Prize = new PrizeMoney();
-            Round = 0;
         }
 
         public override void LoadQuestions(List<QSet> selectedQSets)
